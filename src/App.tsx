@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { quizData } from './data'
+import { Progress } from './components/progress';
+import { Question } from './components/question';
+import { Answers } from './components/answers';
+import styles from './style.module.css';
 
 const App: React.FC = () => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentAnswer, setCurrentAnswer] = useState(null);
+
+  const { question, answers } = quizData[currentQuestion];
+
+  const handleClickAnswer = (e: { target: { id: React.SetStateAction<null> } }) => {
+    console.dir(e.target.id)
+    setCurrentAnswer(e.target.id)
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className={styles.root}>
+      <div className={styles.content}>
+        <div className={styles.row}>
+          <Progress
+            total={3}
+            currentCount={1}
+          />
+        </div>
+        <div className={styles.row}>
+          <Question
+            data={question}
+          />
+        </div>
+        <div className={styles.row}>
+          <Answers
+            data={answers}
+            currentAnswer={currentAnswer}
+            handleClickAnswer={handleClickAnswer}
+          />
+        </div>
+        <button
+          className={styles.button}
+          onClick={handleClickNext}
         >
-          Learn React
-        </a>
-      </header>
+          Продолжить
+        </button>
+      </div>
     </div>
   );
 }
 
 export default App;
+
+const handleClickNext = () => {
+  console.log('piu');
+}

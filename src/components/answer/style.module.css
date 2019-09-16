@@ -1,0 +1,14 @@
+.answer {
+  font-size: 16px;
+  line-height: 1.2;
+}
+.answer:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+.answer_selected {
+  font-weight: bold;
+}
+.answer_selected:hover {
+  opacity: 1;
+}
