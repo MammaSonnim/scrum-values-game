@@ -1,6 +1,7 @@
 .answer {
   font-size: 16px;
   line-height: 1.2;
+  transition: all 0.1s linear;
 }
 .answer:hover {
   opacity: 0.8;
@@ -8,6 +9,7 @@
 }
 .answer_selected {
   font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 .answer_selected:hover {
   opacity: 1;

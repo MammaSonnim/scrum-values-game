@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { QuestionType } from '../../types';
-import styles from './style.module.css';
+import styles from './styles.module.css';
 
-interface QuestionProps {
-  data: QuestionType,
-}
+type Props = {
+  data: QuestionType;
+};
 
-export const Question: React.FC<QuestionProps> = ({ data }) => {
-  const { id, title, text } = data;
+export const Question: FC<Props> = ({ data }) => {
+  const { id, text } = data;
 
   return (
     <div className={styles.question}>
       {id}. {text}
     </div>
-  )
-}
+  );
+};

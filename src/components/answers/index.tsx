@@ -1,35 +1,30 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { AnswerType } from '../../types';
 import { Answer } from '../answer';
-import styles from './style.module.css';
+import styles from './styles.module.css';
 
-interface AnswersProps {
-  data: Array<AnswerType>,
-  currentAnswer: number | null,
-  handleClickAnswer: any,
-}
+type Props = {
+  data: AnswerType[];
+  currentAnswerId: string;
+  onAnswerClick: any;
+};
 
-export const Answers: React.FC<AnswersProps> = ({
+export const Answers: FC<Props> = ({
   data,
-  currentAnswer,
-  handleClickAnswer,
+  currentAnswerId,
+  onAnswerClick
 }) => {
   return (
     <div className={styles.root}>
-      {
-        data.map((answer) => (
-          <div
-            key={answer.id}
-            className={styles['answers-item']}
-          >
-            <Answer
-              data={answer}
-              isSelected={Number(currentAnswer) === answer.id}
-              handleClickAnswer={handleClickAnswer}
-            />
-          </div>
-        ))
-      }
+      {data.map(answer => (
+        <div key={answer.id} className={styles['answers-item']}>
+          <Answer
+            data={answer}
+            isSelected={currentAnswerId === answer.id}
+            onAnswerClick={onAnswerClick}
+          />
+        </div>
+      ))}
     </div>
-  )
-}
+  );
+};

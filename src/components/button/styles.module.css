@@ -1,0 +1,18 @@
+@value colors: '../../colors.css';
+@value colorBtn from colors;
+
+.button {
+  padding: 10px 20px;
+  border: 1px solid white;
+  font-size: 14px;
+  line-height: 16px;
+  color: white;
+  background-color: transparent;
+  outline: none;
+}
+.button:hover {
+  background-color: colorBtn;
+}
+.button:focus {
+  outline: 1px solid blue;
+}

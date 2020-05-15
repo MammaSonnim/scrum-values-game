@@ -1,30 +1,30 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 import { AnswerType } from '../../types';
-import styles from './style.module.css';
+import styles from './styles.module.css';
 
 const cx = classnames.bind(styles);
 
 interface AnswerProps {
-  data: AnswerType,
-  isSelected: boolean,
-  handleClickAnswer: any,
+  data: AnswerType;
+  isSelected: boolean;
+  onAnswerClick: any;
 }
 
 export const Answer: React.FC<AnswerProps> = ({
   data,
   isSelected,
-  handleClickAnswer,
+  onAnswerClick
 }) => {
   const { id, text } = data;
 
   return (
     <div
       className={cx('answer', { answer_selected: isSelected })}
-      id={String(id)} // move to data-attr?
-      onClick={handleClickAnswer}
+      data-id={id}
+      onClick={onAnswerClick}
     >
       {id}) {text}
     </div>
-  )
-}
+  );
+};

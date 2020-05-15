@@ -1,56 +1,80 @@
-import React, { useState } from 'react';
-import { quizData } from './data'
-import { Progress } from './components/progress';
-import { Question } from './components/question';
-import { Answers } from './components/answers';
-import styles from './style.module.css';
+import React, { useState, FC } from 'react';
+import { quizData } from './data';
+import { SavedAnswerType } from './types';
+import { Quiz } from './components/quiz';
+import { Results } from './components/results';
+import styles from './styles.module.css';
 
-const App: React.FC = () => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [currentAnswer, setCurrentAnswer] = useState(null);
+const App: FC = () => {
+  const [currentQuestionId, setCurrentQuestionId] = useState('');
+  const [currentAnswerId, setCurrentAnswerId] = useState('');
+  const [savedAnswers, setAnswers] = useState<SavedAnswerType[]>([]);
+  const [error, setError] = useState('');
+  const [hasToShowResults, setShowResults] = useState(false);
 
-  const { question, answers } = quizData[currentQuestion];
+  const { question, answers } = quizData[Number(currentQuestionId)];
 
-  const handleClickAnswer = (e: { target: { id: React.SetStateAction<null> } }) => {
-    console.dir(e.target.id)
-    setCurrentAnswer(e.target.id)
-  }
+  const handleClickAnswer = (e: {
+    target: { dataset: { id: React.SetStateAction<string> } };
+  }) => {
+    const { id } = e.target.dataset;
 
+    setCurrentAnswerId(id);
+    setError('');
+  };
+
+  const handleClickNext = () => {
+    if (!currentAnswerId) {
+      setError('Выберите один из вариантов ответа');
+
+      return;
+    }
+
+    const savedAnswer = { questionId: question.id, answerId: currentAnswerId };
+
+    savedAnswers.push(savedAnswer);
+    setAnswers(savedAnswers);
+    setCurrentAnswerId('');
+
+    if (Number(currentQuestionId) + 1 < quizData.length) {
+      // TODO rm this shit
+      setCurrentQuestionId(String(Number(currentQuestionId) + 1));
+
+      return;
+    }
+
+    setShowResults(true);
+  };
+
+  const handleClickRestart = () => {
+    setCurrentQuestionId('');
+    setCurrentAnswerId('');
+    setAnswers([]);
+    setShowResults(false);
+  };
 
   return (
     <div className={styles.root}>
-      <div className={styles.content}>
-        <div className={styles.row}>
-          <Progress
-            total={3}
-            currentCount={1}
-          />
-        </div>
-        <div className={styles.row}>
-          <Question
-            data={question}
-          />
-        </div>
-        <div className={styles.row}>
-          <Answers
-            data={answers}
-            currentAnswer={currentAnswer}
-            handleClickAnswer={handleClickAnswer}
-          />
-        </div>
-        <button
-          className={styles.button}
-          onClick={handleClickNext}
-        >
-          Продолжить
-        </button>
-      </div>
+      {hasToShowResults ? (
+        <Results
+          quizData={quizData}
+          savedAnswers={savedAnswers}
+          onRestart={handleClickRestart}
+        />
+      ) : (
+        <Quiz
+          quizDataLength={quizData.length}
+          currentQuestionId={currentQuestionId}
+          question={question}
+          answers={answers}
+          currentAnswerId={currentAnswerId}
+          error={error}
+          onAnswerClick={handleClickAnswer}
+          onNextClick={handleClickNext}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default App;
-
-const handleClickNext = () => {
-  console.log('piu');
-}

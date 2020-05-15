@@ -1,18 +1,15 @@
-import React from 'react';
-import styles from './style.module.css';
+import React from "react";
+import styles from "./styles.module.css";
 
 interface ProgressProps {
-  currentCount: number,
-  total: number,
+  currentCount: number;
+  total: number;
 }
 
-export const Progress: React.FC<ProgressProps> = ({
-  currentCount,
-  total,
-}) => {
+export const Progress: React.FC<ProgressProps> = ({ currentCount, total }) => {
   return (
     <div className={styles.root}>
-      Question <span>{currentCount}</span> of <span>{total}</span>
+      Вопрос <span>{currentCount}</span> из <span>{total}</span>
     </div>
-  )
-}
+  );
+};

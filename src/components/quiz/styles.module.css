@@ -1,0 +1,15 @@
+.content {
+  width: 500px;
+}
+
+.row {
+  margin-bottom: 20px;
+}
+.row_with-cols {
+  display: flex;
+  align-items: center;
+}
+
+.col {
+  margin-left: 20px;
+}

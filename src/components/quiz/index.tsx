@@ -1,0 +1,60 @@
+import React, { FC } from 'react';
+import classnames from 'classnames/bind';
+import { AnswerType, QuestionType } from '../../types';
+import { Progress } from '../progress';
+import { Question } from '../question';
+import { Answers } from '../answers';
+import { Error } from '../error';
+import { Button } from '../button';
+import styles from './styles.module.css';
+
+const cx = classnames.bind(styles);
+
+type Props = {
+  quizDataLength: number;
+  question: QuestionType;
+  answers: AnswerType[];
+  currentQuestionId: string;
+  currentAnswerId: string;
+  error: string;
+  onAnswerClick: any;
+  onNextClick: any;
+};
+
+export const Quiz: FC<Props> = ({
+  quizDataLength,
+  currentQuestionId,
+  question,
+  answers,
+  currentAnswerId,
+  error,
+  onAnswerClick,
+  onNextClick
+}) => {
+  return (
+    <div className={styles.content}>
+      <div className={styles.row}>
+        <Progress
+          total={quizDataLength}
+          currentCount={Number(currentQuestionId) + 1}
+        />
+      </div>
+      <div className={styles.row}>
+        <Question data={question} />
+      </div>
+      <div className={styles.row}>
+        <Answers
+          data={answers}
+          currentAnswerId={currentAnswerId}
+          onAnswerClick={onAnswerClick}
+        />
+      </div>
+      <div className={cx('row', { 'row_with-cols': error })}>
+        <Button onClick={onNextClick}>Продолжить</Button>
+        <span className={cx({ col: error })}>
+          <Error error={error} />
+        </span>
+      </div>
+    </div>
+  );
+};
