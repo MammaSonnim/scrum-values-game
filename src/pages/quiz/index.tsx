@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { quizData } from '../../data';
-import { SavedAnswerType, IdType } from '../../types';
+import { SavedAnswerType, IdType, TODO_ANY } from '../../types';
 import { QA } from '../../components/qa';
 import { Results } from '../../components/results';
 import styles from './styles.module.css';
@@ -12,12 +12,12 @@ type Props = {
   savedAnswers: SavedAnswerType[];
   error: string;
   hasToShowResults: boolean;
-  setCurrentQuestionId: any;
-  setCurrentAnswerId: any;
-  setSavedAnswer: any;
-  setError: any;
-  setShowResults: any;
-  resetQuiz: any;
+  setCurrentQuestionId: TODO_ANY;
+  setCurrentAnswerId: TODO_ANY;
+  setSavedAnswer: TODO_ANY;
+  setError: TODO_ANY;
+  setShowResults: TODO_ANY;
+  resetQuiz: TODO_ANY;
 };
 
 export const Quiz: FC<Props> = ({

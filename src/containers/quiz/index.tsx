@@ -9,7 +9,7 @@ import {
   resetQuiz,
   QuizStateType
 } from '../../ducks/quiz';
-import { SavedAnswerType, IdType } from '../../types';
+import { SavedAnswerType, IdType, TODO_ANY } from '../../types';
 
 const mapStateToProps = (state: QuizStateType) => {
   // TODO add selectors
@@ -19,7 +19,7 @@ const mapStateToProps = (state: QuizStateType) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: TODO_ANY) => {
   return {
     setCurrentQuestionId: (id: IdType) => dispatch(setCurrentQuestionId(id)),
     setCurrentAnswerId: (id: IdType) => dispatch(setCurrentAnswerId(id)),

@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
+import { TODO_ANY } from '../../types';
 import styles from './styles.module.css';
 
 type Props = {
-  children: any;
-  onClick: any;
+  children: TODO_ANY;
+  onClick: TODO_ANY;
 };
 
 export const Button: FC<Props> = ({ children, onClick }) => {

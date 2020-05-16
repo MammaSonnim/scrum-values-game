@@ -3,6 +3,8 @@ export type Brand<T, U> = T & { __brand: U };
 
 export type IdType = string;
 
+export type TODO_ANY = any;
+
 export type QuestionType = {
   id: IdType;
   title: string;

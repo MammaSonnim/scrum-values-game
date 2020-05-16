@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import { AnswerType, IdType } from '../../types';
+import { AnswerType, IdType, TODO_ANY } from '../../types';
 import { Answer } from '../answer';
 import styles from './styles.module.css';
 
 type Props = {
   data: AnswerType[];
   currentAnswerId: IdType;
-  onAnswerClick: any;
+  onAnswerClick: TODO_ANY;
 };
 
 export const Answers: FC<Props> = ({

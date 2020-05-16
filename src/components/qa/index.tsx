@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import classnames from 'classnames/bind';
-import { AnswerType, QuestionType, IdType } from '../../types';
+import { AnswerType, QuestionType, IdType, TODO_ANY } from '../../types';
 import { Progress } from '../progress';
 import { Question } from '../question';
 import { Answers } from '../answers';
@@ -17,8 +17,8 @@ type Props = {
   currentQuestionId: IdType;
   currentAnswerId: IdType;
   error: string;
-  onAnswerClick: any;
-  onNextClick: any;
+  onAnswerClick: TODO_ANY;
+  onNextClick: TODO_ANY;
 };
 
 export const QA: FC<Props> = ({

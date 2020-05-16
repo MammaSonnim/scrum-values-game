@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import classnames from 'classnames/bind';
-import { AnswerType } from '../../types';
+import { AnswerType, TODO_ANY } from '../../types';
 import styles from './styles.module.css';
 
 const cx = classnames.bind(styles);
@@ -8,7 +8,7 @@ const cx = classnames.bind(styles);
 type Props = {
   data: AnswerType;
   isSelected: boolean;
-  onAnswerClick: any;
+  onAnswerClick: TODO_ANY;
 };
 
 export const Answer: FC<Props> = ({ data, isSelected, onAnswerClick }) => {
