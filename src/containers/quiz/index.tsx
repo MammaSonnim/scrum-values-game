@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import App from '../../App';
+import { Quiz } from '../../pages/quiz';
 import {
   setCurrentQuestionId,
   setCurrentAnswerId,
@@ -8,7 +8,7 @@ import {
   setShowResults,
   resetQuiz,
   QuizStateType
-} from '../../redux/ducks/quiz';
+} from '../../ducks/quiz';
 import { SavedAnswerType, IdType } from '../../types';
 
 const mapStateToProps = (state: QuizStateType) => {
@@ -33,4 +33,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz);

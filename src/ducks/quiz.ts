@@ -1,5 +1,5 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
-import { IdType, SavedAnswerType } from '../../types';
+import { IdType, SavedAnswerType } from '../types';
 
 /**
  * Constants

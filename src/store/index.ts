@@ -1,5 +1,5 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import quizReducer from './ducks/quiz';
+import quizReducer from '../ducks/quiz';
 import logger from 'redux-logger';
 
 const middleware = [...getDefaultMiddleware(), logger];

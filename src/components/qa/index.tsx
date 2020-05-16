@@ -21,7 +21,7 @@ type Props = {
   onNextClick: any;
 };
 
-export const Quiz: FC<Props> = ({
+export const QA: FC<Props> = ({
   quizDataLength,
   currentQuestionId,
   question,

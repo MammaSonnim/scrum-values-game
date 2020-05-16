@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { quizData } from './data';
-import { SavedAnswerType, IdType } from './types';
-import { Quiz } from './components/quiz';
-import { Results } from './components/results';
+import { quizData } from '../../data';
+import { SavedAnswerType, IdType } from '../../types';
+import { QA } from '../../components/qa';
+import { Results } from '../../components/results';
 import styles from './styles.module.css';
 
 // TODO use generics
@@ -20,7 +20,7 @@ type Props = {
   resetQuiz: any;
 };
 
-const App: FC<Props> = ({
+export const Quiz: FC<Props> = ({
   currentQuestionId,
   currentAnswerId,
   savedAnswers,
@@ -80,7 +80,7 @@ const App: FC<Props> = ({
           onRestart={handleClickRestart}
         />
       ) : (
-        <Quiz
+        <QA
           quizDataLength={quizData.length}
           currentQuestionId={currentQuestionId}
           question={question}
@@ -94,5 +94,3 @@ const App: FC<Props> = ({
     </div>
   );
 };
-
-export default App;
