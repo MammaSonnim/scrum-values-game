@@ -1,12 +1,12 @@
-import React from "react";
-import styles from "./styles.module.css";
+import React, { FC } from 'react';
+import styles from './styles.module.css';
 
-interface ProgressProps {
+type Props = {
   currentCount: number;
   total: number;
-}
+};
 
-export const Progress: React.FC<ProgressProps> = ({ currentCount, total }) => {
+export const Progress: FC<Props> = ({ currentCount, total }) => {
   return (
     <div className={styles.root}>
       Вопрос <span>{currentCount}</span> из <span>{total}</span>

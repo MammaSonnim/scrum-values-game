@@ -1,21 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
 import classnames from 'classnames/bind';
 import { AnswerType } from '../../types';
 import styles from './styles.module.css';
 
 const cx = classnames.bind(styles);
 
-interface AnswerProps {
+type Props = {
   data: AnswerType;
   isSelected: boolean;
   onAnswerClick: any;
-}
+};
 
-export const Answer: React.FC<AnswerProps> = ({
-  data,
-  isSelected,
-  onAnswerClick
-}) => {
+export const Answer: FC<Props> = ({ data, isSelected, onAnswerClick }) => {
   const { id, text } = data;
 
   return (

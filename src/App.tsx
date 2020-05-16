@@ -1,19 +1,42 @@
-import React, { useState, FC } from 'react';
+import React, { FC } from 'react';
 import { quizData } from './data';
-import { SavedAnswerType } from './types';
+import { SavedAnswerType, IdType } from './types';
 import { Quiz } from './components/quiz';
 import { Results } from './components/results';
 import styles from './styles.module.css';
 
-const App: FC = () => {
-  const [currentQuestionId, setCurrentQuestionId] = useState('');
-  const [currentAnswerId, setCurrentAnswerId] = useState('');
-  const [savedAnswers, setAnswers] = useState<SavedAnswerType[]>([]);
-  const [error, setError] = useState('');
-  const [hasToShowResults, setShowResults] = useState(false);
+// TODO use generics
+type Props = {
+  currentQuestionId: IdType;
+  currentAnswerId: IdType;
+  savedAnswers: SavedAnswerType[];
+  error: string;
+  hasToShowResults: boolean;
+  setCurrentQuestionId: any;
+  setCurrentAnswerId: any;
+  setSavedAnswer: any;
+  setError: any;
+  setShowResults: any;
+  resetQuiz: any;
+};
 
-  const { question, answers } = quizData[Number(currentQuestionId)];
+const App: FC<Props> = ({
+  currentQuestionId,
+  currentAnswerId,
+  savedAnswers,
+  error,
+  hasToShowResults,
+  setCurrentQuestionId,
+  setCurrentAnswerId,
+  setSavedAnswer,
+  setError,
+  setShowResults,
+  resetQuiz
+}) => {
+  const countableQuestionId = Number(currentQuestionId);
+  const { question, answers } = quizData[countableQuestionId];
 
+  // TODO rewrite all handlers
   const handleClickAnswer = (e: {
     target: { dataset: { id: React.SetStateAction<string> } };
   }) => {
@@ -32,13 +55,11 @@ const App: FC = () => {
 
     const savedAnswer = { questionId: question.id, answerId: currentAnswerId };
 
-    savedAnswers.push(savedAnswer);
-    setAnswers(savedAnswers);
+    setSavedAnswer(savedAnswer);
     setCurrentAnswerId('');
 
-    if (Number(currentQuestionId) + 1 < quizData.length) {
-      // TODO rm this shit
-      setCurrentQuestionId(String(Number(currentQuestionId) + 1));
+    if (countableQuestionId + 1 < quizData.length) {
+      setCurrentQuestionId(String(countableQuestionId + 1));
 
       return;
     }
@@ -47,10 +68,7 @@ const App: FC = () => {
   };
 
   const handleClickRestart = () => {
-    setCurrentQuestionId('');
-    setCurrentAnswerId('');
-    setAnswers([]);
-    setShowResults(false);
+    resetQuiz();
   };
 
   return (

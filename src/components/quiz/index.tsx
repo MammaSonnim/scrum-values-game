@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import classnames from 'classnames/bind';
-import { AnswerType, QuestionType } from '../../types';
+import { AnswerType, QuestionType, IdType } from '../../types';
 import { Progress } from '../progress';
 import { Question } from '../question';
 import { Answers } from '../answers';
@@ -14,8 +14,8 @@ type Props = {
   quizDataLength: number;
   question: QuestionType;
   answers: AnswerType[];
-  currentQuestionId: string;
-  currentAnswerId: string;
+  currentQuestionId: IdType;
+  currentAnswerId: IdType;
   error: string;
   onAnswerClick: any;
   onNextClick: any;

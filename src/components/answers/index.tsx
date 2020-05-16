@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { AnswerType } from '../../types';
+import { AnswerType, IdType } from '../../types';
 import { Answer } from '../answer';
 import styles from './styles.module.css';
 
 type Props = {
   data: AnswerType[];
-  currentAnswerId: string;
+  currentAnswerId: IdType;
   onAnswerClick: any;
 };
 

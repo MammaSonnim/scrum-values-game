@@ -1,19 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-interface ErrorProps {
-  error: string,
-}
+type Props = {
+  error: string;
+};
 
-export const Error: React.FC<ErrorProps> = ({
-  error
-}) => {
+export const Error: FC<Props> = ({ error }) => {
   if (!error) {
     return null;
   }
 
-  return (
-    <div>
-      {error}
-    </div>
-  )
-}
+  return <div>{error}</div>;
+};

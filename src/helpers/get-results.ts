@@ -14,7 +14,7 @@ export const getResults = (data: DataType, savedAnswers: SavedAnswerType[]) => {
     return {
       id,
       title,
-      isCorrectAnswer: correctAnswerId == savedAnswer.answerId
+      isCorrectAnswer: correctAnswerId === savedAnswer.answerId
     };
   });
 };

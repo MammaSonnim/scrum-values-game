@@ -1,4 +1,7 @@
-export type IdType = string | number;
+// TODO use it for IdType?
+export type Brand<T, U> = T & { __brand: U };
+
+export type IdType = string;
 
 export type QuestionType = {
   id: IdType;
