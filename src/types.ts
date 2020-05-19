@@ -1,3 +1,8 @@
+export {
+  mapStateToProps as quizMapStateToProps,
+  mapDispatchToProps as quizMapDispatchToProps
+} from './containers/quiz';
+
 // TODO use it for IdType?
 export type Brand<T, U> = T & { __brand: U };
 

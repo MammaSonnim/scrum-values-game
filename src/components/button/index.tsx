@@ -1,10 +1,9 @@
-import React, { FC } from 'react';
-import { TODO_ANY } from '../../types';
+import React, { FC, MouseEvent, ReactNode } from 'react';
 import styles from './styles.module.css';
 
 type Props = {
-  children: TODO_ANY;
-  onClick: TODO_ANY;
+  children: ReactNode;
+  onClick: (e: MouseEvent) => void;
 };
 
 export const Button: FC<Props> = ({ children, onClick }) => {

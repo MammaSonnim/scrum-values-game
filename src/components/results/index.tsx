@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { DataType, SavedAnswerType, TODO_ANY } from '../../types';
+import React, { FC, MouseEvent } from 'react';
+import { DataType, SavedAnswerType } from '../../types';
 import { getResults } from '../../helpers/get-results';
 import { NB_SP } from '../../constants';
 import { Button } from '../button';
@@ -7,7 +7,7 @@ import { Button } from '../button';
 type Props = {
   quizData: DataType;
   savedAnswers: SavedAnswerType[];
-  onRestart: TODO_ANY;
+  onRestart: (e: MouseEvent) => void;
 };
 
 export const Results: FC<Props> = ({ quizData, savedAnswers, onRestart }) => {

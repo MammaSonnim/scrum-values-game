@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import classnames from 'classnames/bind';
-import { AnswerType, TODO_ANY } from '../../types';
+import { AnswerType } from '../../types';
 import styles from './styles.module.css';
 
 const cx = classnames.bind(styles);
@@ -8,7 +8,7 @@ const cx = classnames.bind(styles);
 type Props = {
   data: AnswerType;
   isSelected: boolean;
-  onAnswerClick: TODO_ANY;
+  onAnswerClick: (e: MouseEvent) => void;
 };
 
 export const Answer: FC<Props> = ({ data, isSelected, onAnswerClick }) => {

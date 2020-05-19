@@ -1,24 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
+import { getOr } from 'lodash/fp';
 import { quizData } from '../../data';
-import { SavedAnswerType, IdType, TODO_ANY } from '../../types';
+import { quizMapStateToProps, quizMapDispatchToProps } from '../../types';
 import { QA } from '../../components/qa';
 import { Results } from '../../components/results';
 import styles from './styles.module.css';
 
 // TODO use generics
-type Props = {
-  currentQuestionId: IdType;
-  currentAnswerId: IdType;
-  savedAnswers: SavedAnswerType[];
-  error: string;
-  hasToShowResults: boolean;
-  setCurrentQuestionId: TODO_ANY;
-  setCurrentAnswerId: TODO_ANY;
-  setSavedAnswer: TODO_ANY;
-  setError: TODO_ANY;
-  setShowResults: TODO_ANY;
-  resetQuiz: TODO_ANY;
-};
+type Props = ReturnType<typeof quizMapStateToProps> &
+  ReturnType<typeof quizMapDispatchToProps>;
 
 export const Quiz: FC<Props> = ({
   currentQuestionId,
@@ -37,10 +27,8 @@ export const Quiz: FC<Props> = ({
   const { question, answers } = quizData[countableQuestionId];
 
   // TODO rewrite all handlers
-  const handleClickAnswer = (e: {
-    target: { dataset: { id: React.SetStateAction<string> } };
-  }) => {
-    const { id } = e.target.dataset;
+  const handleClickAnswer = (e: MouseEvent) => {
+    const id = getOr('', ['target', 'dataset', 'id'], e);
 
     setCurrentAnswerId(id);
     setError('');

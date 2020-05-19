@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { Quiz } from '../../pages/quiz';
+import { AppDispatch } from '../../store';
 import {
   setCurrentQuestionId,
   setCurrentAnswerId,
@@ -9,9 +10,9 @@ import {
   resetQuiz,
   QuizStateType
 } from '../../ducks/quiz';
-import { SavedAnswerType, IdType, TODO_ANY } from '../../types';
+import { SavedAnswerType, IdType } from '../../types';
 
-const mapStateToProps = (state: QuizStateType) => {
+export const mapStateToProps = (state: QuizStateType) => {
   // TODO add selectors
 
   return {
@@ -19,7 +20,7 @@ const mapStateToProps = (state: QuizStateType) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: TODO_ANY) => {
+export const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     setCurrentQuestionId: (id: IdType) => dispatch(setCurrentQuestionId(id)),
     setCurrentAnswerId: (id: IdType) => dispatch(setCurrentAnswerId(id)),
@@ -32,5 +33,8 @@ const mapDispatchToProps = (dispatch: TODO_ANY) => {
     resetQuiz: () => dispatch(resetQuiz())
   };
 };
+
+type XXX = typeof mapDispatchToProps;
+type YYY = ReturnType<typeof mapDispatchToProps>;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Quiz);
