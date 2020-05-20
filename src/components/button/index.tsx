@@ -1,5 +1,4 @@
 import React, { FC, MouseEvent, ReactNode } from 'react';
-import styles from './styles.module.css';
 
 type Props = {
   children: ReactNode;
@@ -8,7 +7,7 @@ type Props = {
 
 export const Button: FC<Props> = ({ children, onClick }) => {
   return (
-    <button className={styles.button} onClick={onClick}>
+    <button className="nes-btn is-primary" onClick={onClick}>
       {children}
     </button>
   );

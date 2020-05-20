@@ -16,7 +16,9 @@ export const Answer: FC<Props> = ({ data, isSelected, onAnswerClick }) => {
 
   return (
     <div
-      className={cx('answer', { answer_selected: isSelected })}
+      className={cx('answer', 'nes-pointer', {
+        'nes-text is-primary': isSelected
+      })}
       data-id={id}
       onClick={onAnswerClick}
     >

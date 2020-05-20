@@ -32,7 +32,7 @@ export const QA: FC<Props> = ({
   onNextClick
 }) => {
   return (
-    <div className={styles.content}>
+    <div className={cx(styles.content, 'nes-container is-rounded')}>
       <div className={styles.row}>
         <Progress
           total={quizDataLength}
