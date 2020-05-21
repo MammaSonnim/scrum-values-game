@@ -15,14 +15,17 @@ export const Answer: FC<Props> = ({ data, isSelected, onAnswerClick }) => {
   const { id, text } = data;
 
   return (
-    <div
-      className={cx('answer', 'nes-pointer', {
-        'nes-text is-primary': isSelected
-      })}
+    <label
       data-id={id}
       onClick={onAnswerClick}
+      className={cx('answer', {
+        'nes-text is-primary': isSelected
+      })}
     >
-      {id}) {text}
-    </div>
+      <input type="radio" className="nes-radio" name="answer" />
+      <span>
+        {id}){text}
+      </span>
+    </label>
   );
 };

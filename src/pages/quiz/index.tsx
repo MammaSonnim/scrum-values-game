@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent, useCallback } from 'react';
 import { getOr } from 'lodash/fp';
 import { quizData } from '../../data';
 import { quizMapStateToProps, quizMapDispatchToProps } from '../../types';
@@ -26,15 +26,18 @@ export const Quiz: FC<Props> = ({
   const countableQuestionId = Number(currentQuestionId);
   const { question, answers } = quizData[countableQuestionId];
 
-  // TODO rewrite all handlers
-  const handleClickAnswer = (e: MouseEvent) => {
-    const id = getOr('', ['target', 'dataset', 'id'], e);
+  // TODO rewrite all handlers to actions
+  const handleClickAnswer = useCallback(
+    (e: MouseEvent) => {
+      const id = getOr('', ['currentTarget', 'dataset', 'id'], e);
 
-    setCurrentAnswerId(id);
-    setError('');
-  };
+      setCurrentAnswerId(id);
+      setError('');
+    },
+    [setCurrentAnswerId, setError]
+  );
 
-  const handleClickNext = () => {
+  const handleClickNext = useCallback(() => {
     if (!currentAnswerId) {
       setError('Выберите один из вариантов ответа');
 
@@ -53,11 +56,17 @@ export const Quiz: FC<Props> = ({
     }
 
     setShowResults(true);
-  };
+  }, [
+    currentAnswerId,
+    question,
+    quizData,
+    countableQuestionId,
+    setShowResults
+  ]);
 
-  const handleClickRestart = () => {
+  const handleClickRestart = useCallback(() => {
     resetQuiz();
-  };
+  }, [resetQuiz]);
 
   return (
     <div className={styles.root}>
