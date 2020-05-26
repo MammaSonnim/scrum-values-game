@@ -1,6 +1,5 @@
 export const quizData = [
   {
-    correctAnswerId: '4', // temp
     question: {
       id: '1',
       title: 'Команда разработки саботирует ежедневный скрам',
@@ -75,7 +74,6 @@ export const quizData = [
     ]
   },
   {
-    correctAnswerId: '4', // temp
     question: {
       id: '2',
       title: 'В оценке задач участвует не вся команда',

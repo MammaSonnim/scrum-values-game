@@ -1,5 +1,5 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
-import { IdType, SavedAnswerType } from '../types';
+import { IdType } from '../types';
 
 /**
  * Constants
@@ -16,9 +16,8 @@ export const RESET_QUIZ = 'RESET_QUIZ';
  */
 export const setCurrentQuestionId = createAction<IdType>(SET_CURRENT_QUESTION);
 export const setCurrentAnswerId = createAction<IdType>(SET_CURRENT_ANSWER);
-export const setSavedAnswer = createAction<SavedAnswerType>(SET_SAVED_ANSWERS);
 export const setError = createAction<string>(SET_ERROR);
-export const setShowResults = createAction<boolean>(SET_SHOW_RESULTS);
+export const setShowGameOver = createAction<boolean>(SET_SHOW_RESULTS);
 export const resetQuiz = createAction(RESET_QUIZ);
 
 /**
@@ -27,9 +26,8 @@ export const resetQuiz = createAction(RESET_QUIZ);
 const initialState = {
   currentQuestionId: '0',
   currentAnswerId: '',
-  savedAnswers: [] as SavedAnswerType[],
   error: '',
-  hasToShowResults: false
+  hasToShowGameOver: false
 };
 
 export type QuizStateType = {
@@ -44,14 +42,11 @@ const quizReducer = createReducer(initialState, builder =>
     .addCase(setCurrentAnswerId, (state, action) => {
       state.currentAnswerId = action.payload;
     })
-    .addCase(setSavedAnswer, (state, action) => {
-      state.savedAnswers.push(action.payload);
-    })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(setShowResults, (state, action) => {
-      state.hasToShowResults = action.payload;
+    .addCase(setShowGameOver, (state, action) => {
+      state.hasToShowGameOver = action.payload;
     })
     .addCase(resetQuiz, () => initialState)
 );

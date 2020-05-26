@@ -21,13 +21,7 @@ export type AnswerType = {
   text: string;
 };
 
-export type SavedAnswerType = {
-  questionId: IdType;
-  answerId: IdType;
-};
-
 export type DataType = {
-  correctAnswerId: IdType;
   question: QuestionType;
   answers: AnswerType[];
 }[];

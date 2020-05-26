@@ -1,26 +1,26 @@
 import React, { FC, MouseEvent, useCallback } from 'react';
+import classnames from 'classnames/bind';
 import { getOr } from 'lodash/fp';
 import { quizData } from '../../data';
 import { quizMapStateToProps, quizMapDispatchToProps } from '../../types';
 import { QA } from '../../components/qa';
-import { Results } from '../../components/results';
+import { GameOver } from '../../components/game-over';
 import styles from './styles.module.css';
 
-// TODO use generics
+const cx = classnames.bind(styles);
+
 type Props = ReturnType<typeof quizMapStateToProps> &
   ReturnType<typeof quizMapDispatchToProps>;
 
 export const Quiz: FC<Props> = ({
   currentQuestionId,
   currentAnswerId,
-  savedAnswers,
   error,
-  hasToShowResults,
+  hasToShowGameOver,
   setCurrentQuestionId,
   setCurrentAnswerId,
-  setSavedAnswer,
   setError,
-  setShowResults,
+  setShowGameOver,
   resetQuiz
 }) => {
   const countableQuestionId = Number(currentQuestionId);
@@ -44,9 +44,6 @@ export const Quiz: FC<Props> = ({
       return;
     }
 
-    const savedAnswer = { questionId: question.id, answerId: currentAnswerId };
-
-    setSavedAnswer(savedAnswer);
     setCurrentAnswerId('');
 
     if (countableQuestionId + 1 < quizData.length) {
@@ -55,13 +52,13 @@ export const Quiz: FC<Props> = ({
       return;
     }
 
-    setShowResults(true);
+    setShowGameOver(true);
   }, [
     currentAnswerId,
     question,
     quizData,
     countableQuestionId,
-    setShowResults
+    setShowGameOver
   ]);
 
   const handleClickRestart = useCallback(() => {
@@ -70,24 +67,22 @@ export const Quiz: FC<Props> = ({
 
   return (
     <div className={styles.root}>
-      {hasToShowResults ? (
-        <Results
-          quizData={quizData}
-          savedAnswers={savedAnswers}
-          onRestart={handleClickRestart}
-        />
-      ) : (
-        <QA
-          quizDataLength={quizData.length}
-          currentQuestionId={currentQuestionId}
-          question={question}
-          answers={answers}
-          currentAnswerId={currentAnswerId}
-          error={error}
-          onAnswerClick={handleClickAnswer}
-          onNextClick={handleClickNext}
-        />
-      )}
+      <div className={cx(styles.content, 'nes-container is-rounded')}>
+        {hasToShowGameOver ? (
+          <GameOver onRestart={handleClickRestart} />
+        ) : (
+          <QA
+            quizDataLength={quizData.length}
+            currentQuestionId={currentQuestionId}
+            question={question}
+            answers={answers}
+            currentAnswerId={currentAnswerId}
+            error={error}
+            onAnswerClick={handleClickAnswer}
+            onNextClick={handleClickNext}
+          />
+        )}
+      </div>
     </div>
   );
 };
