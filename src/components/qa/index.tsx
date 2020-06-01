@@ -17,6 +17,7 @@ type Props = {
   currentQuestionId: IdType;
   currentAnswerId: IdType;
   error: string;
+  hasToShowAnswerScores: boolean;
   onAnswerClick: (e: MouseEvent) => void;
   onNextClick: (e: MouseEvent) => void;
 };
@@ -27,6 +28,7 @@ export const QA: FC<Props> = ({
   question,
   answers,
   currentAnswerId,
+  hasToShowAnswerScores,
   error,
   onAnswerClick,
   onNextClick
@@ -46,6 +48,7 @@ export const QA: FC<Props> = ({
         <Answers
           data={answers}
           currentAnswerId={currentAnswerId}
+          hasToShowAnswerScores={hasToShowAnswerScores}
           onAnswerClick={onAnswerClick}
         />
       </div>

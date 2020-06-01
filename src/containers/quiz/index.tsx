@@ -5,11 +5,13 @@ import {
   setCurrentQuestionId,
   setCurrentAnswerId,
   setError,
-  setShowGameOver,
+  showAnswerScores,
+  updateTotalScores,
+  showGameOver,
   resetQuiz,
   QuizStateType
 } from '../../ducks/quiz';
-import { IdType } from '../../types';
+import { IdType, ScoresType } from '../../types';
 
 export const mapStateToProps = (state: QuizStateType) => {
   // TODO add selectors
@@ -24,8 +26,12 @@ export const mapDispatchToProps = (dispatch: AppDispatch) => {
     setCurrentQuestionId: (id: IdType) => dispatch(setCurrentQuestionId(id)),
     setCurrentAnswerId: (id: IdType) => dispatch(setCurrentAnswerId(id)),
     setError: (error: string) => dispatch(setError(error)),
-    setShowGameOver: (hasToShowGameOver: boolean) =>
-      dispatch(setShowGameOver(hasToShowGameOver)),
+    showAnswerScores: (hasToShowAnswerScores: boolean) =>
+      dispatch(showAnswerScores(hasToShowAnswerScores)),
+    updateTotalScores: (scores: ScoresType) =>
+      dispatch(updateTotalScores(scores)),
+    showGameOver: (hasToShowGameOver: boolean) =>
+      dispatch(showGameOver(hasToShowGameOver)),
     resetQuiz: () => dispatch(resetQuiz())
   };
 };

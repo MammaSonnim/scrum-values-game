@@ -1,0 +1,26 @@
+.scores {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.score {
+  display: flex;
+  align-items: center;
+  margin-right: 80px;
+  width: 60px;
+}
+
+.score:last-of-type {
+  margin-right: 0;
+}
+
+.icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  font-size: 0;
+}

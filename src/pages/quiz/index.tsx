@@ -1,8 +1,13 @@
 import React, { FC, MouseEvent, useCallback } from 'react';
 import classnames from 'classnames/bind';
-import { getOr } from 'lodash/fp';
+import { getOr, find } from 'lodash/fp';
 import { quizData } from '../../data';
-import { quizMapStateToProps, quizMapDispatchToProps } from '../../types';
+import {
+  quizMapStateToProps,
+  quizMapDispatchToProps,
+  AnswerType
+} from '../../types';
+import { Heading } from '../../components/heading';
 import { QA } from '../../components/qa';
 import { GameOver } from '../../components/game-over';
 import styles from './styles.module.css';
@@ -16,11 +21,15 @@ export const Quiz: FC<Props> = ({
   currentQuestionId,
   currentAnswerId,
   error,
+  scores,
+  hasToShowAnswerScores,
   hasToShowGameOver,
   setCurrentQuestionId,
   setCurrentAnswerId,
+  showAnswerScores,
   setError,
-  setShowGameOver,
+  updateTotalScores,
+  showGameOver,
   resetQuiz
 }) => {
   const countableQuestionId = Number(currentQuestionId);
@@ -44,7 +53,22 @@ export const Quiz: FC<Props> = ({
       return;
     }
 
+    if (!hasToShowAnswerScores) {
+      showAnswerScores(true);
+
+      return;
+    }
+
+    const currentAnswerData = find((answer: AnswerType) => {
+      return answer.id === currentAnswerId;
+    }, answers);
+
+    if (currentAnswerData && currentAnswerData.scores) {
+      updateTotalScores(currentAnswerData.scores);
+    }
+
     setCurrentAnswerId('');
+    showAnswerScores(false);
 
     if (countableQuestionId + 1 < quizData.length) {
       setCurrentQuestionId(String(countableQuestionId + 1));
@@ -52,13 +76,16 @@ export const Quiz: FC<Props> = ({
       return;
     }
 
-    setShowGameOver(true);
+    showGameOver(true);
   }, [
     currentAnswerId,
-    question,
-    quizData,
     countableQuestionId,
-    setShowGameOver
+    hasToShowAnswerScores,
+    setError,
+    setCurrentAnswerId,
+    setCurrentQuestionId,
+    showAnswerScores,
+    showGameOver
   ]);
 
   const handleClickRestart = useCallback(() => {
@@ -67,6 +94,7 @@ export const Quiz: FC<Props> = ({
 
   return (
     <div className={styles.root}>
+      <Heading scores={scores} />
       <div className={cx(styles.content, 'nes-container is-rounded')}>
         {hasToShowGameOver ? (
           <GameOver onRestart={handleClickRestart} />
@@ -78,6 +106,7 @@ export const Quiz: FC<Props> = ({
             answers={answers}
             currentAnswerId={currentAnswerId}
             error={error}
+            hasToShowAnswerScores={hasToShowAnswerScores}
             onAnswerClick={handleClickAnswer}
             onNextClick={handleClickNext}
           />

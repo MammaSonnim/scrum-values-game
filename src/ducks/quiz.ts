@@ -1,5 +1,6 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
-import { IdType } from '../types';
+import { IdType, ScoresType } from '../types';
+import { calcTotalScores } from '../helpers/calcTotalScores';
 
 /**
  * Constants
@@ -7,8 +8,9 @@ import { IdType } from '../types';
 export const SET_CURRENT_QUESTION = 'SET_CURRENT_QUESTION';
 export const SET_CURRENT_ANSWER = 'SET_CURRENT_ANSWER';
 export const SET_ERROR = 'SET_ERROR';
-export const SET_SHOW_RESULTS = 'SET_SHOW_RESULTS';
-export const SET_SAVED_ANSWERS = 'SET_ANSWERS';
+export const SHOW_ANSWER_SCORES = 'SHOW_ANSWER_SCORES';
+export const UPDATE_TOTAL_SCORES = 'SET_CURRENT_SCORES';
+export const SHOW_GAME_OVER = 'SET_SHOW_GAME_OVER';
 export const RESET_QUIZ = 'RESET_QUIZ';
 
 /**
@@ -17,7 +19,9 @@ export const RESET_QUIZ = 'RESET_QUIZ';
 export const setCurrentQuestionId = createAction<IdType>(SET_CURRENT_QUESTION);
 export const setCurrentAnswerId = createAction<IdType>(SET_CURRENT_ANSWER);
 export const setError = createAction<string>(SET_ERROR);
-export const setShowGameOver = createAction<boolean>(SET_SHOW_RESULTS);
+export const showAnswerScores = createAction<boolean>(SHOW_ANSWER_SCORES);
+export const updateTotalScores = createAction<ScoresType>(UPDATE_TOTAL_SCORES);
+export const showGameOver = createAction<boolean>(SHOW_GAME_OVER);
 export const resetQuiz = createAction(RESET_QUIZ);
 
 /**
@@ -27,7 +31,15 @@ const initialState = {
   currentQuestionId: '0',
   currentAnswerId: '',
   error: '',
-  hasToShowGameOver: false
+  hasToShowAnswerScores: false,
+  hasToShowGameOver: false,
+  scores: {
+    courage: 0,
+    focus: 0,
+    commitment: 0,
+    respect: 0,
+    opennes: 0
+  }
 };
 
 export type QuizStateType = {
@@ -45,7 +57,13 @@ const quizReducer = createReducer(initialState, builder =>
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(setShowGameOver, (state, action) => {
+    .addCase(showAnswerScores, (state, action) => {
+      state.hasToShowAnswerScores = action.payload;
+    })
+    .addCase(updateTotalScores, (state, action) => {
+      state.scores = calcTotalScores(state.scores, action.payload);
+    })
+    .addCase(showGameOver, (state, action) => {
       state.hasToShowGameOver = action.payload;
     })
     .addCase(resetQuiz, () => initialState)

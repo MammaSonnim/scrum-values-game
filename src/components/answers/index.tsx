@@ -6,12 +6,14 @@ import styles from './styles.module.css';
 type Props = {
   data: AnswerType[];
   currentAnswerId: IdType;
+  hasToShowAnswerScores: boolean;
   onAnswerClick: (e: MouseEvent) => void;
 };
 
 export const Answers: FC<Props> = ({
   data,
   currentAnswerId,
+  hasToShowAnswerScores,
   onAnswerClick
 }) => {
   return (
@@ -21,6 +23,7 @@ export const Answers: FC<Props> = ({
           <Answer
             data={answer}
             isSelected={currentAnswerId === answer.id}
+            hasToShowAnswerScores={hasToShowAnswerScores}
             onAnswerClick={onAnswerClick}
           />
         </div>

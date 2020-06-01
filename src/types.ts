@@ -16,9 +16,20 @@ export type QuestionType = {
   text: string;
 };
 
+export type ScoreType = number;
+
+export type ScoresType = {
+  courage: ScoreType;
+  focus: ScoreType;
+  commitment: ScoreType;
+  respect: ScoreType;
+  opennes: ScoreType;
+};
+
 export type AnswerType = {
   id: IdType;
   text: string;
+  scores: ScoresType | null;
 };
 
 export type DataType = {
