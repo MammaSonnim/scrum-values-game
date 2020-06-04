@@ -30,7 +30,12 @@ export const Answer: FC<Props> = ({
           'nes-text is-primary': isSelected
         })}
       >
-        <input type="radio" className="nes-radio" name="answer" />
+        <input
+          type="radio"
+          className="nes-radio"
+          name="answer"
+          disabled={hasToShowAnswerScores}
+        />
         <span>
           {id}) {text}
         </span>

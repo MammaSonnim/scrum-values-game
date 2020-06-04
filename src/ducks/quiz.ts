@@ -34,11 +34,11 @@ const initialState = {
   hasToShowAnswerScores: false,
   hasToShowGameOver: false,
   scores: {
-    courage: 0,
-    focus: 0,
-    commitment: 0,
-    respect: 0,
-    opennes: 0
+    courage: 2,
+    focus: 2,
+    commitment: 2,
+    respect: 2,
+    opennes: 2
   }
 };
 

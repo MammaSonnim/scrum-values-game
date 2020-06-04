@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useCallback } from 'react';
+import React, { FC, MouseEvent, useCallback, useEffect } from 'react';
 import classnames from 'classnames/bind';
 import { getOr, find } from 'lodash/fp';
 import { quizData } from '../../data';
@@ -10,6 +10,7 @@ import {
 import { Heading } from '../../components/heading';
 import { QA } from '../../components/qa';
 import { GameOver } from '../../components/game-over';
+import { calcIsNeedToGameOver } from '../../helpers/calcIsNeedToGameOver';
 import styles from './styles.module.css';
 
 const cx = classnames.bind(styles);
@@ -35,15 +36,25 @@ export const Quiz: FC<Props> = ({
   const countableQuestionId = Number(currentQuestionId);
   const { question, answers } = quizData[countableQuestionId];
 
-  // TODO rewrite all handlers to actions
+  useEffect(() => {
+    if (calcIsNeedToGameOver(scores)) {
+      showGameOver(true);
+    }
+  }, [scores, showGameOver]);
+
+  // TODO rewrite all handlers to epics
   const handleClickAnswer = useCallback(
     (e: MouseEvent) => {
+      if (hasToShowAnswerScores) {
+        return;
+      }
+
       const id = getOr('', ['currentTarget', 'dataset', 'id'], e);
 
       setCurrentAnswerId(id);
       setError('');
     },
-    [setCurrentAnswerId, setError]
+    [setCurrentAnswerId, setError, hasToShowAnswerScores]
   );
 
   const handleClickNext = useCallback(() => {
@@ -54,17 +65,17 @@ export const Quiz: FC<Props> = ({
     }
 
     if (!hasToShowAnswerScores) {
+      const currentAnswerData = find((answer: AnswerType) => {
+        return answer.id === currentAnswerId;
+      }, answers);
+
+      if (currentAnswerData && currentAnswerData.scores) {
+        updateTotalScores(currentAnswerData.scores);
+      }
+
       showAnswerScores(true);
 
       return;
-    }
-
-    const currentAnswerData = find((answer: AnswerType) => {
-      return answer.id === currentAnswerId;
-    }, answers);
-
-    if (currentAnswerData && currentAnswerData.scores) {
-      updateTotalScores(currentAnswerData.scores);
     }
 
     setCurrentAnswerId('');
@@ -81,11 +92,13 @@ export const Quiz: FC<Props> = ({
     currentAnswerId,
     countableQuestionId,
     hasToShowAnswerScores,
+    answers,
     setError,
     setCurrentAnswerId,
     setCurrentQuestionId,
     showAnswerScores,
-    showGameOver
+    showGameOver,
+    updateTotalScores
   ]);
 
   const handleClickRestart = useCallback(() => {
