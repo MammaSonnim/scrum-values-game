@@ -30,6 +30,8 @@ export type AnswerType = {
   id: IdType;
   text: string;
   scores: ScoresType | null;
+  warning: string | null;
+  note: string | null;
 };
 
 export type DataType = {

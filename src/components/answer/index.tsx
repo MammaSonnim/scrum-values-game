@@ -1,6 +1,7 @@
-import React, { Fragment, FC, MouseEvent } from 'react';
+import React, { Fragment, FC, MouseEvent, useCallback } from 'react';
 import classnames from 'classnames/bind';
 import { Scores } from '../scores';
+import { Warning } from '../warning';
 import { AnswerType } from '../../types';
 import styles from './styles.module.css';
 
@@ -19,7 +20,7 @@ export const Answer: FC<Props> = ({
   hasToShowAnswerScores,
   onAnswerClick
 }) => {
-  const { id, text, scores } = data;
+  const { id, text, scores, warning, note } = data;
 
   return (
     <Fragment>
@@ -40,7 +41,12 @@ export const Answer: FC<Props> = ({
           {id}) {text}
         </span>
       </label>
-      {hasToShowAnswerScores && <Scores scores={scores} />}
+      {hasToShowAnswerScores && (
+        <Fragment>
+          <Warning warning={warning} note={note} />
+          <Scores scores={scores} />
+        </Fragment>
+      )}
     </Fragment>
   );
 };
