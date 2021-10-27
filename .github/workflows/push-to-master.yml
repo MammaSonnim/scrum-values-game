@@ -12,5 +12,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Deploy react app to github pages
+      - name: Deploy react app to gh-pages
         uses: tanwanimohit/deploy-react-to-ghpages@v1.0.1
