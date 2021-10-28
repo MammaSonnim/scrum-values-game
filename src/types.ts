@@ -8,6 +8,7 @@ export type Brand<T, U> = T & { __brand: U };
 
 export type IdType = string;
 
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 export type TODO_ANY = any;
 
 export type QuestionType = {
