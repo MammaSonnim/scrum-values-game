@@ -1,4 +1,4 @@
-import React, { Fragment, FC, MouseEvent, useCallback } from 'react';
+import React, { Fragment, FC, MouseEvent } from 'react';
 import classnames from 'classnames/bind';
 import { Scores } from '../scores';
 import { Warning } from '../warning';
