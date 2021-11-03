@@ -37,10 +37,10 @@ export const Quiz: FC<Props> = ({
   const { question, answers } = quizData[countableQuestionId];
 
   useEffect(() => {
-    if (calcIsNeedToGameOver(scores)) {
+    if (!hasToShowAnswerScores && calcIsNeedToGameOver(scores)) {
       showGameOver(true);
     }
-  }, [scores, showGameOver]);
+  }, [scores, hasToShowAnswerScores, showGameOver]);
 
   // TODO rewrite all handlers to epics
   const handleClickAnswer = useCallback(
