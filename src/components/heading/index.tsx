@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import classnames from 'classnames/bind';
-import { ScoresType } from '../../types';
+import { ScoresT } from '../../types';
 import { Scores } from '../scores';
 import styles from './styles.module.css';
 
 const cx = classnames.bind(styles);
 
 type Props = {
-  scores: ScoresType;
+  scores: ScoresT;
 };
 
 export const Heading: FC<Props> = ({ scores }) => {

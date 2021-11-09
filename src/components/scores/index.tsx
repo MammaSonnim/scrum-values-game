@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { startCase, camelCase } from 'lodash';
-import { ScoresType } from '../../types';
+import { ScoresT } from '../../types';
 import styles from './styles.module.css';
 
 type Props = {
-  scores: ScoresType | null;
+  scores: ScoresT | null;
 };
 
 export const Scores: FC<Props> = ({ scores }) => {

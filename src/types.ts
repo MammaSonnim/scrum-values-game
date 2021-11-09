@@ -3,23 +3,23 @@ export {
   mapDispatchToProps as quizMapDispatchToProps
 } from './containers/quiz';
 
-// TODO use it for IdType?
+// TODO use it for IdT?
 export type Brand<T, U> = T & { __brand: U };
 
-export type IdType = string;
+export type IdT = string;
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 export type TODO_ANY = any;
 
 export type QuestionType = {
-  id: IdType;
+  id: IdT;
   title: string;
   text: string;
 };
 
 export type ScoreType = number;
 
-export type ScoresType = {
+export type ScoresT = {
   courage: ScoreType;
   focus: ScoreType;
   commitment: ScoreType;
@@ -28,9 +28,9 @@ export type ScoresType = {
 };
 
 export type AnswerType = {
-  id: IdType;
+  id: IdT;
   text: string;
-  scores: ScoresType | null;
+  scores: ScoresT | null;
   warning: string | null;
   note: string | null;
 };

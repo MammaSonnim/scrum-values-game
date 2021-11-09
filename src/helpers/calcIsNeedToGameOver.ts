@@ -1,6 +1,6 @@
-import { ScoresType } from '../types';
+import { ScoresT } from '../types';
 
-export const calcIsNeedToGameOver = (totalScores: ScoresType) => {
+export const calcIsNeedToGameOver = (totalScores: ScoresT) => {
   return Object.values(totalScores).some(score => {
     return score <= 0;
   });
