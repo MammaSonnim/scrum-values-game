@@ -26,12 +26,13 @@ export const Answer: FC<Props> = ({
     <Fragment>
       <label
         data-id={id}
-        onClick={onAnswerClick}
         className={cx('answer', {
           'nes-text is-primary': isSelected
         })}
       >
         <input
+          onClick={onAnswerClick}
+          value={id}
           type="radio"
           className="nes-radio"
           name="answer"

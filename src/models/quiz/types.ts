@@ -24,7 +24,7 @@ export type AnswerType = {
     note: string | null;
 };
 
-export type DataType = {
+export type DataT = {
     question: QuestionType;
     answers: AnswerType[];
 }[];

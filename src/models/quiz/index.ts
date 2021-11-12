@@ -1,7 +1,10 @@
 import { createDomain } from 'effector';
-import { createGate } from 'effector-react';
+// TODO fix dts
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { attachLogger } from 'effector-logger/attach';
-import { IdT } from '../../types';
+import { IdT, TODO_ANY, DataT } from '../../types';
+import { quizData } from '../../data';
 import { ScoresT } from './types';
 
 export const Domain = createDomain('Quiz');
@@ -27,9 +30,18 @@ export const $quiz = Domain.createStore<QuizT>({
 
 export const showAnswerScores = Domain.createEvent<boolean>('SHOW_ANSWER_SCORES');
 export const showGameOver = Domain.createEvent<boolean>('SET_SHOW_GAME_OVER');
-export const setCurrentQuestionId = Domain.createEvent<IdT>('SET_CURRENT_QUESTION')
-export const setCurrentAnswerId = Domain.createEvent<IdT>('SET_CURRENT_ANSWER')
+
+export const setCurrentQuestionId = Domain.createEvent<IdT>('SET_CURRENT_QUESTION_ID')
+
+export const setCurrentAnswerId = Domain.createEvent<IdT>('SET_CURRENT_ANSWER_ID')
+export const selectAnswer = Domain.createEvent<IdT>('SELECT_ANSWER')
+export const selectAnswerFx = Domain.createEffect<IdT, TODO_ANY>('SELECT_ANSWER/FX');
+
 export const setError = Domain.createEvent<string>('SET_ERROR')
+export const resetErrorFx = Domain.createEffect<string, void, void>('RESET_ERROR/FX');
+
+export const goToNextQuestion = Domain.createEvent<void>('GO_TO_NEXT_QUESTION');
+export const goToNextQuestionFx = Domain.createEffect<void, void, void>('GO_TO_NEXT_QUESTION/FX');
 
 // SCORES
 export const $scores = Domain.createStore<ScoresT>({
@@ -45,3 +57,6 @@ export const updateTotalScoresFx = Domain.createEffect<ScoresT, void, void>('UPD
 
 // COMMON
 export const resetQuizAndScores = Domain.createEvent<void>('RESET_QUIZ')
+
+// QUIZ DATA
+export const $data = Domain.createStore<DataT>(quizData)

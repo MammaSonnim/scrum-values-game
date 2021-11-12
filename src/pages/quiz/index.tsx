@@ -1,25 +1,20 @@
 import '../../models/quiz/init';
-
 import React, { FC, MouseEvent, useCallback, useEffect } from 'react';
 import { useStore } from 'effector-react';
 import classnames from 'classnames/bind';
-import { getOr, find } from 'lodash/fp';
-import { quizData } from '../../data';
+import { getOr } from 'lodash/fp';
 import {
   quizMapStateToProps,
   quizMapDispatchToProps,
-  AnswerType
 } from '../../types';
 import {
   $quiz,
-  showAnswerScores,
   showGameOver,
-  setCurrentQuestionId,
-  setCurrentAnswerId,
-  setError,
   resetQuizAndScores,
   $scores,
-  updateTotalScores
+  selectAnswer,
+  goToNextQuestion,
+  $data,
 } from '../../models/quiz';
 import { Heading } from '../../components/heading';
 import { QA } from '../../components/qa';
@@ -42,6 +37,7 @@ export const Quiz: FC<Props> = () => {
     error,
   } = quiz;
   const scores = useStore($scores);
+  const quizData = useStore($data);
 
   const countableQuestionId = Number(currentQuestionId);
   const { question, answers } = quizData[countableQuestionId];
@@ -52,63 +48,18 @@ export const Quiz: FC<Props> = () => {
     }
   }, [scores, hasToShowAnswerScores, showGameOver]);
 
-  // TODO rewrite all handlers to epics
   const handleClickAnswer = useCallback(
     (e: MouseEvent) => {
-      if (hasToShowAnswerScores) {
-        return;
-      }
+      const id = getOr('', ['currentTarget', 'value'], e);
 
-      const id = getOr('', ['currentTarget', 'dataset', 'id'], e);
-
-      setCurrentAnswerId(id);
-      setError('');
+      selectAnswer(id);
     },
-    [setCurrentAnswerId, setError, hasToShowAnswerScores]
+    [selectAnswer]
   );
 
   const handleClickNext = useCallback(() => {
-    if (!currentAnswerId) {
-      setError('Выберите один из вариантов ответа');
-
-      return;
-    }
-
-    if (!hasToShowAnswerScores) {
-      const currentAnswerData = find((answer: AnswerType) => {
-        return answer.id === currentAnswerId;
-      }, answers);
-
-      if (currentAnswerData && currentAnswerData.scores) {
-        updateTotalScores(currentAnswerData.scores);
-      }
-
-      showAnswerScores(true);
-
-      return;
-    }
-
-    setCurrentAnswerId('');
-    showAnswerScores(false);
-
-    if (countableQuestionId + 1 < quizData.length) {
-      setCurrentQuestionId(String(countableQuestionId + 1));
-
-      return;
-    }
-
-    showGameOver(true);
-  }, [
-    currentAnswerId,
-    countableQuestionId,
-    hasToShowAnswerScores,
-    answers,
-    setError,
-    setCurrentAnswerId,
-    setCurrentQuestionId,
-    showAnswerScores,
-    showGameOver,
-  ]);
+    goToNextQuestion();
+  }, [goToNextQuestion]);
 
   const handleClickRestart = useCallback(() => {
     resetQuizAndScores();
