@@ -1,7 +1,10 @@
 import { forward } from 'effector';
 import { find, getOr } from 'lodash/fp';
-import { calcTotalScores } from '../../helpers';
-import { AnswerType } from '../../types';
+import {
+    calcIsNeedToGameOver,
+    calcTotalScores
+} from './helpers';
+import { AnswerT } from './types';
 import {
     $quiz,
     showAnswerScores,
@@ -13,9 +16,11 @@ import {
     setError,
     goToNextQuestion,
     goToNextQuestionFx,
-    resetQuizAndScores,
+    restartGame,
     $scores,
     updateTotalScores,
+    checkScores,
+    checkScoresFx,
     $data,
 } from '.';
 
@@ -58,8 +63,27 @@ $scores.on(updateTotalScores, (prevScores, scores) => {
     return calcTotalScores(prevScores, scores);
 })
 
-$scores.reset(resetQuizAndScores)
-$quiz.reset(resetQuizAndScores)
+$scores.reset(restartGame)
+$quiz.reset(restartGame)
+
+// On check scores
+forward({
+    from: checkScores,
+    to: checkScoresFx,
+})
+
+checkScoresFx.use(() => {
+    const scores = $scores.getState();
+    const { hasToShowAnswerScores } = $quiz.getState();
+
+    if (hasToShowAnswerScores) {
+        return;
+    }
+
+    if (calcIsNeedToGameOver(scores)) {
+        showGameOver(true);
+    }
+})
 
 // On select answer
 forward({
@@ -104,7 +128,7 @@ goToNextQuestionFx.use(() => {
 
     if (!hasToShowAnswerScores) {
         // TODO create selector
-        const currentAnswerData = find((answer: AnswerType) => {
+        const currentAnswerData = find((answer: AnswerT) => {
             return answer.id === currentAnswerId;
         }, answers);
 

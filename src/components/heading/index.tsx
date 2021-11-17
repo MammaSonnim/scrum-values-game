@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import classnames from 'classnames/bind';
-import { ScoresT } from '../../types';
+import { ScoresT } from '../../models/quiz/types';
 import { Scores } from '../scores';
 import styles from './styles.module.css';
 

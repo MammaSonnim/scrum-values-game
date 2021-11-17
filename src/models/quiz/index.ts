@@ -3,7 +3,7 @@ import { createDomain } from 'effector';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { attachLogger } from 'effector-logger/attach';
-import { IdT, TODO_ANY, DataT } from '../../types';
+import { IdT, DataT } from './types';
 import { quizData } from '../../data';
 import { ScoresT } from './types';
 
@@ -35,7 +35,7 @@ export const setCurrentQuestionId = Domain.createEvent<IdT>('SET_CURRENT_QUESTIO
 
 export const setCurrentAnswerId = Domain.createEvent<IdT>('SET_CURRENT_ANSWER_ID')
 export const selectAnswer = Domain.createEvent<IdT>('SELECT_ANSWER')
-export const selectAnswerFx = Domain.createEffect<IdT, TODO_ANY>('SELECT_ANSWER/FX');
+export const selectAnswerFx = Domain.createEffect<IdT, void, void>('SELECT_ANSWER/FX');
 
 export const setError = Domain.createEvent<string>('SET_ERROR')
 export const resetErrorFx = Domain.createEffect<string, void, void>('RESET_ERROR/FX');
@@ -55,8 +55,11 @@ export const $scores = Domain.createStore<ScoresT>({
 export const updateTotalScores = Domain.createEvent<ScoresT>('UPDATE_TOTAL_SCORES');
 export const updateTotalScoresFx = Domain.createEffect<ScoresT, void, void>('UPDATE_TOTAL_SCORES/FX');
 
+export const checkScores = Domain.createEvent<void>('CHECK_SCORES');
+export const checkScoresFx = Domain.createEffect<void, void, void>('CHECK_SCORES/FX');
+
 // COMMON
-export const resetQuizAndScores = Domain.createEvent<void>('RESET_QUIZ')
+export const restartGame = Domain.createEvent<void>('RESTART_GAME')
 
 // QUIZ DATA
 export const $data = Domain.createStore<DataT>(quizData)

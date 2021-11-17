@@ -4,30 +4,22 @@ import { useStore } from 'effector-react';
 import classnames from 'classnames/bind';
 import { getOr } from 'lodash/fp';
 import {
-  quizMapStateToProps,
-  quizMapDispatchToProps,
-} from '../../types';
-import {
   $quiz,
-  showGameOver,
-  resetQuizAndScores,
+  restartGame,
   $scores,
   selectAnswer,
   goToNextQuestion,
+  checkScores,
   $data,
 } from '../../models/quiz';
 import { Heading } from '../../components/heading';
 import { QA } from '../../components/qa';
 import { GameOver } from '../../components/game-over';
-import { calcIsNeedToGameOver } from '../../helpers';
 import styles from './styles.module.css';
 
 const cx = classnames.bind(styles);
 
-type Props = ReturnType<typeof quizMapStateToProps> &
-  ReturnType<typeof quizMapDispatchToProps>;
-
-export const Quiz: FC<Props> = () => {
+export const Quiz: FC = () => {
   const quiz = useStore($quiz);
   const {
     hasToShowAnswerScores,
@@ -43,10 +35,8 @@ export const Quiz: FC<Props> = () => {
   const { question, answers } = quizData[countableQuestionId];
 
   useEffect(() => {
-    if (!hasToShowAnswerScores && calcIsNeedToGameOver(scores)) {
-      showGameOver(true);
-    }
-  }, [scores, hasToShowAnswerScores, showGameOver]);
+    checkScores();
+  }, [hasToShowAnswerScores, checkScores]);
 
   const handleClickAnswer = useCallback(
     (e: MouseEvent) => {
@@ -62,8 +52,8 @@ export const Quiz: FC<Props> = () => {
   }, [goToNextQuestion]);
 
   const handleClickRestart = useCallback(() => {
-    resetQuizAndScores();
-  }, [resetQuizAndScores]);
+    restartGame();
+  }, [restartGame]);
 
   return (
     <div className={styles.root}>

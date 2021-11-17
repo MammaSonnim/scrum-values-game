@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { startCase, camelCase } from 'lodash';
-import { ScoresT } from '../../types';
+import { ScoresT } from '../../models/quiz/types';
 import styles from './styles.module.css';
 
 type Props = {

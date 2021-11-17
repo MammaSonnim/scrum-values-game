@@ -1,22 +1,22 @@
-import { IdT } from '../../types';
+export type IdT = string;
 
-export type QuestionType = {
+export type QuestionT = {
     id: IdT;
     title: string;
     text: string;
 };
 
-export type ScoreType = number;
+export type ScoreT = number;
 
 export type ScoresT = {
-    courage: ScoreType;
-    focus: ScoreType;
-    commitment: ScoreType;
-    respect: ScoreType;
-    opennes: ScoreType;
+    courage: ScoreT;
+    focus: ScoreT;
+    commitment: ScoreT;
+    respect: ScoreT;
+    opennes: ScoreT;
 };
 
-export type AnswerType = {
+export type AnswerT = {
     id: IdT;
     text: string;
     scores: ScoresT | null;
@@ -25,6 +25,6 @@ export type AnswerType = {
 };
 
 export type DataT = {
-    question: QuestionType;
-    answers: AnswerType[];
+    question: QuestionT;
+    answers: AnswerT[];
 }[];
