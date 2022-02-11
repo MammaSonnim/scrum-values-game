@@ -1,11 +1,11 @@
 import React, { FC, MouseEvent } from 'react';
-import { AnswerType, IdType } from '../../types';
+import { AnswerT, IdT } from '../../models/quiz/types';
 import { Answer } from '../answer';
 import styles from './styles.module.css';
 
 type Props = {
-  data: AnswerType[];
-  currentAnswerId: IdType;
+  data: AnswerT[];
+  currentAnswerId: IdT;
   hasToShowAnswerScores: boolean;
   onAnswerClick: (e: MouseEvent) => void;
 };

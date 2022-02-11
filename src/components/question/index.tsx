@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { QuestionType } from '../../types';
+import { QuestionT } from '../../models/quiz/types';
 import styles from './styles.module.css';
 
 type Props = {
-  data: QuestionType;
+  data: QuestionT;
 };
 
 export const Question: FC<Props> = ({ data }) => {

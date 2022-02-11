@@ -2,13 +2,13 @@ import React, { Fragment, FC, MouseEvent } from 'react';
 import classnames from 'classnames/bind';
 import { Scores } from '../scores';
 import { Warning } from '../warning';
-import { AnswerType } from '../../types';
+import { AnswerT } from '../../models/quiz/types';
 import styles from './styles.module.css';
 
 const cx = classnames.bind(styles);
 
 type Props = {
-  data: AnswerType;
+  data: AnswerT;
   isSelected: boolean;
   hasToShowAnswerScores: boolean;
   onAnswerClick: (e: MouseEvent) => void;
@@ -26,12 +26,13 @@ export const Answer: FC<Props> = ({
     <Fragment>
       <label
         data-id={id}
-        onClick={onAnswerClick}
         className={cx('answer', {
           'nes-text is-primary': isSelected
         })}
       >
         <input
+          onClick={onAnswerClick}
+          value={id}
           type="radio"
           className="nes-radio"
           name="answer"

@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent } from 'react';
 import classnames from 'classnames/bind';
-import { AnswerType, QuestionType, IdType } from '../../types';
+import { AnswerT, QuestionT, IdT } from '../../models/quiz/types';
 import { Progress } from '../progress';
 import { Question } from '../question';
 import { Answers } from '../answers';
@@ -12,10 +12,10 @@ const cx = classnames.bind(styles);
 
 type Props = {
   quizDataLength: number;
-  question: QuestionType;
-  answers: AnswerType[];
-  currentQuestionId: IdType;
-  currentAnswerId: IdType;
+  question: QuestionT;
+  answers: AnswerT[];
+  currentQuestionId: IdT;
+  currentAnswerId: IdT;
   error: string;
   hasToShowAnswerScores: boolean;
   onAnswerClick: (e: MouseEvent) => void;
