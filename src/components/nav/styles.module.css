@@ -1,0 +1,87 @@
+:root {
+  --nav-icon-width: 50px;
+  --nav-icon-heigth: 24px;
+}
+
+.nav {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  color: white
+}
+
+.list a {
+  display: block;
+  color: white;
+}
+
+.list a.active {
+  font-weight: bold;
+}
+
+.icon {
+  position: relative;
+  width: var(--nav-icon-width);
+  height: var(--nav-icon-heigth);
+  font-size: 0;
+  cursor: pointer;
+}
+
+.icon::before,
+.icon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--nav-icon-width);
+  height: 4px;
+  background-color: white;
+  transition: all 0.2s ease-in;
+}
+
+.icon::after {
+  top: 20px;
+  box-shadow: 0 -10px 0 0 white;
+}
+
+.nav_expanded .icon::before,
+.nav_expanded .icon::after {
+  top: -3px;
+  right: 10px;
+  width: 4px;
+  height: 30px;
+  transform: rotate(45deg);
+}
+
+.icon:hover::before,
+.icon:hover::after {
+  background-color: red;
+}
+
+.icon:hover::after {
+  box-shadow: 0 -10px 0 0 red;
+}
+
+.nav_expanded .icon:hover::before,
+.nav_expanded .icon:hover::after {
+  background-color: red;
+}
+
+.icon:active::before,
+.icon:active::after {
+  background-color: rgba(255, 0, 0, 0.3);
+}
+
+.icon:active::after {
+  box-shadow: 0 -10px 0 0 rgba(255, 0, 0, 0.3);
+}
+
+.nav_expanded .icon:active::before,
+.nav_expanded .icon:active::after {
+  background-color: rgba(255, 0, 0, 0.3);
+}
+
+.nav_expanded .icon::after {
+  transform: rotate(-45deg);
+}
+
