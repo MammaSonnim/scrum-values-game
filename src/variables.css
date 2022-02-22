@@ -1,5 +1,12 @@
-@value colorBg: #209cee;
-@value colorTxt: #212529;
-@value colorTxtPrimary: #209cee;
-@value colorTxtSuccess: #92cc41;
-@value colorTxtError: #e76e55;
+:root {
+  --color-white: #ffffff;
+  --color-black: #212529;
+  --color-blue: #209cee;
+  --color-green: #92cc41;
+  --color-red: #e76e55;
+
+  --color-default: var(--color-black);
+  --color-primary: var(--color-blue);
+  --color-success: var(--color-green);
+  --color-error: var(--color-red);
+}
