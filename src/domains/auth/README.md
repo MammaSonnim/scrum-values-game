@@ -7,11 +7,13 @@ Domain consists of:
 - `withAuthRedirect` hoc
 
 #### External deps
-- `userInfo` { isAuth }
+- `userInfo/$userInfo` { isAuth }
+- `ui/$isAppInitialized`
 
 #### Vocabulary
 - `isAuth` – person is authorized.
 - `!isAuth` – person is no authorized.
+- `isAppInitialized` – all necessary data is loaded
 
 ### `AuthInfo` module
 
@@ -22,10 +24,10 @@ Module is shown for all pages (TODO SVG-20 should hide it on AuthPage).
 ### `AuthPage`
 url `/login` (TODO SVG-21 move url to domain).
 - `!isAuth`: login form is shown. After login `UserInfo` is updated (+ TODO SVG-20 there is redirect to previous page).
-- `isAuth`: (TODO SVG-20 redirect to main page `/`)
+- `isAuth`: user is redirected to main page.
 
 ### `withAuthRedirect`
-- `!isAuth`: if any page is wrapped by hoc, user is redirected to `AuthPage`.
+- `!isAuth`: if any page is wrapped by hoc, user is redirected to `AuthPage` (if `isAppInitialized` true).
 Otherwise – user can visit any page not wrapped by `withAuthRedirect`.
 - `isAuth`: nothing happens.
 
