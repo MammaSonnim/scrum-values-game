@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { QuestionT } from '../../models/quiz/types';
+import { QuestionT } from '../../models/types';
 import styles from './styles.module.css';
 
 type Props = {

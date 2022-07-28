@@ -35,7 +35,11 @@ export const QuizPage: FC<Props> = ({
 
   const countableQuestionId = Number(currentQuestionId);
 
-  const { question, answers } = quizData[countableQuestionId];
+  const quizDataById = quizData[countableQuestionId];
+  const question = quizDataById?.question;
+  console.log('!!!13!!!', 13);
+  
+  const answers = quizDataById && quizDataById.answers;
 
   const handleClickAnswer = useCallback(
     (e: MouseEvent) => {
