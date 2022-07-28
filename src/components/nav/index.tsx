@@ -3,6 +3,21 @@ import { NavLink } from 'react-router-dom';
 import cn from 'classnames';
 import styles from './styles.module.css';
 
+const navItems = [
+  {
+    link: '/game',
+    title: 'Игра',
+  },
+  {
+    link: '/team',
+    title: 'Команда',
+  },
+  {
+    link: '/rating',
+    title: 'Рейтинг',
+  },
+];
+
 export const Nav: FC = () => {
   const [isExpanded, setExpand] = useState(false);
 
@@ -18,9 +33,18 @@ export const Nav: FC = () => {
     <div className={rootClasses}>
       {isExpanded && (
         <nav className={styles['list']}>
-          <NavLink exact activeClassName={styles.active} to='/game'>Игра</NavLink>
-          <NavLink exact activeClassName={styles.active} to='/team'>Команда</NavLink>
-          <NavLink exact activeClassName={styles.active} to='/rating'>Рейтинг</NavLink>
+          {navItems.map((item) => {
+            return (
+              <NavLink
+                key={item.link}
+                exact
+                activeClassName={styles.active}
+                to={item.link}
+              >
+                {item.title}
+              </NavLink>
+            )
+          })}
         </nav>
       )}
       <div className={styles['icon']} onClick={handleIconClick}>

@@ -152,6 +152,7 @@ goToNextQuestionFx.use(() => {
   } = $quiz.getState();
   const quizData = $data.getState();
 
+  // it is not questionId now, but index – do refactor
   const countableQuestionId = Number(currentQuestionId);
 
   setCurrentAnswerId('');

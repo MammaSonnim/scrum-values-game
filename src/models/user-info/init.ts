@@ -1,6 +1,7 @@
 import { forward } from 'effector';
 import { API_SUCCESS_RESULT_CODE } from '../../constants';
 import { requestUserInfo } from '../../api';
+import { setAppIsInitialized } from '../ui';
 import {
   getUserInfo,
   getUserInfoFx,
@@ -34,6 +35,8 @@ getUserInfoFx.done.watch(({ result }) => {
       id: String(id),
       isAuth: true,
     })
+
+    setAppIsInitialized(true);
   } else {
     setUserInfo({
       login: null,

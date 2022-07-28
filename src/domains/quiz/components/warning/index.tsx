@@ -20,7 +20,7 @@ export const Warning: FC<Props> = ({ warning, note }) => {
   }
 
   return (
-    <p className={cn('nes-text', 'is-error')}>
+    <div className={cn('nes-text', 'is-error')}>
       {warning}
       {note && (
         <Fragment>
@@ -40,6 +40,6 @@ export const Warning: FC<Props> = ({ warning, note }) => {
           </dialog>
         </Fragment>
       )}
-    </p>
+    </div>
   );
 };
