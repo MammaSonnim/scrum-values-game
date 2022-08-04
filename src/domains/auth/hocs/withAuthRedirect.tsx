@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useStore } from 'effector-react';
 import { $userInfo } from '../../../models/user-info';
 import { $isAppInitialized } from '../../../models/ui';
@@ -17,7 +17,7 @@ export const withAuthRedirect = <T, >(WrappedComponent: React.FC<T>) => {
     }
 
     if (!isAuth) {
-      return <Redirect to='/login'/>;
+      return <Navigate to='/login'/>;
     }
 
     return <WrappedComponent {...props as T} />;

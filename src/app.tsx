@@ -1,6 +1,6 @@
 import './models/init';
 import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import 'nes.css/css/nes.min.css';
 import './app.css';
@@ -14,7 +14,9 @@ import {
 import { Nav } from './components';
 import { getUserInfo } from './models/user-info';
 
-export const App = () => {
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export const App = ({ teamState }) => {
   const history = createBrowserHistory();
 
   useEffect(() => {
@@ -27,20 +29,12 @@ export const App = () => {
       <BrowserRouter>
         <Nav/>
         <AuthInfo/>
-        <Switch>
-          <Route path='/game' strict>
-            <Quiz/>
-          </Route>
-          <Route path='/login' strict>
-            <Auth/>
-          </Route>
-          <Route path='/team' strict>
-            <Team history={history}/>
-          </Route>
-          <Route path='/rating' strict>
-            <Rating history={history}/>
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path='/game' element={<Quiz/>} />
+          <Route path='/login' element={<Auth/> } />
+          <Route path='/team' element={<Team history={history} teamState={teamState}/>} />
+          <Route path='/rating' element={<Rating history={history}/>} />
+        </Routes>
       </BrowserRouter>
     </div>
   );

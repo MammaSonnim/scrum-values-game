@@ -5,7 +5,7 @@ import { compose } from 'lodash/fp';
 import { withFormik } from 'formik';
 import { $userInfo } from '../../models/user-info';
 import { AuthAppGate, loginUser, logoutUser, $loginState } from './models';
-import { AuthPage } from './authPage';
+import { AuthPage } from './page';
 import { FormValues, WithFormikProps } from './types';
 import { getFormikConfig } from './utils/getFormikConfig';
 

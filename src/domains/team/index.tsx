@@ -1,15 +1,26 @@
 import React, { FC } from 'react';
+import { compose } from 'lodash/fp';
 import { BrowserHistory } from 'history';
 import { withAuthRedirect } from '../../hocs';
+import { TeamPage } from './page';
+import { store } from './state';
 
 type Props = {
   history: BrowserHistory;
+  teamState: { name: string }
 }
 
-const TeamPage: FC<Props> = () => {
+export const Team: FC<Props> = ({ teamState }) => {
+  const PageWithHocs = compose(
+    withAuthRedirect
+  )(TeamPage)
+
   return (
-    <div>Команда</div>
+    <PageWithHocs
+      history={history}
+      teamState={teamState}
+      addTeamName={store.addTeamName.bind(store)}
+      changeName={store.changeName.bind(store)}
+    />
   );
 };
-
-export const Team = withAuthRedirect(TeamPage);

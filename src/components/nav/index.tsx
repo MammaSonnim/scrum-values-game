@@ -37,8 +37,7 @@ export const Nav: FC = () => {
             return (
               <NavLink
                 key={item.link}
-                exact
-                activeClassName={styles.active}
+                // activeClassName={styles.active}
                 to={item.link}
               >
                 {item.title}

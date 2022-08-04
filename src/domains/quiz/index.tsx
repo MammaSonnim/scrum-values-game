@@ -13,7 +13,7 @@ import {
   $data,
   QuizAppGate,
 } from './models';
-import { QuizPage } from './quiz';
+import { QuizPage } from './page';
 
 export const Quiz: FC = () => {
   useGate(QuizAppGate)

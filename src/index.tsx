@@ -1,10 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { App } from './app';
+import React from 'react';
+import { store } from './domains/team/state';
+import { TODO_ANY } from './types';
 
-ReactDOM.render(
-  <div>
-    <App/>
-  </div>,
-  document.getElementById('root'),
-);
+const root = createRoot(document.getElementById('root') as Element);
+
+export const rerenderDom = () => {
+  root.render(
+    <div>
+      <App teamState={store.getState().teamState}/>
+    </div>
+  );
+};
+
+
+rerenderDom();
+store.subscribe(rerenderDom);

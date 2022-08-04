@@ -3,7 +3,7 @@ import { FormikProps, Form, Field } from 'formik';
 import { UserInfoT } from '../../models/user-info/types';
 import { FormValues } from './types';
 import styles from './styles.module.css';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { LoginStateT } from './models/types';
 
 type PageProps = {
@@ -21,7 +21,7 @@ export const AuthPage = ({
   const { isAuth } = userInfo;
 
   if (isAuth) {
-    return <Redirect to='/'/>;
+    return <Navigate to='/'/>;
   }
 
   const { errors: commonErrors, isProcessing } = loginState;

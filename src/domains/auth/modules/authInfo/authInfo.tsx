@@ -38,7 +38,7 @@ export const AuthInfoModule: FC<Props> = ({
           </p>
         </Fragment>
       ) : (
-        <NavLink exact to='/login'>Войти</NavLink>
+        <NavLink to='/login'>Войти</NavLink>
       )}
     </div>
   )
