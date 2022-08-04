@@ -3,6 +3,7 @@ import { BrowserHistory } from 'history';
 import { getOr } from 'lodash/fp';
 import { Button } from '../../components';
 import { TODO_ANY } from '../../types';
+import { addTeamNameAC, changeTeamNameAC } from './state';
 
 type Props = {
   history: BrowserHistory;
@@ -21,13 +22,13 @@ export const TeamPage: FC<Props> = ({ teamState, dispatch }) => {
     () => {
       const value = getOr('', ['current', 'value'], teamInput)
 
-      dispatch({ type: 'CHANGE_NAME', payload: value });
+      dispatch(changeTeamNameAC(value));
     },[dispatch]
   )
 
   const submitTeam = useCallback(
     () => {
-      dispatch({ type: 'ADD_TEAM_NAME' });
+      dispatch(addTeamNameAC());
     },
     [dispatch],
   );
