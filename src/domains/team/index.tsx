@@ -19,8 +19,7 @@ export const Team: FC<Props> = ({ teamState }) => {
     <PageWithHocs
       history={history}
       teamState={teamState}
-      addTeamName={store.addTeamName.bind(store)}
-      changeName={store.changeName.bind(store)}
+      dispatch={store.dispatch.bind(store)}
     />
   );
 };

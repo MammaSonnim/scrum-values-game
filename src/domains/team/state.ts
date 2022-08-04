@@ -17,20 +17,23 @@ export const store = {
   subscribe (observer: () => void) {
     this._callSubscriber = observer;
   },
-  changeName (s: string) {
-    // eslint-disable-next-line no-debugger
-    const teamState = this.getState().teamState;
-    teamState.name = s;
+  dispatch (action: { type: string, payload: TODO_ANY }) {
+    const { teamState } = this._state;
+    switch (action.type) {
+      case 'CHANGE_NAME':
+        teamState.name = action.payload;
 
-    this._callSubscriber(this.getState());
-  },
-  addTeamName () {
-    const teamState = this.getState().teamState;
+        this._callSubscriber(this.getState());
 
-    teamState.names.push(teamState.name);
-    this.changeName('');
+        break;
+      case 'ADD_TEAM_NAME':
+        teamState.names.push(teamState.name);
+        this.dispatch({ type: 'CHANGE_NAME', payload: '' })
 
-    this._callSubscriber(this.getState());
+        this._callSubscriber(this.getState());
+
+        break;
+    }
   }
 }
 

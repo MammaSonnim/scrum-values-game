@@ -2,15 +2,18 @@ import React, { FC, useRef, useCallback } from 'react';
 import { BrowserHistory } from 'history';
 import { getOr } from 'lodash/fp';
 import { Button } from '../../components';
+import { TODO_ANY } from '../../types';
 
 type Props = {
   history: BrowserHistory;
   teamState: { names: string[], name: string };
-  addTeamName: () => void;
-  changeName: (s: string) => void;
+  dispatch: (action: {
+    type: string;
+    payload?: TODO_ANY;
+  }) => void;
 }
 
-export const TeamPage: FC<Props> = ({ teamState, addTeamName, changeName }) => {
+export const TeamPage: FC<Props> = ({ teamState, dispatch }) => {
   const teamInput = useRef(null);
   const { names, name } = teamState;
 
@@ -18,17 +21,15 @@ export const TeamPage: FC<Props> = ({ teamState, addTeamName, changeName }) => {
     () => {
       const value = getOr('', ['current', 'value'], teamInput)
 
-      changeName(value);
-    },[changeName]
+      dispatch({ type: 'CHANGE_NAME', payload: value });
+    },[dispatch]
   )
 
   const submitTeam = useCallback(
     () => {
-      addTeamName();
-      console.log('!!!teamState!!!', teamState);
-
+      dispatch({ type: 'ADD_TEAM_NAME' });
     },
-    [addTeamName],
+    [dispatch],
   );
 
   return (
