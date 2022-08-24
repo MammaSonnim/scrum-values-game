@@ -4,6 +4,23 @@ const CHANGE_TEAM_NAME = 'CHANGE_TEAM_NAME';
 const ADD_TEAM_NAME = 'ADD_TEAM_NAME';
 
 // playground for redux-arch
+export const teamReducer = (teamState: TODO_ANY, action: TODO_ANY) => {
+  switch (action.type) {
+    case CHANGE_TEAM_NAME:
+      teamState.name = action.payload;
+
+      return teamState;
+    case ADD_TEAM_NAME:
+      teamState.names.push(teamState.name);
+      teamState.name = '';
+
+      return teamState
+
+    default:
+      return teamState;
+  }
+}
+
 export const store = {
   _state: {
     teamState: {
@@ -21,22 +38,10 @@ export const store = {
     this._callSubscriber = observer;
   },
   dispatch (action: { type: string, payload: TODO_ANY }) {
-    const { teamState } = this._state;
-    switch (action.type) {
-      case CHANGE_TEAM_NAME:
-        teamState.name = action.payload;
+    const state = this.getState();
+    this._state.teamState = teamReducer(state.teamState, action);
 
-        this._callSubscriber(this.getState());
-
-        break;
-      case ADD_TEAM_NAME:
-        teamState.names.push(teamState.name);
-        this.dispatch({ type: 'CHANGE_NAME', payload: '' })
-
-        this._callSubscriber(this.getState());
-
-        break;
-    }
+    this._callSubscriber(state);
   }
 }
 
