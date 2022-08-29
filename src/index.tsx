@@ -1,14 +1,14 @@
 import { createRoot } from 'react-dom/client';
+import { store } from './domains/team/store';
 import { App } from './app';
 import React from 'react';
-import { store } from './domains/team/state';
 
 const root = createRoot(document.getElementById('root') as Element);
 
 export const rerenderDom = () => {
   root.render(
     <div>
-      <App teamState={store.getState().teamState}/>
+      <App store={store}/>
     </div>
   );
 };

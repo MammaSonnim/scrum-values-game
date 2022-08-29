@@ -6,7 +6,7 @@ import { withFormik } from 'formik';
 import { $userInfo } from '../../models/user-info';
 import { AuthAppGate, loginUser, logoutUser, $loginState } from './models';
 import { AuthPage } from './page';
-import { FormValues, WithFormikProps } from './types';
+import { FormValuesT, WithFormikPropsT } from './types';
 import { getFormikConfig } from './utils/getFormikConfig';
 
 export { AuthInfo } from './modules/authInfo';
@@ -19,7 +19,7 @@ export const Auth: FC = () => {
   const { email } = userInfo;
 
   const PageWithHocs = compose(
-    withFormik<WithFormikProps, FormValues>(getFormikConfig(loginUser)),
+    withFormik<WithFormikPropsT, FormValuesT>(getFormikConfig(loginUser)),
   )(AuthPage)
 
   return (

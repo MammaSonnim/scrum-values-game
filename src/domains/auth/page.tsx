@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormikProps, Form, Field } from 'formik';
 import { UserInfoT } from '../../models/user-info/types';
-import { FormValues } from './types';
+import { FormValuesT } from './types';
 import styles from './styles.module.css';
 import { Navigate } from 'react-router-dom';
 import { LoginStateT } from './models/types';
@@ -17,7 +17,7 @@ export const AuthPage = ({
   touched,
   errors,
   isSubmitting,
-}: PageProps & FormikProps<FormValues>) => {
+}: PageProps & FormikProps<FormValuesT>) => {
   const { isAuth } = userInfo;
 
   if (isAuth) {

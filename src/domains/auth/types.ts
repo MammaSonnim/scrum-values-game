@@ -1,8 +1,8 @@
-export type FormValues = {
+export type FormValuesT = {
   email: string
   password: string
 }
 
-export type WithFormikProps = {
+export type WithFormikPropsT = {
   initialEmail?: string
 }
