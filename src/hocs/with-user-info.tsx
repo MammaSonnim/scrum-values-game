@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useStore } from 'effector-react';
-import { $userInfo, getUserInfo } from '../models/user-info';
+import { $userInfo, getUserInfo } from '../models/userInfo';
 
 export const withUserInfo = <T, >(WrappedComponent: React.FC<T>) => {
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';

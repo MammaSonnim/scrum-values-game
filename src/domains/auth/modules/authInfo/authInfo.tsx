@@ -1,5 +1,5 @@
 import React, { FC, Fragment, useCallback } from 'react';
-import { UserInfoT } from '../../../../models/user-info/types';
+import { UserInfoT } from '../../../../models/userInfo/types';
 import { Event } from 'effector';
 import { NavLink } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ export const AuthInfoModule: FC<Props> = ({
     () => {
       logoutUser();
     },
-    [logoutUser],
+    [logoutUser]
   );
 
 

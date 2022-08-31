@@ -1,7 +1,7 @@
 import '../../models/init';
 import React, { FC } from 'react';
 import { useStore } from 'effector-react';
-import { $userInfo } from '../../../../models/user-info';
+import { $userInfo } from '../../../../models/userInfo';
 import { AuthInfoModule } from './authInfo';
 import { logoutUser } from '../../models';
 

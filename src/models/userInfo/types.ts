@@ -1,6 +1,6 @@
 import {
   API_SUCCESS_RESULT_CODE,
-  API_FAILED_RESULT_CODE
+  API_FAILED_RESULT_CODE,
 } from '../../constants';
 
 export type UserInfoT = {

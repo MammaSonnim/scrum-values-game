@@ -5,7 +5,7 @@ const stubbedTotalScores = {
   focus: 2,
   commitment: 3,
   respect: 4,
-  opennes: 5
+  opennes: 5,
 };
 
 const stubbedAnswerScores = {
@@ -13,18 +13,19 @@ const stubbedAnswerScores = {
   focus: 4,
   commitment: 3,
   respect: 0,
-  opennes: 1
+  opennes: 1,
 };
 
 describe('calcTotalScores', () => {
   it('should sum prev total scores and answer scores', () => {
     const result = calcTotalScores(stubbedTotalScores, stubbedAnswerScores);
+
     expect(result).toEqual({
       courage: -4,
       focus: 6,
       commitment: 6,
       respect: 4,
-      opennes: 6
+      opennes: 6,
     });
   });
 });

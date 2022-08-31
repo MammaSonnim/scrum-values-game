@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useStore } from 'effector-react';
-import { $userInfo } from '../../../models/user-info';
+import { $userInfo } from '../../../models/userInfo';
 import { $isAppInitialized } from '../../../models/ui';
 
 export const withAuthRedirect = <T, >(WrappedComponent: React.FC<T>) => {
@@ -27,4 +27,3 @@ export const withAuthRedirect = <T, >(WrappedComponent: React.FC<T>) => {
 
   return ContainerComponent;
 }
-

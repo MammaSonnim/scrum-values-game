@@ -170,7 +170,6 @@ goToNextQuestionFx.use(() => {
 
 QuizAppGate.open.watch((payload) => {
   return payload;
-
 });
 
 QuizAppGate.close.watch((payload) => {

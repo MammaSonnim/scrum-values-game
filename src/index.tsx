@@ -5,7 +5,7 @@ import React from 'react';
 
 const root = createRoot(document.getElementById('root') as Element);
 
-export const rerenderDom = () => {
+export const renderDom = () => {
   root.render(
     <div>
       <App store={store}/>
@@ -14,5 +14,4 @@ export const rerenderDom = () => {
 };
 
 
-rerenderDom();
-store.subscribe(rerenderDom);
+renderDom();

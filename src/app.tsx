@@ -2,6 +2,7 @@ import './models/init';
 import React, { useEffect } from 'react';
 import { Store } from 'redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import 'nes.css/css/nes.min.css';
 import './app.css';
@@ -10,11 +11,10 @@ import {
   Team,
   Rating,
   Auth,
-  AuthInfo
+  AuthInfo,
 } from './domains';
-import { StoreContext } from './context/store';
 import { Nav } from './components';
-import { getUserInfo } from './models/user-info';
+import { getUserInfo } from './models/userInfo';
 
 export const App = ({ store }: { store: Store }) => {
   const history = createBrowserHistory();
@@ -27,7 +27,7 @@ export const App = ({ store }: { store: Store }) => {
   return (
     <div className='app'>
       <BrowserRouter>
-        <StoreContext.Provider value={store}>
+        <Provider store={store}>
           <Nav/>
           <AuthInfo/>
           <Routes>
@@ -36,7 +36,7 @@ export const App = ({ store }: { store: Store }) => {
             <Route path='/team' element={<Team store={store} history={history}/>} />
             <Route path='/rating' element={<Rating history={history}/>} />
           </Routes>
-        </StoreContext.Provider>
+        </Provider>
       </BrowserRouter>
     </div>
   );

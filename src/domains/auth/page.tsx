@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormikProps, Form, Field } from 'formik';
-import { UserInfoT } from '../../models/user-info/types';
+import { UserInfoT } from '../../models/userInfo/types';
 import { FormValuesT } from './types';
 import styles from './styles.module.css';
 import { Navigate } from 'react-router-dom';

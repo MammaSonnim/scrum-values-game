@@ -27,7 +27,7 @@ export const TeamPage: FC<Props> = ({ teamState, onChangeTeamName, onAddTeamName
     () => {
       onAddTeamName();
     },
-    [],
+    []
   );
 
   return (

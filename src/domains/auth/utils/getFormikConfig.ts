@@ -14,6 +14,7 @@ export const getFormikConfig = (loginUser: Event<LoginUserRequestT>) => {
 
     validate: (values: FormValuesT) => {
       const errors: FormikErrors<FormValuesT> = {};
+
       if (!values.email) {
         errors.email = 'Required';
       }

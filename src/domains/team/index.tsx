@@ -1,45 +1,44 @@
 import React, { FC } from 'react';
-import { Store } from 'redux';
+import { Dispatch, Store } from 'redux';
+import { connect } from 'react-redux';
 import { compose } from 'lodash/fp';
 import { BrowserHistory } from 'history';
 import { withAuthRedirect } from '../../hocs';
 import { TeamPage } from './page';
 import { addTeamNameAC, changeTeamNameAC } from './ducks';
-import { StoreContext } from '../../context/store';
+import { StateT } from './types';
 
 type Props = {
   history: BrowserHistory;
-  store: Store
+  store: Store;
 }
+
+const mapStateToProps = (state: StateT) => {
+  return {
+    teamState: state.teamState,
+  }
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    onChangeTeamName: (value: string) => {
+      dispatch(changeTeamNameAC(value));
+    },
+    onAddTeamName: () => {
+      dispatch(addTeamNameAC());
+    },
+  }
+};
 
 export const Team: FC<Props> = () => {
   const PageWithHocs = compose(
-    withAuthRedirect
+    withAuthRedirect,
+    connect(mapStateToProps, mapDispatchToProps)
   )(TeamPage)
 
   return (
-    <StoreContext.Consumer>
-      {store => {
-          const changeTeamName = (value: string) => {
-            store.dispatch(changeTeamNameAC(value));
-          }
-        
-          const addTeamName = () => {
-            store.dispatch(addTeamNameAC());
-          }
-
-        return (
-          (
-            <PageWithHocs
-            history={history}
-            teamState={store.getState().teamState}
-            onChangeTeamName={changeTeamName}
-            onAddTeamName={addTeamName}
-          />
-          )
-        )
-      }}
-    </StoreContext.Consumer>
-    
+    <PageWithHocs
+      history={history}
+    />
   );
 };

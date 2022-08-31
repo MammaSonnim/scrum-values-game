@@ -5,7 +5,7 @@ export const quizData = [
       title: 'Команда разработки саботирует ежедневный скрам',
       text:
         'Команда приходит на Ежедневный Скрам и рассказывает друг другу стихи, поёт песни и всё не про работу. Что сделали бы вы как Скрам-команда?',
-      example: null
+      example: null,
     },
     answers: [
       {
@@ -16,10 +16,10 @@ export const quizData = [
           focus: 1,
           commitment: -3,
           respect: -2,
-          opennes: -2
+          opennes: -2,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '2',
@@ -27,7 +27,7 @@ export const quizData = [
         scores: null,
         warning: 'Проблема не в этом!',
         note:
-          'Данный ответ никак не решает проблему. Состояние ценностей не поменялось. Обсудите эту ситуацию с командой и двигайтесь дальше по игре'
+          'Данный ответ никак не решает проблему. Состояние ценностей не поменялось. Обсудите эту ситуацию с командой и двигайтесь дальше по игре',
       },
       {
         id: '3',
@@ -38,10 +38,10 @@ export const quizData = [
           focus: 2,
           commitment: -1,
           respect: 0,
-          opennes: -1
+          opennes: -1,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '4',
@@ -52,10 +52,10 @@ export const quizData = [
           focus: 2,
           commitment: 1,
           respect: 0,
-          opennes: 0
+          opennes: 0,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '5',
@@ -66,12 +66,12 @@ export const quizData = [
           focus: -2,
           commitment: -2,
           respect: -2,
-          opennes: -2
+          opennes: -2,
         },
         warning: 'Противоречит руководству по Скраму. -2 все Ценности',
-        note: null
-      }
-    ]
+        note: null,
+      },
+    ],
   },
   {
     question: {
@@ -79,7 +79,7 @@ export const quizData = [
       title: 'В оценке задач участвует не вся команда',
       text:
         'Часть команды не хочет участвовать в оценке задач, т.к. не имеют соответствующих знаний.',
-      example: 'Например: в Беклоге Продукта 80% фронтенд-задач'
+      example: 'Например: в Беклоге Продукта 80% фронтенд-задач',
     },
     answers: [
       {
@@ -90,10 +90,10 @@ export const quizData = [
           focus: -1,
           commitment: 0,
           respect: 0,
-          opennes: 1
+          opennes: 1,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '2',
@@ -103,10 +103,10 @@ export const quizData = [
           focus: -2,
           commitment: -3,
           respect: 0,
-          opennes: -2
+          opennes: -2,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '3',
@@ -116,10 +116,10 @@ export const quizData = [
           focus: -3,
           commitment: -2,
           respect: 0,
-          opennes: 0
+          opennes: 0,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '4',
@@ -130,12 +130,12 @@ export const quizData = [
           focus: 3,
           commitment: 3,
           respect: 0,
-          opennes: 0
+          opennes: 0,
         },
         warning: null,
-        note: null
-      }
-    ]
+        note: null,
+      },
+    ],
   },
   {
     question: {
@@ -144,7 +144,7 @@ export const quizData = [
       text:
         'Цель спринта не формулируется из-за того, что в Беклоге продукта разноплановые требования, равнозначные по приоритету.',
       example:
-        'Например: продуктовая и техническая функциональность, которую можно сделать за спринт, непредсказуемые баги и время на их починку. Что бы вы делали как Владелец Продукта?'
+        'Например: продуктовая и техническая функциональность, которую можно сделать за спринт, непредсказуемые баги и время на их починку. Что бы вы делали как Владелец Продукта?',
     },
     answers: [
       {
@@ -155,10 +155,10 @@ export const quizData = [
           focus: 1,
           commitment: 3,
           respect: 0,
-          opennes: 0
+          opennes: 0,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '2',
@@ -168,10 +168,10 @@ export const quizData = [
           focus: 1,
           commitment: 2,
           respect: 0,
-          opennes: 0
+          opennes: 0,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '3',
@@ -182,10 +182,10 @@ export const quizData = [
           focus: 2,
           commitment: 0,
           respect: 0,
-          opennes: 0
+          opennes: 0,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '4',
@@ -196,12 +196,12 @@ export const quizData = [
           focus: 2,
           commitment: 3,
           respect: 0,
-          opennes: 1
+          opennes: 1,
         },
         warning: null,
-        note: null
-      }
-    ]
+        note: null,
+      },
+    ],
   },
   {
     question: {
@@ -209,7 +209,7 @@ export const quizData = [
       title: 'Владелец Продукта не взаимодействует с рынком',
       text:
         'Владелец Продукта приглашает на Обзор Спринта всех бизнес-заказчиков, но не приглашает конечных пользователей. Обзор Спринта превратился в отчётную встречу. Владельцу продукта не хватает смелости изменить ситуацию даже после обсуждения с командой. Что бы вы делали как Скрам-мастер?',
-      example: null
+      example: null,
     },
     answers: [
       {
@@ -218,7 +218,7 @@ export const quizData = [
         scores: null,
         warning: 'Скрам-команда перестала существовать',
         note:
-          'Обсудите с группой причины и последствия. Выберите новую карточку команды.'
+          'Обсудите с группой причины и последствия. Выберите новую карточку команды.',
       },
       {
         id: '2',
@@ -229,10 +229,10 @@ export const quizData = [
           focus: 0,
           commitment: -1,
           respect: -2,
-          opennes: -3
+          opennes: -3,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '3',
@@ -243,10 +243,10 @@ export const quizData = [
           focus: 0,
           commitment: 2,
           respect: -1,
-          opennes: 1
+          opennes: 1,
         },
         warning: null,
-        note: null
+        note: null,
       },
       {
         id: '4',
@@ -257,11 +257,11 @@ export const quizData = [
           focus: 0,
           commitment: 0,
           respect: 2,
-          opennes: 1
+          opennes: 1,
         },
         warning: null,
-        note: null
-      }
-    ]
-  }
+        note: null,
+      },
+    ],
+  },
 ];

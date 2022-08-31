@@ -1,5 +1,5 @@
 import { forward } from 'effector';
-import { getUserInfo } from '../../../models/user-info';
+import { getUserInfo } from '../../../models/userInfo';
 import { requestLoginUser, requestLogoutUser } from '../api';
 import {
   $loginState,
@@ -17,7 +17,7 @@ import {
 $loginState.on(setLoginState, (prevState, payload) => {
   return {
     ...prevState,
-    ...payload
+    ...payload,
   };
 });
 
@@ -30,19 +30,20 @@ loginUserFx.use(async (params) => {
   setLoginState({
     errors: [],
     isProcessing: true,
-    resultCode: null
+    resultCode: null,
   })
+
   return await requestLoginUser(params);
 });
 
 loginUserFx.done.watch(({ result }) => {
-    setLoginState({
-      errors: result.messages,
-      isProcessing: false,
-      resultCode: result.resultCode,
-    })
+  setLoginState({
+    errors: result.messages,
+    isProcessing: false,
+    resultCode: result.resultCode,
+  })
 
-    getUserInfo();
+  getUserInfo();
 });
 
 loginUserFx.fail.watch(({ error }) => {
@@ -73,13 +74,13 @@ logoutUserFx.use(async () => {
 });
 
 logoutUserFx.done.watch(({ result }) => {
-    setLogoutState({
-      errors: result.messages,
-      isProcessing: false,
-      resultCode: result.resultCode,
-    })
+  setLogoutState({
+    errors: result.messages,
+    isProcessing: false,
+    resultCode: result.resultCode,
+  })
 
-    getUserInfo();
+  getUserInfo();
 });
 
 logoutUserFx.fail.watch(({ error }) => {
@@ -89,7 +90,6 @@ logoutUserFx.fail.watch(({ error }) => {
 // GATES
 AuthAppGate.open.watch((payload) => {
   return payload;
-
 });
 
 AuthAppGate.close.watch((payload) => {
