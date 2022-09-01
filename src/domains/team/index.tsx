@@ -3,7 +3,7 @@ import { Dispatch, Store } from 'redux';
 import { connect } from 'react-redux';
 import { compose } from 'lodash/fp';
 import { BrowserHistory } from 'history';
-import { withAuthRedirect } from '../../hocs';
+import { withAuthRedirect, withUserInfo } from '../../hocs';
 import { TeamPage } from './page';
 import { addTeamNameAC, changeTeamNameAC } from './ducks';
 import { StateT } from './types';
@@ -33,6 +33,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 export const Team: FC<Props> = () => {
   const PageWithHocs = compose(
     withAuthRedirect,
+    withUserInfo,
     connect(mapStateToProps, mapDispatchToProps)
   )(TeamPage)
 

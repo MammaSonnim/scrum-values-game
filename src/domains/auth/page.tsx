@@ -7,8 +7,8 @@ import { Navigate } from 'react-router-dom';
 import { LoginStateT } from './models/types';
 
 type PageProps = {
-  userInfo: UserInfoT
-  loginState: LoginStateT
+  userInfo: UserInfoT;
+  loginState: LoginStateT;
 };
 
 export const AuthPage = ({

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { BrowserHistory } from 'history';
 
 type Props = {
-  history: BrowserHistory
+  history: BrowserHistory;
 }
 
 export const Rating: FC<Props> = () => {
