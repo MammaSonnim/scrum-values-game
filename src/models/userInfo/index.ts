@@ -14,6 +14,8 @@ export const $userInfo = Domain.createStore<UserInfoT>({
   email: null,
   id: null,
   isAuth: false,
+  isCreator: true,
+  avatarSrc: 'https://emojio.ru/images/apple-b/1f984.png',
 });
 
 export const getUserInfo = Domain.createEvent<void>('GET_USER_INFO');

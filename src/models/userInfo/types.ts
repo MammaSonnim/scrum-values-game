@@ -9,6 +9,7 @@ export type UserInfoT = {
   id?: string | null;
   isAuth?: boolean;
   isCreator?: boolean;
+  avatarSrc?: string;
 }
 
 export type getUserInfoResponseT = {

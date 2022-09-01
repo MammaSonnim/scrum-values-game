@@ -33,7 +33,7 @@ export const App = ({ store }: { store: Store }) => {
           <Routes>
             <Route path='/game' element={<Quiz/>} />
             <Route path='/login' element={<Auth/> } />
-            <Route path='/team' element={<Team store={store} history={history}/>} />
+            <Route path='/team' element={<Team history={history}/>} />
             <Route path='/rating' element={<Rating history={history}/>} />
           </Routes>
         </Provider>

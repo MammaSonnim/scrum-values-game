@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Dispatch, Store } from 'redux';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { compose } from 'lodash/fp';
 import { BrowserHistory } from 'history';
@@ -10,7 +10,6 @@ import { StateT } from './types';
 
 type Props = {
   history: BrowserHistory;
-  store: Store;
 }
 
 const mapStateToProps = (state: StateT) => {
@@ -30,7 +29,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   }
 };
 
-export const Team: FC<Props> = () => {
+export const Team: FC<Props> = ({ history }) => {
   const PageWithHocs = compose(
     withAuthRedirect,
     withUserInfo,
