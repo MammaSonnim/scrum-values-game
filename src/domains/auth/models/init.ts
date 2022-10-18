@@ -1,5 +1,6 @@
 import { forward } from 'effector';
-import { getUserInfo } from '../../../models/user-info';
+import { ErrorMessage } from 'formik';
+import { getUserInfo } from '../../../models/userInfo';
 import { requestLoginUser, requestLogoutUser } from '../api';
 import {
   $loginState,
@@ -17,7 +18,7 @@ import {
 $loginState.on(setLoginState, (prevState, payload) => {
   return {
     ...prevState,
-    ...payload
+    ...payload,
   };
 });
 
@@ -28,25 +29,30 @@ forward({
 
 loginUserFx.use(async (params) => {
   setLoginState({
-    errors: [],
     isProcessing: true,
-    resultCode: null
-  })
+    resultCode: null,
+  });
+
   return await requestLoginUser(params);
 });
 
 loginUserFx.done.watch(({ result }) => {
-    setLoginState({
-      errors: result.messages,
-      isProcessing: false,
-      resultCode: result.resultCode,
-    })
+  setLoginState({
+    isProcessing: false,
+    resultCode: result.resultCode,
+  });
 
-    getUserInfo();
+  getUserInfo();
 });
 
 loginUserFx.fail.watch(({ error }) => {
-  console.info('Login failed', error);
+  console.info('🦆 Login failed', error);
+
+  setLoginState({
+    isProcessing: false,
+    resultCode: null,
+    errors: ['🦆 Login failed'],
+  });
 });
 
 // LOGOUT
@@ -64,32 +70,35 @@ forward({
 
 logoutUserFx.use(async () => {
   setLogoutState({
-    errors: [],
     isProcessing: true,
     resultCode: null,
-  })
+  });
 
   return await requestLogoutUser();
 });
 
 logoutUserFx.done.watch(({ result }) => {
-    setLogoutState({
-      errors: result.messages,
-      isProcessing: false,
-      resultCode: result.resultCode,
-    })
+  setLogoutState({
+    isProcessing: false,
+    resultCode: result.resultCode,
+  });
 
-    getUserInfo();
+  getUserInfo();
 });
 
 logoutUserFx.fail.watch(({ error }) => {
-  console.info('Logout failed', error);
+  console.info('🦆 Logout failed', error);
+
+  setLogoutState({
+    isProcessing: false,
+    resultCode: null,
+    error: `🦆 Logout failed ${error}`,
+  });
 });
 
 // GATES
 AuthAppGate.open.watch((payload) => {
   return payload;
-
 });
 
 AuthAppGate.close.watch((payload) => {

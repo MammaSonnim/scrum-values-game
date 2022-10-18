@@ -41,7 +41,7 @@ export const QA: FC<Props> = ({
         />
       </div>
       <div className={styles.row}>
-        <Question data={question}/>
+        <Question data={question} />
       </div>
       <div className={styles.row}>
         <Answers
@@ -54,12 +54,11 @@ export const QA: FC<Props> = ({
       <div className={cn(styles.row, { [styles['row_with-cols']]: error })}>
         {isAnswerScoresVisible ? (
           <Button onClick={onNextClick}>Следующий вопрос</Button>
-
         ) : (
           <Button onClick={onShowScoresClick}>Показать ответ</Button>
         )}
         <span className={cn({ [styles.col]: error })}>
-          <Error error={error}/>
+          <Error error={error} />
         </span>
       </div>
     </div>

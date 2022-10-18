@@ -1,10 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
+import { store } from './domains/team/store';
 import { App } from './app';
+import React from 'react';
 
-ReactDOM.render(
-  <div>
-    <App/>
-  </div>,
-  document.getElementById('root'),
-);
+const root = createRoot(document.getElementById('root') as Element);
+
+export const renderDom = () => {
+  root.render(
+    <div>
+      <App store={store} />
+    </div>
+  );
+};
+
+renderDom();

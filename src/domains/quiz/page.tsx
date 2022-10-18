@@ -1,20 +1,20 @@
-import React, { FC, MouseEvent, useCallback } from 'react';
+import React, { FC, MouseEvent, useCallback, useEffect } from 'react';
 import cn from 'classnames';
 import { getOr } from 'lodash/fp';
 import { Event } from 'effector';
-import { ScoresT, QuizT, DataT, IdT } from './models/types';
+import { ScoresT, QuizT, DataT, IdT, QuestionT } from './models/types';
 import { Heading, QA, GameOver } from './components';
 import styles from './styles.module.css';
 
 type Props = {
-  quiz: QuizT,
-  scores: ScoresT
-  quizData: DataT,
-  restartGame: Event<void>,
-  selectAnswer: Event<IdT>,
-  showAnswerScores: Event<void>,
-  goToNextQuestion: Event<void>,
-}
+  quiz: QuizT;
+  scores: ScoresT;
+  quizData: DataT;
+  restartGame: Event<void>;
+  selectAnswer: Event<IdT>;
+  showAnswerScores: Event<void>;
+  goToNextQuestion: Event<void>;
+};
 
 export const QuizPage: FC<Props> = ({
   quiz,
@@ -34,8 +34,9 @@ export const QuizPage: FC<Props> = ({
   } = quiz;
 
   const countableQuestionId = Number(currentQuestionId);
-
-  const { question, answers } = quizData[countableQuestionId];
+  const quizDataById = quizData[countableQuestionId];
+  const question = getOr({} as QuestionT, ['question'], quizDataById);
+  const answers = getOr([], ['answers'], quizDataById);
 
   const handleClickAnswer = useCallback(
     (e: MouseEvent) => {

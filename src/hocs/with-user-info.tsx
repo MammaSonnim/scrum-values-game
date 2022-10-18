@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useStore } from 'effector-react';
-import { $userInfo, getUserInfo } from '../models/user-info';
+import { $userInfo, getUserInfo } from '../models/userInfo';
 
-export const withUserInfo = <T, >(WrappedComponent: React.FC<T>) => {
-  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+export const withUserInfo = <T,>(WrappedComponent: React.FC<T>) => {
+  const displayName =
+    WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
   const ContainerComponent = (props: T) => {
     const userInfo = useStore($userInfo);
@@ -13,12 +14,12 @@ export const withUserInfo = <T, >(WrappedComponent: React.FC<T>) => {
       if (!isAuth) {
         getUserInfo();
       }
-    }, [isAuth])
+    }, [isAuth]);
 
-    return <WrappedComponent userInfo={userInfo} {...props as T} />;
+    return <WrappedComponent userInfo={userInfo} {...(props as T)} />;
   };
 
   ContainerComponent.displayName = displayName;
 
   return ContainerComponent;
-}
+};

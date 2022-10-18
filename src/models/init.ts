@@ -1,1 +1,2 @@
-import './user-info/init';
+import './userInfo/init';
+import './ui/init';

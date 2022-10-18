@@ -1,12 +1,8 @@
 import { forward } from 'effector';
 import { API_SUCCESS_RESULT_CODE } from '../../constants';
-import { requestUserInfo } from '../../api';
-import {
-  getUserInfo,
-  getUserInfoFx,
-  $userInfo,
-  setUserInfo,
-} from './index';
+import { setAppIsInitialized } from '../ui';
+import { requestUserInfo } from './api';
+import { getUserInfo, getUserInfoFx, $userInfo, setUserInfo } from './index';
 
 $userInfo.on(setUserInfo, (prevState, payload) => {
   return {
@@ -25,7 +21,7 @@ getUserInfoFx.use(async () => {
 });
 
 getUserInfoFx.done.watch(({ result }) => {
-  if (result.resultCode === API_SUCCESS_RESULT_CODE ) {
+  if (result.resultCode === API_SUCCESS_RESULT_CODE) {
     const { login, email, id } = result.data;
 
     setUserInfo({
@@ -33,14 +29,18 @@ getUserInfoFx.done.watch(({ result }) => {
       email,
       id: String(id),
       isAuth: true,
-    })
+      isCreator: true,
+    });
+
+    setAppIsInitialized(true);
   } else {
     setUserInfo({
       login: null,
       email: null,
       id: null,
       isAuth: false,
-    })
+      isCreator: false,
+    });
   }
 });
 
@@ -52,5 +52,6 @@ getUserInfoFx.fail.watch(({ error, params }) => {
     email: null,
     id: null,
     isAuth: false,
-  })
+    isCreator: false,
+  });
 });

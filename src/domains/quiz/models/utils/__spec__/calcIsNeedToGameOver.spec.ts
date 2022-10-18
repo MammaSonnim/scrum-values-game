@@ -5,14 +5,14 @@ const stubbedResults = {
   focus: 2,
   commitment: 3,
   respect: 4,
-  opennes: 5
+  opennes: 5,
 };
 
 describe('calcIsNeedToGameOver', () => {
   it('should return true if one of values is negative', () => {
     const result = calcIsNeedToGameOver({
       ...stubbedResults,
-      respect: -1
+      respect: -1,
     });
 
     expect(result).toEqual(true);
@@ -21,7 +21,7 @@ describe('calcIsNeedToGameOver', () => {
   it('should return true if one of values is zero', () => {
     const result = calcIsNeedToGameOver({
       ...stubbedResults,
-      commitment: 0
+      commitment: 0,
     });
 
     expect(result).toEqual(true);
