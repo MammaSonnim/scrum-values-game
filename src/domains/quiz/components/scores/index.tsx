@@ -14,7 +14,7 @@ export const Scores: FC<Props> = ({ scores }) => {
 
   return (
     <ul className={styles.scores}>
-      {Object.entries(scores).map(score => {
+      {Object.entries(scores).map((score) => {
         const [key, value] = score;
 
         return (

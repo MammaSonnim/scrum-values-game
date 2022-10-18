@@ -1,7 +1,4 @@
-import {
-  setAppIsInitialized,
-  $isAppInitialized,
-} from './index';
+import { setAppIsInitialized, $isAppInitialized } from './index';
 
 $isAppInitialized.on(setAppIsInitialized, (prevState, payload) => {
   return payload;

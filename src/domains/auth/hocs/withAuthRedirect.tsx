@@ -1,11 +1,12 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useStore } from 'effector-react';
-import { $userInfo } from '../../../models/user-info';
+import { $userInfo } from '../../../models/userInfo';
 import { $isAppInitialized } from '../../../models/ui';
 
-export const withAuthRedirect = <T, >(WrappedComponent: React.FC<T>) => {
-  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+export const withAuthRedirect = <T,>(WrappedComponent: React.FC<T>) => {
+  const displayName =
+    WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
   const ContainerComponent = (props: T) => {
     const userInfo = useStore($userInfo);
@@ -13,18 +14,17 @@ export const withAuthRedirect = <T, >(WrappedComponent: React.FC<T>) => {
     const { isAuth } = userInfo;
 
     if (!isAppInitialized) {
-      return <div>Загрузка</div>
+      return <div>Загрузка</div>;
     }
 
     if (!isAuth) {
-      return <Redirect to='/login'/>;
+      return <Navigate to='/login' />;
     }
 
-    return <WrappedComponent {...props as T} />;
+    return <WrappedComponent {...(props as T)} />;
   };
 
   ContainerComponent.displayName = displayName;
 
   return ContainerComponent;
-}
-
+};

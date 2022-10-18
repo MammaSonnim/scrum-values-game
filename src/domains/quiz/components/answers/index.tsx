@@ -18,7 +18,7 @@ export const Answers: FC<Props> = ({
 }) => {
   return (
     <div className={styles.root}>
-      {data.map(answer => (
+      {data.map((answer) => (
         <div key={answer.id} className={styles['answers-item']}>
           <Answer
             data={answer}

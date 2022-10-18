@@ -1,19 +1,20 @@
 import { FormikErrors } from 'formik';
 import { Event } from 'effector';
 import { LoginUserRequestT } from '../models/types';
-import { FormValues, WithFormikProps } from '../types';
+import { FormValuesT, WithFormikPropsT } from '../types';
 
 export const getFormikConfig = (loginUser: Event<LoginUserRequestT>) => {
   return {
-    mapPropsToValues: (props: WithFormikProps) => {
+    mapPropsToValues: (props: WithFormikPropsT) => {
       return {
         email: props.initialEmail || '',
         password: '',
       };
     },
 
-    validate: (values: FormValues) => {
-      const errors: FormikErrors<FormValues> = {};
+    validate: (values: FormValuesT) => {
+      const errors: FormikErrors<FormValuesT> = {};
+
       if (!values.email) {
         errors.email = 'Required';
       }
@@ -30,4 +31,4 @@ export const getFormikConfig = (loginUser: Event<LoginUserRequestT>) => {
 
     displayName: 'BasicForm',
   };
-}
+};

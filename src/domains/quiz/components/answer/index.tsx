@@ -31,9 +31,9 @@ export const Answer: FC<Props> = ({
         <input
           onClick={onAnswerClick}
           value={id}
-          type="radio"
-          className="nes-radio"
-          name="answer"
+          type='radio'
+          className='nes-radio'
+          name='answer'
           disabled={isAnswerScoresVisible}
         />
         <span>
@@ -42,8 +42,8 @@ export const Answer: FC<Props> = ({
       </label>
       {isAnswerScoresVisible && (
         <Fragment>
-          <Warning warning={warning} note={note}/>
-          <Scores scores={scores}/>
+          <Warning warning={warning} note={note} />
+          <Scores scores={scores} />
         </Fragment>
       )}
     </Fragment>

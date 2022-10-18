@@ -11,7 +11,7 @@ export const Heading: FC<Props> = ({ scores }) => {
   return (
     <div className={styles.heading}>
       <div className={styles['scores-wrapper']}>
-        <Scores scores={scores}/>
+        <Scores scores={scores} />
       </div>
     </div>
   );

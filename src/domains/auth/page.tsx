@@ -1,14 +1,14 @@
 import React from 'react';
 import { FormikProps, Form, Field } from 'formik';
-import { UserInfoT } from '../../models/user-info/types';
-import { FormValues } from './types';
+import { UserInfoT } from '../../models/userInfo/types';
+import { FormValuesT } from './types';
 import styles from './styles.module.css';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { LoginStateT } from './models/types';
 
 type PageProps = {
-  userInfo: UserInfoT
-  loginState: LoginStateT
+  userInfo: UserInfoT;
+  loginState: LoginStateT;
 };
 
 export const AuthPage = ({
@@ -17,11 +17,11 @@ export const AuthPage = ({
   touched,
   errors,
   isSubmitting,
-}: PageProps & FormikProps<FormValues>) => {
+}: PageProps & FormikProps<FormValuesT>) => {
   const { isAuth } = userInfo;
 
   if (isAuth) {
-    return <Redirect to='/'/>;
+    return <Navigate to='/' />;
   }
 
   const { errors: commonErrors, isProcessing } = loginState;
@@ -32,18 +32,18 @@ export const AuthPage = ({
   return (
     <Form>
       <fieldset className={styles.fieldset}>
-        <Field type='email' name='email'/>
+        <Field type='email' name='email' />
         {touched.email && errors.email && <div>{errors.email}</div>}
       </fieldset>
       <fieldset className={styles.fieldset}>
-        <Field type='password' name='password'/>
+        <Field type='password' name='password' />
         {touched.password && errors.password && <div>{errors.password}</div>}
       </fieldset>
       <label>
-        <Field type='checkbox' name='rememberMe'/>
+        <Field type='checkbox' name='rememberMe' />
         Запомнить
       </label>
-      <button type='submit' disabled={isSubmitting || isProcessing }>
+      <button type='submit' disabled={isSubmitting || isProcessing}>
         Подтвердить
       </button>
       <div>{errorMessage}</div>

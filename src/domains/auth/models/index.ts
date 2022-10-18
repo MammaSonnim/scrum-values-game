@@ -1,7 +1,13 @@
 import { createDomain } from 'effector';
 import { createGate } from 'effector-react';
 import { attachLogger } from 'effector-logger/attach';
-import { LoginUserResponseT, LogoutUserResponseT, LoginUserRequestT, LoginStateT, LogoutStateT } from './types';
+import {
+  LoginUserResponseT,
+  LogoutUserResponseT,
+  LoginUserRequestT,
+  LoginStateT,
+  LogoutStateT,
+} from './types';
 
 export const Domain = createDomain('Auth');
 
@@ -16,16 +22,25 @@ export const $loginState = Domain.createStore<LoginStateT>({
 });
 
 export const $logoutState = Domain.createStore<LogoutStateT>({
-  errors: null,
+  error: null,
   isProcessing: false,
   resultCode: null,
 });
 
 export const setLoginState = Domain.createEvent<LoginStateT>('SET_LOGIN_STATE');
-export const setLogoutState = Domain.createEvent<LogoutStateT>('SET_LOGOUT_STATE');
+export const setLogoutState =
+  Domain.createEvent<LogoutStateT>('SET_LOGOUT_STATE');
 
 export const loginUser = Domain.createEvent<LoginUserRequestT>('LOGIN_USER');
-export const loginUserFx = Domain.createEffect<LoginUserRequestT, LoginUserResponseT, void>('LOGIN_USER/FX');
+export const loginUserFx = Domain.createEffect<
+  LoginUserRequestT,
+  LoginUserResponseT,
+  void
+>('LOGIN_USER/FX');
 
 export const logoutUser = Domain.createEvent<void>('LOGOUT_USER');
-export const logoutUserFx = Domain.createEffect<void, LogoutUserResponseT, void>('LOGOUT_USER/FX');
+export const logoutUserFx = Domain.createEffect<
+  void,
+  LogoutUserResponseT,
+  void
+>('LOGOUT_USER/FX');

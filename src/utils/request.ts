@@ -7,6 +7,6 @@ export const request = axios.create({
   withCredentials: true,
   baseURL: API_BASE_URL,
   headers: {
-    'API-KEY': API_KEY
+    'API-KEY': API_KEY,
   },
 });

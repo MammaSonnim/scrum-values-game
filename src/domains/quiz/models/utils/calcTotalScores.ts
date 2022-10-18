@@ -2,7 +2,7 @@ import { ScoresT } from '../types';
 
 export const calcTotalScores = (
   totalScores: ScoresT,
-  currentAnswerScores: ScoresT,
+  currentAnswerScores: ScoresT
 ) => {
   return {
     courage: totalScores.courage + currentAnswerScores.courage,
