@@ -9,5 +9,5 @@ export const Error: FC<Props> = ({ error }) => {
     return null;
   }
 
-  return <div className="nes-text is-error">{error}</div>;
+  return <div className='nes-text is-error'>{error}</div>;
 };

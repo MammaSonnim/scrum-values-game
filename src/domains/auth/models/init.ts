@@ -1,4 +1,5 @@
 import { forward } from 'effector';
+import { ErrorMessage } from 'formik';
 import { getUserInfo } from '../../../models/userInfo';
 import { requestLoginUser, requestLogoutUser } from '../api';
 import {
@@ -28,26 +29,30 @@ forward({
 
 loginUserFx.use(async (params) => {
   setLoginState({
-    errors: [],
     isProcessing: true,
     resultCode: null,
-  })
+  });
 
   return await requestLoginUser(params);
 });
 
 loginUserFx.done.watch(({ result }) => {
   setLoginState({
-    errors: result.messages,
     isProcessing: false,
     resultCode: result.resultCode,
-  })
+  });
 
   getUserInfo();
 });
 
 loginUserFx.fail.watch(({ error }) => {
-  console.info('Login failed', error);
+  console.info('🦆 Login failed', error);
+
+  setLoginState({
+    isProcessing: false,
+    resultCode: null,
+    errors: ['🦆 Login failed'],
+  });
 });
 
 // LOGOUT
@@ -65,26 +70,30 @@ forward({
 
 logoutUserFx.use(async () => {
   setLogoutState({
-    errors: [],
     isProcessing: true,
     resultCode: null,
-  })
+  });
 
   return await requestLogoutUser();
 });
 
 logoutUserFx.done.watch(({ result }) => {
   setLogoutState({
-    errors: result.messages,
     isProcessing: false,
     resultCode: result.resultCode,
-  })
+  });
 
   getUserInfo();
 });
 
 logoutUserFx.fail.watch(({ error }) => {
-  console.info('Logout failed', error);
+  console.info('🦆 Logout failed', error);
+
+  setLogoutState({
+    isProcessing: false,
+    resultCode: null,
+    error: `🦆 Logout failed ${error}`,
+  });
 });
 
 // GATES

@@ -14,7 +14,7 @@ type Props = {
   userInfo: UserInfoT;
   onChangeTeamName: (value: string) => void;
   onAddTeamName: () => void;
-}
+};
 
 export const TeamPage: FC<Props> = ({
   teamState,
@@ -24,23 +24,17 @@ export const TeamPage: FC<Props> = ({
 }) => {
   const teamInput = useRef(null);
   const { names, name } = teamState;
-  const { login, isCreator, avatarSrc } = userInfo;
+  const { login, isCreator, photoUrl } = userInfo;
 
-  const changeNameInput = useCallback(
-    () => {
-      const value = getOr('', ['current', 'value'], teamInput)
+  const changeNameInput = useCallback(() => {
+    const value = getOr('', ['current', 'value'], teamInput);
 
-      onChangeTeamName(value);
-    },
-    []
-  )
+    onChangeTeamName(value);
+  }, []);
 
-  const submitTeam = useCallback(
-    () => {
-      onAddTeamName();
-    },
-    []
-  );
+  const submitTeam = useCallback(() => {
+    onAddTeamName();
+  }, []);
 
   return (
     <div>
@@ -66,7 +60,7 @@ export const TeamPage: FC<Props> = ({
         <a href='#'>Скопировать ссылку-приглашение</a>
         <ul>
           <li>
-            <img src={avatarSrc} width={50} height={50} />
+            <img src={photoUrl} width={50} height={50} />
             <span>{login}</span>
           </li>
         </ul>

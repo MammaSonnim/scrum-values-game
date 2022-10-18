@@ -1,20 +1,17 @@
 import './models/init';
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { Store } from 'redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import 'nes.css/css/nes.min.css';
 import './app.css';
-import {
-  Quiz,
-  Team,
-  Rating,
-  Auth,
-  AuthInfo,
-} from './domains';
+import { Quiz, Team, Auth, AuthInfo } from './domains';
 import { Nav } from './components';
 import { getUserInfo } from './models/userInfo';
+import { ErrorBoundary } from './components/errorBoundary';
+
+const Rating = lazy(() => import('./domains/rating'));
 
 export const App = ({ store }: { store: Store }) => {
   const history = createBrowserHistory();
@@ -23,21 +20,31 @@ export const App = ({ store }: { store: Store }) => {
     getUserInfo();
   }, []);
 
-
   return (
     <div className='app'>
-      <BrowserRouter>
+      <HashRouter>
         <Provider store={store}>
-          <Nav/>
-          <AuthInfo/>
-          <Routes>
-            <Route path='/game' element={<Quiz/>} />
-            <Route path='/login' element={<Auth/> } />
-            <Route path='/team' element={<Team history={history}/>} />
-            <Route path='/rating' element={<Rating history={history}/>} />
-          </Routes>
+          <ErrorBoundary>
+            <Nav />
+            <AuthInfo />
+            <Routes>
+              <Route path='/' element={<Navigate to='/game' />} />
+              <Route path='/game' element={<Quiz />} />
+              <Route path='/login' element={<Auth />} />
+              <Route path='/team' element={<Team history={history} />} />
+              <Route
+                path='/rating'
+                element={
+                  <Suspense fallback={'...loading'}>
+                    <Rating history={history} />
+                  </Suspense>
+                }
+              />
+              <Route path='*' element={'404'} />
+            </Routes>
+          </ErrorBoundary>
         </Provider>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 };

@@ -35,4 +35,4 @@ export type QuizT = {
   currentQuestionId: IdT;
   currentAnswerId: IdT;
   error: string;
-}
+};

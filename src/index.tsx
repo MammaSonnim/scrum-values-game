@@ -8,10 +8,9 @@ const root = createRoot(document.getElementById('root') as Element);
 export const renderDom = () => {
   root.render(
     <div>
-      <App store={store}/>
+      <App store={store} />
     </div>
   );
 };
-
 
 renderDom();

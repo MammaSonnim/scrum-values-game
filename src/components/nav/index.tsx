@@ -42,7 +42,7 @@ export const Nav: FC = () => {
               >
                 {item.title}
               </NavLink>
-            )
+            );
           })}
         </nav>
       )}

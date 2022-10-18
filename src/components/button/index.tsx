@@ -7,7 +7,7 @@ type Props = {
 
 export const Button: FC<Props> = ({ children, onClick }) => {
   return (
-    <button className="nes-btn is-primary" onClick={onClick}>
+    <button className='nes-btn is-primary' onClick={onClick}>
       {children}
     </button>
   );

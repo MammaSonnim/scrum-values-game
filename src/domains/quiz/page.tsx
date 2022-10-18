@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useCallback } from 'react';
+import React, { FC, MouseEvent, useCallback, useEffect } from 'react';
 import cn from 'classnames';
 import { getOr } from 'lodash/fp';
 import { Event } from 'effector';
@@ -14,7 +14,7 @@ type Props = {
   selectAnswer: Event<IdT>;
   showAnswerScores: Event<void>;
   goToNextQuestion: Event<void>;
-}
+};
 
 export const QuizPage: FC<Props> = ({
   quiz,

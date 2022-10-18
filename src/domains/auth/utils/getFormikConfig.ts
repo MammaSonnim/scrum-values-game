@@ -31,4 +31,4 @@ export const getFormikConfig = (loginUser: Event<LoginUserRequestT>) => {
 
     displayName: 'BasicForm',
   };
-}
+};

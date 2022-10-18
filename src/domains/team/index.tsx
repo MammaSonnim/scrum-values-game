@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { compose } from 'lodash/fp';
 import { BrowserHistory } from 'history';
@@ -10,23 +9,17 @@ import { StateT } from './types';
 
 type Props = {
   history: BrowserHistory;
-}
+};
 
 const mapStateToProps = (state: StateT) => {
   return {
     teamState: state.teamState,
-  }
+  };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    onChangeTeamName: (value: string) => {
-      dispatch(changeTeamNameAC(value));
-    },
-    onAddTeamName: () => {
-      dispatch(addTeamNameAC());
-    },
-  }
+const mapDispatchToProps = {
+  onChangeTeamName: changeTeamNameAC,
+  onAddTeamName: addTeamNameAC,
 };
 
 export const Team: FC<Props> = ({ history }) => {
@@ -34,11 +27,7 @@ export const Team: FC<Props> = ({ history }) => {
     withAuthRedirect,
     withUserInfo,
     connect(mapStateToProps, mapDispatchToProps)
-  )(TeamPage)
+  )(TeamPage);
 
-  return (
-    <PageWithHocs
-      history={history}
-    />
-  );
+  return <PageWithHocs history={history} />;
 };

@@ -16,15 +16,13 @@ import {
 import { QuizPage } from './page';
 
 export const Quiz: FC = () => {
-  useGate(QuizAppGate)
+  useGate(QuizAppGate);
 
   const quiz = useStore($quiz);
   const scores = useStore($scores);
   const quizData = useStore($data);
 
-  const PageWithHocs = compose(
-    withAuthRedirect
-  )(QuizPage)
+  const PageWithHocs = compose(withAuthRedirect)(QuizPage);
 
   return (
     <PageWithHocs

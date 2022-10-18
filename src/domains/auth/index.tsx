@@ -12,7 +12,7 @@ import { getFormikConfig } from './utils/getFormikConfig';
 export { AuthInfo } from './modules/authInfo';
 
 export const Auth: FC = () => {
-  useGate(AuthAppGate)
+  useGate(AuthAppGate);
 
   const loginState = useStore($loginState);
   const userInfo = useStore($userInfo);
@@ -20,7 +20,7 @@ export const Auth: FC = () => {
 
   const PageWithHocs = compose(
     withFormik<WithFormikPropsT, FormValuesT>(getFormikConfig(loginUser))
-  )(AuthPage)
+  )(AuthPage);
 
   return (
     <PageWithHocs

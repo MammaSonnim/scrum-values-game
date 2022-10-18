@@ -1,9 +1,6 @@
 import { forward, sample } from 'effector';
 import { find, getOr } from 'lodash/fp';
-import {
-  calcIsNeedToGameOver,
-  calcTotalScores,
-} from './utils';
+import { calcIsNeedToGameOver, calcTotalScores } from './utils';
 import { AnswerT } from './types';
 import {
   $quiz,
@@ -21,7 +18,8 @@ import {
   restartGame,
   $scores,
   updateTotalScores,
-  $data, QuizAppGate,
+  $data,
+  QuizAppGate,
 } from '.';
 
 $quiz.on(toggleAnswerScoresVisibility, (prevState, payload) => {
@@ -108,10 +106,7 @@ forward({
 });
 
 showAnswerScoresFx.use(() => {
-  const {
-    currentQuestionId,
-    currentAnswerId,
-  } = $quiz.getState();
+  const { currentQuestionId, currentAnswerId } = $quiz.getState();
   const quizData = $data.getState();
 
   if (!currentAnswerId) {
@@ -147,9 +142,7 @@ forward({
 });
 
 goToNextQuestionFx.use(() => {
-  const {
-    currentQuestionId,
-  } = $quiz.getState();
+  const { currentQuestionId } = $quiz.getState();
   const quizData = $data.getState();
 
   // it is not questionId now, but index – do refactor

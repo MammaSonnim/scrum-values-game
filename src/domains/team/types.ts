@@ -1,3 +1,3 @@
-import { initialState } from "./store";
+import { initialState } from './store';
 
 export type StateT = typeof initialState;
