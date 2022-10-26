@@ -9,7 +9,9 @@ import './app.css';
 import { Quiz, Team, Auth, AuthInfo } from './domains';
 import { Nav } from './components';
 import { getUserInfo } from './models/userInfo';
-import { ErrorBoundary } from './components/errorBoundary';
+import { ErrorBoundary, Loader } from './components';
+import { requestDev } from './utils/request';
+import { ApiResponseWithItemsT } from './types';
 
 const Rating = lazy(() => import('./domains/rating'));
 
@@ -35,7 +37,7 @@ export const App = ({ store }: { store: Store }) => {
               <Route
                 path='/rating'
                 element={
-                  <Suspense fallback={'...loading'}>
+                  <Suspense fallback={<Loader />}>
                     <Rating history={history} />
                   </Suspense>
                 }

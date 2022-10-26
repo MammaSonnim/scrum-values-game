@@ -1,10 +1,10 @@
 import React from 'react';
-import { FormikProps, Form, Field } from 'formik';
+import { FormikProps, Form, Field, ErrorMessage } from 'formik';
 import { UserInfoT } from '../../models/userInfo/types';
 import { FormValuesT } from './types';
 import styles from './styles.module.css';
 import { Navigate } from 'react-router-dom';
-import { LoginStateT } from './models/types';
+import { LoginStateT } from './types';
 
 type PageProps = {
   userInfo: UserInfoT;
@@ -14,10 +14,8 @@ type PageProps = {
 export const AuthPage = ({
   userInfo,
   loginState,
-  touched,
-  errors,
   isSubmitting,
-}: PageProps & FormikProps<FormValuesT>) => {
+}: PageProps & Pick<FormikProps<FormValuesT>, 'isSubmitting'>) => {
   const { isAuth } = userInfo;
 
   if (isAuth) {
@@ -33,11 +31,11 @@ export const AuthPage = ({
     <Form>
       <fieldset className={styles.fieldset}>
         <Field type='email' name='email' />
-        {touched.email && errors.email && <div>{errors.email}</div>}
+        <ErrorMessage name='email' component='div' />
       </fieldset>
       <fieldset className={styles.fieldset}>
         <Field type='password' name='password' />
-        {touched.password && errors.password && <div>{errors.password}</div>}
+        <ErrorMessage name='password' component='div' />
       </fieldset>
       <label>
         <Field type='checkbox' name='rememberMe' />

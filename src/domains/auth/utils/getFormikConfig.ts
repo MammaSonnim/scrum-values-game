@@ -1,6 +1,6 @@
 import { FormikErrors } from 'formik';
 import { Event } from 'effector';
-import { LoginUserRequestT } from '../models/types';
+import { LoginUserRequestT } from '../types';
 import { FormValuesT, WithFormikPropsT } from '../types';
 
 export const getFormikConfig = (loginUser: Event<LoginUserRequestT>) => {

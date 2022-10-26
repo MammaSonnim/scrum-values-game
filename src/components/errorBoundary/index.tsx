@@ -1,7 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, ReactElement } from 'react';
 import { Button } from '../button';
 
-export class ErrorBoundary extends Component {
+type PropsT = {
+  children: ReactElement[];
+};
+
+type StateT = {
+  isError: boolean;
+  error: string | null;
+};
+export class ErrorBoundary extends Component<PropsT, StateT> {
   state = { isError: false, error: null };
 
   promiseRejectionHandler = (event: PromiseRejectionEvent) => {
@@ -12,14 +20,21 @@ export class ErrorBoundary extends Component {
   };
 
   componentDidMount() {
-    window.addEventListener('unhandledrejection', this.promiseRejectionHandler);
+    if (typeof window !== 'undefined') {
+      window.addEventListener(
+        'unhandledrejection',
+        this.promiseRejectionHandler
+      );
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener(
-      'unhandledrejection',
-      this.promiseRejectionHandler
-    );
+    if (typeof window !== 'undefined') {
+      window.removeEventListener(
+        'unhandledrejection',
+        this.promiseRejectionHandler
+      );
+    }
   }
 
   componentDidCatch() {

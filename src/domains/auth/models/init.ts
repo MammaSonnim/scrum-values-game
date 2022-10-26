@@ -1,5 +1,4 @@
 import { forward } from 'effector';
-import { ErrorMessage } from 'formik';
 import { getUserInfo } from '../../../models/userInfo';
 import { requestLoginUser, requestLogoutUser } from '../api';
 import {
@@ -40,6 +39,7 @@ loginUserFx.done.watch(({ result }) => {
   setLoginState({
     isProcessing: false,
     resultCode: result.resultCode,
+    errors: result.messages,
   });
 
   getUserInfo();

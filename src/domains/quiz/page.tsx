@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useCallback, useEffect } from 'react';
+import React, { FC, MouseEvent, useCallback } from 'react';
 import cn from 'classnames';
 import { getOr } from 'lodash/fp';
 import { Event } from 'effector';

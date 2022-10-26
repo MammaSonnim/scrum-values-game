@@ -1,6 +1,6 @@
 import React, { FC, Fragment, useCallback } from 'react';
 import { UserInfoT } from '../../../../models/userInfo/types';
-import { LogoutStateT } from '../../models/types';
+import { LogoutStateT } from '../../types';
 import { Event } from 'effector';
 import { NavLink } from 'react-router-dom';
 

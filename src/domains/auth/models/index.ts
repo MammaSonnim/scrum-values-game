@@ -7,7 +7,7 @@ import {
   LoginUserRequestT,
   LoginStateT,
   LogoutStateT,
-} from './types';
+} from '../types';
 
 export const Domain = createDomain('Auth');
 
@@ -34,13 +34,10 @@ export const setLogoutState =
 export const loginUser = Domain.createEvent<LoginUserRequestT>('LOGIN_USER');
 export const loginUserFx = Domain.createEffect<
   LoginUserRequestT,
-  LoginUserResponseT,
-  void
+  LoginUserResponseT
 >('LOGIN_USER/FX');
 
 export const logoutUser = Domain.createEvent<void>('LOGOUT_USER');
-export const logoutUserFx = Domain.createEffect<
-  void,
-  LogoutUserResponseT,
-  void
->('LOGOUT_USER/FX');
+export const logoutUserFx = Domain.createEffect<void, LogoutUserResponseT>(
+  'LOGOUT_USER/FX'
+);
