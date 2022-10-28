@@ -1,7 +1,6 @@
 // playground for redux-arch
 import { BaseActionT, BaseThunkT, RootStateT } from '../../redux-store';
 import { ratingApi } from './api';
-import { transformRatingData } from './utils';
 import { GetRatingRequestParamsT, RatingItemT } from './types';
 
 const NAMESPACE = 'RATING';
@@ -13,6 +12,7 @@ const LOAD_RAITING_FAILED = `${NAMESPACE}/LOAD_RAITING_FAILED` as const;
 export const ratingInitialState = {
   items: [] as RatingItemT[],
   isProcessing: false,
+  totalCount: 0,
   //searchParams: null as GetRatingRequestParamsT | null | undefined,
 };
 
@@ -32,7 +32,8 @@ export const ratingReducer = (
     case LOAD_RAITING_SUCCESS:
       return {
         ...state,
-        items: action.payload,
+        items: action.payload.items,
+        totalCount: action.payload.totalCount,
         isProcessing: false,
       };
 
@@ -53,10 +54,19 @@ export const actionCreators = {
     ({
       type: LOAD_RAITING_WIP,
     } as const),
-  loadRatingSuccess: (items: RatingItemT[]) =>
+  loadRatingSuccess: ({
+    items,
+    totalCount,
+  }: {
+    items: RatingItemT[];
+    totalCount: number;
+  }) =>
     ({
       type: LOAD_RAITING_SUCCESS,
-      payload: items,
+      payload: {
+        items,
+        totalCount,
+      },
     } as const),
   loadRatingFailed: () =>
     ({
@@ -72,9 +82,14 @@ export const loadRating = (params?: GetRatingRequestParamsT): ThunkActionT => {
     const result = await ratingApi.requestRating(params);
 
     if (!result.error) {
-      const items = transformRatingData(result.items);
+      const { items, totalCount } = result;
 
-      return dispatch(actionCreators.loadRatingSuccess(items));
+      return dispatch(
+        actionCreators.loadRatingSuccess({
+          items,
+          totalCount,
+        })
+      );
     }
 
     return dispatch(actionCreators.loadRatingFailed());
@@ -88,6 +103,10 @@ export const selectRatingState = (state: RootStateT) => {
 
 export const selectRatingItems = (state: RootStateT) => {
   return selectRatingState(state).items;
+};
+
+export const selectRatingTotalCount = (state: RootStateT) => {
+  return selectRatingState(state).totalCount;
 };
 
 export const selectRatingisProcessing = (state: RootStateT) => {

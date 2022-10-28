@@ -1,11 +1,11 @@
 import { FormikErrors } from 'formik';
 import { Event } from 'effector';
 import { LoginUserRequestT } from '../types';
-import { FormValuesT, WithFormikPropsT } from '../types';
+import { FormValuesT, FormikOuterPropsT } from '../types';
 
 export const getFormikConfig = (loginUser: Event<LoginUserRequestT>) => {
   return {
-    mapPropsToValues: (props: WithFormikPropsT) => {
+    mapPropsToValues: (props: FormikOuterPropsT) => {
       return {
         email: props.initialEmail || '',
         password: '',

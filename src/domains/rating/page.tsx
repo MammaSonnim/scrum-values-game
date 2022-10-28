@@ -1,12 +1,14 @@
 import React, { FC, Fragment, useEffect } from 'react';
 import { isEmpty } from 'lodash/fp';
 import { format } from 'date-fns';
+import { Form, Field, ErrorMessage } from 'formik';
 import { Button, Loader } from '../../components';
 import { PropsT, RatingItemT } from './types';
-import { Form, Field, ErrorMessage } from 'formik';
+import styles from './styles.module.css';
 
 export const RatingPage: FC<PropsT> = ({
   items,
+  totalCount,
   isProcessing,
   isSubmitting,
   onMount,
@@ -23,12 +25,31 @@ export const RatingPage: FC<PropsT> = ({
 
       {!isEmpty(items) && (
         <Fragment>
-          <RatingForm isSubmitting={isSubmitting} isProcessing={isProcessing} />
-          {items.map((item) => {
-            return <RatingItem {...item} />;
-          })}
+          <div className={styles.block}>
+            <RatingForm
+              isSubmitting={isSubmitting}
+              isProcessing={isProcessing}
+            />
+          </div>
+          <div className={styles.block}>
+            <table>
+              <thead>
+                <th>#</th>
+                <th>Team</th>
+                <th>Scores</th>
+                <th>Date</th>
+              </thead>
+              <tbody>
+                {items.map((item) => {
+                  return <RatingItem {...item} />;
+                })}
+              </tbody>
+            </table>
+          </div>
         </Fragment>
       )}
+
+      <div className={styles.block}>Total: {totalCount}</div>
     </div>
   );
 };
@@ -39,8 +60,8 @@ const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
   return (
     <Form>
       <fieldset>
-        <Field type='test' name='searchQuery' />
-        <ErrorMessage name='searchQuery' component='div' />
+        <Field type='text' name='searchString' />
+        <ErrorMessage name='searchString' component='div' />
       </fieldset>
       <Button type='submit' disabled={isSubmitting || isProcessing}>
         Подтвердить
@@ -49,10 +70,13 @@ const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
   );
 };
 
-const RatingItem: FC<RatingItemT> = ({ teamName, scores, date, id }) => {
+const RatingItem: FC<RatingItemT> = ({ teamName, scores, date, id, index }) => {
   return (
-    <li key={id}>
-      {teamName} {scores} {format(date, 'Pp')}
-    </li>
+    <tr key={id}>
+      <td>{index}</td>
+      <td>{teamName}</td>
+      <td>{scores}</td>
+      <td>{format(date, 'Pp')}</td>
+    </tr>
   );
 };

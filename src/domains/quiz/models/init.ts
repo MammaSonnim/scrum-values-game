@@ -8,6 +8,7 @@ import {
   showAnswerScores,
   showAnswerScoresFx,
   showGameOver,
+  showGameOverFx,
   setCurrentQuestionId,
   setCurrentAnswerId,
   selectAnswer,
@@ -21,6 +22,7 @@ import {
   $data,
   QuizAppGate,
 } from '.';
+import { requestDev } from '../../../utils/request';
 
 $quiz.on(toggleAnswerScoresVisibility, (prevState, payload) => {
   return {
@@ -64,6 +66,29 @@ $scores.on(updateTotalScores, (prevScores, scores) => {
 $scores.reset(restartGame);
 $quiz.reset(restartGame);
 
+// On game over
+forward({
+  from: showGameOver,
+  to: showGameOverFx,
+});
+
+showGameOverFx.use(async (isGameOverVisible) => {
+  const scores = $scores.getState();
+
+  if (isGameOverVisible) {
+    // TODO Move to API
+    return await requestDev.post('rating/addItem', {
+      teamName: 'PiuPiuPiu!',
+      scores:
+        scores.commitment +
+        scores.courage +
+        scores.focus +
+        scores.opennes +
+        scores.respect,
+    });
+  }
+});
+
 // On check scores
 sample({
   clock: toggleAnswerScoresVisibility,
@@ -72,6 +97,8 @@ sample({
     if (isAnswerScoresVisible) {
       return;
     }
+
+    showGameOver(calcIsNeedToGameOver(scores));
 
     return {
       isGameOverVisible: calcIsNeedToGameOver(scores),

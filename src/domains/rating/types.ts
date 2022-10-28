@@ -1,12 +1,12 @@
 import { BrowserHistory } from 'history';
 import { FormikProps } from 'formik';
-import { EmptyObjectT } from '../../types';
 
 export type RatingItemT = {
   id: number;
   teamName: string;
   scores: number;
   date: number;
+  index: number;
 };
 
 export type RatingItemRawT = {
@@ -18,26 +18,26 @@ export type RatingItemRawT = {
 export type GetRatingRequestParamsT = {
   count?: number;
   page?: number;
-  term?: string;
-  friend?: boolean;
+  searchString?: string;
 };
 
 // FORMIK
 export type FormValuesT = {
-  searchQuery: string;
+  searchString: string;
 };
 
-export type WithFormikPropsT = EmptyObjectT;
+export type FormikOuterPropsT = StatePropsT & DispatchPropsT & OwnPropsT;
 
 // PROPS
 export type StatePropsT = {
   items: RatingItemT[];
+  totalCount: number;
   isProcessing: boolean;
 };
 
 export type DispatchPropsT = {
-  // onMount: (params?: GetRatingRequestParamsT) => void;
-  onMount: () => void;
+  onMount: (params?: GetRatingRequestParamsT) => void;
+  onSubmit: (params?: GetRatingRequestParamsT) => void;
 };
 
 export type OwnPropsT = {

@@ -5,7 +5,7 @@ export type FormValuesT = {
   password: string;
 };
 
-export type WithFormikPropsT = {
+export type FormikOuterPropsT = {
   initialEmail?: string;
 };
 

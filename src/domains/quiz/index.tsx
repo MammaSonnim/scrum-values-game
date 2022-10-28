@@ -25,7 +25,7 @@ export const Quiz: FC = () => {
   const PageWithHocs = compose(withAuthRedirect)(QuizPage);
 
   return (
-    <PageWithHocs
+    <QuizPage
       quiz={quiz}
       quizData={quizData}
       scores={scores}

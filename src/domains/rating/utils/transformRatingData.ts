@@ -1,5 +1,6 @@
 import { RatingItemRawT } from '../types';
 
+// TODO remove, when my BE is ready
 export const transformRatingData = (rawItems: RatingItemRawT[]) => {
   return rawItems.map((item) => {
     const { id, name } = item;

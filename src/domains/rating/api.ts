@@ -1,19 +1,18 @@
 import { ApiResponseWithItemsT } from '../../types';
-import { request } from '../../utils/request';
-import { GetRatingRequestParamsT, RatingItemRawT } from './types';
+import { requestDev } from '../../utils/request';
+import { GetRatingRequestParamsT, RatingItemT } from './types';
 
-export type GetRatingResponseT = ApiResponseWithItemsT<RatingItemRawT>;
+export type GetRatingResponseT = ApiResponseWithItemsT<RatingItemT>;
 
 export const ratingApi = {
   requestRating: async (params?: GetRatingRequestParamsT) => {
     const searchParams = new URLSearchParams(
       params as unknown as Record<string, string>
     );
-    const searchQueryString = searchParams.toString();
+    const queryString = searchParams.toString();
 
-    // temp random API, unless I have own BE
-    const req = await request.get<GetRatingResponseT>(
-      `users?${searchQueryString}`
+    const req = await requestDev.get<GetRatingResponseT>(
+      `rating${queryString && '?'}${queryString}`
     );
 
     return req.data;

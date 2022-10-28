@@ -14,14 +14,21 @@ const ratingItems: RatingItemT[] = [
     teamName: 'piu',
     scores: 12,
     date: fakeDate,
+    index: 1,
   },
 ];
+
+const ratingData = {
+  items: ratingItems,
+  totalCount: 1,
+};
 
 describe('teamReducer', () => {
   describe('LOAD_RATING_WIP', () => {
     it('should return new state with isProcessing true', () => {
       const state: RaitingInitialStateT = {
         items: [],
+        totalCount: 0,
         isProcessing: false,
       };
 
@@ -29,6 +36,7 @@ describe('teamReducer', () => {
 
       expect(newState).toEqual({
         items: [],
+        totalCount: 0,
         isProcessing: true,
       });
     });
@@ -38,16 +46,18 @@ describe('teamReducer', () => {
     it('should return new state with isProcessing true', () => {
       const state: RaitingInitialStateT = {
         items: [],
+        totalCount: 0,
         isProcessing: true,
       };
 
       const newState = ratingReducer(
         state,
-        actionCreators.loadRatingSuccess(ratingItems)
+        actionCreators.loadRatingSuccess(ratingData)
       );
 
       expect(newState).toEqual({
         items: ratingItems,
+        totalCount: 1,
         isProcessing: false,
       });
     });
@@ -57,6 +67,7 @@ describe('teamReducer', () => {
     it('should return new state with isProcessing true', () => {
       const state: RaitingInitialStateT = {
         items: [],
+        totalCount: 0,
         isProcessing: true,
       };
 
@@ -64,6 +75,7 @@ describe('teamReducer', () => {
 
       expect(newState).toEqual({
         items: [],
+        totalCount: 0,
         isProcessing: false,
       });
     });
@@ -97,8 +109,8 @@ describe('thunks', () => {
   describe('loadRating', () => {
     it('should call dispatch specific times with specific actionCreators when SUCCESS', async () => {
       const ratingRequestResponseSuccess: GetRatingResponseT = {
-        items: ratingItemsRaw,
-        totalCount: 20,
+        items: ratingItems,
+        totalCount: 1,
         error: '',
       };
 
@@ -117,7 +129,7 @@ describe('thunks', () => {
       );
       expect(fakeDispatch).toHaveBeenNthCalledWith(
         2,
-        actionCreators.loadRatingSuccess(ratingItems)
+        actionCreators.loadRatingSuccess(ratingData)
       );
     });
 

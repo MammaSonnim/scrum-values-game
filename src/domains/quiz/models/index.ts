@@ -30,6 +30,9 @@ export const showAnswerScoresFx = Domain.createEffect<void, void, void>(
 );
 
 export const showGameOver = Domain.createEvent<boolean>('SET_SHOW_GAME_OVER');
+export const showGameOverFx = Domain.createEffect<boolean, void, void>(
+  'SHOW_GAME_OVER/FX'
+);
 
 export const setCurrentQuestionId = Domain.createEvent<IdT>(
   'SET_CURRENT_QUESTION_ID'
