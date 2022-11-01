@@ -7,40 +7,43 @@ import { Heading, QA, GameOver } from './components';
 import styles from './styles.module.css';
 
 type Props = {
-  quiz: QuizT;
   scores: ScoresT;
   quizData: DataT;
+  buttonType: string;
+  isAnswerScoresVisible: boolean;
+  isButtonDisabled: boolean;
+  isAnyAnswerSelected: boolean;
+  isGameOver: boolean;
+  currentQuestionId: number;
+  currentAnswerId: number | null;
   restartGame: Event<void>;
-  selectAnswer: Event<IdT>;
+  selectAnswer: Event<number>;
   showAnswerScores: Event<void>;
   goToNextQuestion: Event<void>;
 };
 
 export const QuizPage: FC<Props> = ({
-  quiz,
-  scores,
   quizData,
+  scores,
+  buttonType,
+  isAnswerScoresVisible,
+  isButtonDisabled,
+  isAnyAnswerSelected,
+  isGameOver,
+  currentQuestionId,
+  currentAnswerId,
   restartGame,
   selectAnswer,
   showAnswerScores,
   goToNextQuestion,
 }) => {
-  const {
-    isAnswerScoresVisible,
-    isGameOverVisible,
-    currentQuestionId,
-    currentAnswerId,
-    error,
-  } = quiz;
-
-  const countableQuestionId = Number(currentQuestionId);
-  const quizDataById = quizData[countableQuestionId];
+  const quizDataById = quizData[currentQuestionId - 1];
   const question = getOr({} as QuestionT, ['question'], quizDataById);
   const answers = getOr([], ['answers'], quizDataById);
 
   const handleClickAnswer = useCallback(
     (e: MouseEvent) => {
-      const id = getOr('', ['currentTarget', 'value'], e);
+      const id = Number(getOr('', ['currentTarget', 'value'], e));
 
       selectAnswer(id);
     },
@@ -59,21 +62,26 @@ export const QuizPage: FC<Props> = ({
     restartGame();
   }, [restartGame]);
 
+  console.log('🐸 isGameOver:', isGameOver);
+
   return (
     <div className={styles.root}>
       <Heading scores={scores} />
       <div className={cn(styles.content, 'nes-container is-rounded')}>
-        {isGameOverVisible ? (
+        {isGameOver ? (
           <GameOver onRestart={handleClickRestart} />
         ) : (
           <QA
+            buttonType={buttonType}
+            isAnswerScoresVisible={isAnswerScoresVisible}
+            isButtonDisabled={isButtonDisabled}
+            isAnyAnswerSelected={isAnyAnswerSelected}
             quizDataLength={quizData.length}
             currentQuestionId={currentQuestionId}
             question={question}
             answers={answers}
             currentAnswerId={currentAnswerId}
-            error={error}
-            isAnswerScoresVisible={isAnswerScoresVisible}
+            error={''}
             onAnswerClick={handleClickAnswer}
             onNextClick={handleClickNext}
             onShowScoresClick={handleClickShowAnswerScores}

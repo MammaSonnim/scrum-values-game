@@ -4,16 +4,15 @@ import { UserInfoT } from '../../models/userInfo/types';
 import { FormValuesT } from './types';
 import styles from './styles.module.css';
 import { Navigate } from 'react-router-dom';
-import { LoginStateT } from './types';
 
 type PageProps = {
   userInfo: UserInfoT;
-  loginState: LoginStateT;
+  isLoginProcessing: boolean;
 };
 
 export const AuthPage = ({
   userInfo,
-  loginState,
+  isLoginProcessing,
   isSubmitting,
 }: PageProps & Pick<FormikProps<FormValuesT>, 'isSubmitting'>) => {
   const { isAuth } = userInfo;
@@ -22,10 +21,7 @@ export const AuthPage = ({
     return <Navigate to='/' />;
   }
 
-  const { errors: commonErrors, isProcessing } = loginState;
-
-  // TODO enable optional chaining
-  const errorMessage = commonErrors && commonErrors.join('');
+  const errorMessage = '';
 
   return (
     <Form>
@@ -41,7 +37,7 @@ export const AuthPage = ({
         <Field type='checkbox' name='rememberMe' />
         Запомнить
       </label>
-      <button type='submit' disabled={isSubmitting || isProcessing}>
+      <button type='submit' disabled={isSubmitting || isLoginProcessing}>
         Подтвердить
       </button>
       <div>{errorMessage}</div>

@@ -8,11 +8,15 @@ import { Answers } from '../answers';
 import styles from './styles.module.css';
 
 type Props = {
+  buttonType: string;
+  isButtonDisabled: boolean;
+  isAnyAnswerSelected: boolean;
+
   quizDataLength: number;
   question: QuestionT;
   answers: AnswerT[];
-  currentQuestionId: IdT;
-  currentAnswerId: IdT;
+  currentQuestionId: number;
+  currentAnswerId: number | null;
   error: string;
   isAnswerScoresVisible: boolean;
   onAnswerClick: (e: MouseEvent) => void;
@@ -21,12 +25,16 @@ type Props = {
 };
 
 export const QA: FC<Props> = ({
+  buttonType,
+  isAnswerScoresVisible,
+  isButtonDisabled,
+  isAnyAnswerSelected,
+
   quizDataLength,
   currentQuestionId,
   question,
   answers,
   currentAnswerId,
-  isAnswerScoresVisible,
   error,
   onAnswerClick,
   onShowScoresClick,
@@ -37,7 +45,7 @@ export const QA: FC<Props> = ({
       <div className={styles.row}>
         <Progress
           total={quizDataLength}
-          currentCount={Number(currentQuestionId) + 1}
+          currentCount={Number(currentQuestionId)}
         />
       </div>
       <div className={styles.row}>
@@ -55,7 +63,9 @@ export const QA: FC<Props> = ({
         {isAnswerScoresVisible ? (
           <Button onClick={onNextClick}>Следующий вопрос</Button>
         ) : (
-          <Button onClick={onShowScoresClick}>Показать ответ</Button>
+          <Button onClick={onShowScoresClick} disabled={isButtonDisabled}>
+            Показать ответ
+          </Button>
         )}
         <span className={cn({ [styles.col]: error })}>
           <Error error={error} />

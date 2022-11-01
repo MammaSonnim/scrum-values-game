@@ -1,5 +1,6 @@
-import React, { Component, ReactElement } from 'react';
+import React, { Component, Fragment, ReactElement } from 'react';
 import { Button } from '../button';
+import { Nav } from '../nav';
 
 type PropsT = {
   children: ReactElement[];
@@ -43,7 +44,12 @@ export class ErrorBoundary extends Component<PropsT, StateT> {
 
   render() {
     if (this.state.isError) {
-      return <Button onClick={this.handleReload}>Reload page</Button>;
+      return (
+        <Fragment>
+          <Nav />
+          <Button onClick={this.handleReload}>Reload page</Button>
+        </Fragment>
+      );
     }
 
     return this.props.children;

@@ -1,194 +1,130 @@
-import { forward, sample } from 'effector';
-import { find, getOr } from 'lodash/fp';
-import { calcIsNeedToGameOver, calcTotalScores } from './utils';
-import { AnswerT } from './types';
+import { sample, forward } from 'effector';
+import { find } from 'lodash/fp';
 import {
-  $quiz,
-  toggleAnswerScoresVisibility,
+  $buttonType,
+  $currentAnswerId,
+  $currentQuestionId,
+  $data,
+  $isAnswerScoresVisible,
+  $isAnyAnswerSelected,
+  $isButtonDisabled,
+  $isGameOver,
+  $scores,
+  goToNextQuestion,
+  initQuiz,
+  initQuizFx,
+  QuizAppGate,
+  restartGame,
+  selectAnswer,
   showAnswerScores,
-  showAnswerScoresFx,
   showGameOver,
   showGameOverFx,
-  setCurrentQuestionId,
-  setCurrentAnswerId,
-  selectAnswer,
-  selectAnswerFx,
-  setError,
-  goToNextQuestion,
-  goToNextQuestionFx,
-  restartGame,
-  $scores,
   updateTotalScores,
-  $data,
-  QuizAppGate,
 } from '.';
+import { quizData } from '../../../data';
 import { requestDev } from '../../../utils/request';
+import { AnswerT } from './types';
+import {
+  calcIsNeedToGameOver,
+  calcSumOfScores,
+  calcTotalScores,
+} from './utils';
 
-$quiz.on(toggleAnswerScoresVisibility, (prevState, payload) => {
-  return {
-    ...prevState,
-    isAnswerScoresVisible: payload,
-  };
+// INIT
+initQuizFx.use((mode) => {
+  console.log('🐸 QuizMode:', mode);
+
+  return quizData;
 });
 
-$quiz.on(showGameOver, (prevState, payload) => {
-  return {
-    ...prevState,
-    isGameOverVisible: payload,
-  };
-});
-
-$quiz.on(setCurrentQuestionId, (prevState, currentQuestionId) => {
-  return {
-    ...prevState,
-    currentQuestionId,
-  };
-});
-
-$quiz.on(setCurrentAnswerId, (prevState, currentAnswerId) => {
-  return {
-    ...prevState,
-    currentAnswerId,
-  };
-});
-
-$quiz.on(setError, (prevState, payload) => {
-  return {
-    ...prevState,
-    error: payload,
-  };
-});
-
-$scores.on(updateTotalScores, (prevScores, scores) => {
-  return calcTotalScores(prevScores, scores);
-});
-
-$scores.reset(restartGame);
-$quiz.reset(restartGame);
-
-// On game over
 forward({
-  from: showGameOver,
-  to: showGameOverFx,
+  from: initQuiz,
+  to: initQuizFx,
 });
 
-showGameOverFx.use(async (isGameOverVisible) => {
-  const scores = $scores.getState();
+sample({
+  clock: initQuizFx.done,
+  fn: (effect) => {
+    return effect.result;
+  },
+  target: $data,
+});
 
-  if (isGameOverVisible) {
+// QUESTIONS / ANSWERS
+$buttonType.on(showAnswerScores, () => 'nextQuestion').reset(goToNextQuestion);
+$currentQuestionId.on(goToNextQuestion, (id) => id + 1).reset(restartGame);
+$isAnswerScoresVisible.on(showAnswerScores, () => true).reset(goToNextQuestion);
+$isButtonDisabled.on(selectAnswer, () => false).reset(goToNextQuestion);
+$isAnyAnswerSelected.on(selectAnswer, () => true).reset(goToNextQuestion);
+$currentAnswerId
+  .on(selectAnswer, (_id, newId) => newId)
+  .reset(goToNextQuestion);
+
+// TOTAL SCORES
+$scores
+  .on(updateTotalScores, (totalScores, answerScores) => {
+    if (answerScores) {
+      return calcTotalScores(totalScores, answerScores);
+    }
+  })
+  .reset(restartGame);
+
+sample({
+  clock: showAnswerScores,
+  source: [$data, $currentQuestionId, $currentAnswerId],
+  target: updateTotalScores,
+  fn: ([data, questionId, answerId]) => {
+    const { answers } = data[questionId - 1];
+
+    const answerData: AnswerT | undefined = find((answer: AnswerT) => {
+      return Number(answer.id) === answerId;
+    }, answers);
+
+    return answerData && answerData.scores;
+  },
+});
+
+// GAME OVER
+$isGameOver
+  .on(showGameOver, (_prevState, isShowGameOver: boolean) => isShowGameOver)
+  .reset(restartGame);
+
+sample({
+  clock: goToNextQuestion,
+  source: [$data, $currentQuestionId, $scores],
+  target: showGameOver,
+  fn: ([data, questionId, totalScores]) => {
+    return data.length === questionId || calcIsNeedToGameOver(totalScores);
+  },
+});
+
+sample({
+  clock: showGameOver,
+  source: [$data, $currentQuestionId, $scores],
+  target: showGameOverFx,
+  fn: ([data, questionId, totalScores], isShowGameOver) => {
+    const sumOfScores = calcSumOfScores(totalScores);
+
+    return isShowGameOver && sumOfScores > 0 && data.length === questionId
+      ? sumOfScores
+      : 0;
+  },
+});
+
+showGameOverFx.use(async (sumOfScores) => {
+  if (sumOfScores) {
     // TODO Move to API
     return await requestDev.post('rating/addItem', {
       teamName: 'PiuPiuPiu!',
-      scores:
-        scores.commitment +
-        scores.courage +
-        scores.focus +
-        scores.opennes +
-        scores.respect,
+      scores: sumOfScores,
     });
   }
 });
 
-// On check scores
-sample({
-  clock: toggleAnswerScoresVisibility,
-  source: $scores,
-  fn: (scores, isAnswerScoresVisible) => {
-    if (isAnswerScoresVisible) {
-      return;
-    }
-
-    showGameOver(calcIsNeedToGameOver(scores));
-
-    return {
-      isGameOverVisible: calcIsNeedToGameOver(scores),
-    };
-  },
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  target: $quiz,
-});
-
-// On select answer
-forward({
-  from: selectAnswer,
-  to: selectAnswerFx,
-});
-
-selectAnswerFx.use((id) => {
-  const { isAnswerScoresVisible } = $quiz.getState();
-
-  if (isAnswerScoresVisible) {
-    return;
-  }
-
-  setCurrentAnswerId(id);
-  setError('');
-});
-
-// On show scores
-forward({
-  from: showAnswerScores,
-  to: showAnswerScoresFx,
-});
-
-showAnswerScoresFx.use(() => {
-  const { currentQuestionId, currentAnswerId } = $quiz.getState();
-  const quizData = $data.getState();
-
-  if (!currentAnswerId) {
-    setError('Выберите один из вариантов ответа');
-
-    return;
-  }
-
-  const countableQuestionId = Number(currentQuestionId);
-  // TODO grab from state
-  const { answers } = quizData[countableQuestionId];
-
-  // TODO create selector
-  const currentAnswerData = find((answer: AnswerT) => {
-    return answer.id === currentAnswerId;
-  }, answers);
-
-  const currentAnswerScores = getOr(null, 'scores', currentAnswerData);
-
-  if (currentAnswerScores) {
-    updateTotalScores(currentAnswerScores);
-  }
-
-  toggleAnswerScoresVisibility(true);
-
-  return;
-});
-
-// On go to next question
-forward({
-  from: goToNextQuestion,
-  to: goToNextQuestionFx,
-});
-
-goToNextQuestionFx.use(() => {
-  const { currentQuestionId } = $quiz.getState();
-  const quizData = $data.getState();
-
-  // it is not questionId now, but index – do refactor
-  const countableQuestionId = Number(currentQuestionId);
-
-  setCurrentAnswerId('');
-  toggleAnswerScoresVisibility(false);
-
-  if (countableQuestionId + 1 < quizData.length) {
-    setCurrentQuestionId(String(countableQuestionId + 1));
-
-    return;
-  }
-
-  // if questions are over, show gameOver
-  showGameOver(true);
-});
-
+// MOUNT / UNMOUNT
 QuizAppGate.open.watch((payload) => {
+  initQuiz('solo');
+
   return payload;
 });
 

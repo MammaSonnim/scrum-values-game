@@ -25,7 +25,7 @@ export const Answer: FC<Props> = ({
       <label
         data-id={id}
         className={cn(styles.answer, {
-          'nes-text is-primary': isSelected,
+          [`nes-text is-primary ${styles.answer_selected}`]: isSelected,
         })}
       >
         <input

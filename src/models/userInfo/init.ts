@@ -4,9 +4,11 @@ import { setAppIsInitialized } from '../ui';
 import { requestUserInfo } from './api';
 import { getUserInfo, getUserInfoFx, $userInfo, setUserInfo } from './index';
 
-$userInfo.on(setUserInfo, (_prevState, payload) => {
-  return payload;
-});
+$userInfo
+  .on(setUserInfo, (_prevState, payload) => {
+    return payload;
+  })
+  .reset(getUserInfoFx.fail);
 
 forward({
   from: getUserInfo,
@@ -16,6 +18,12 @@ forward({
 getUserInfoFx.use(async () => {
   return await requestUserInfo();
 });
+
+// sample({
+//   source: getUserInfoFx,
+//   target: $userInfo,
+//   clock: getUserInfoFx.done,
+// });
 
 getUserInfoFx.done.watch(({ result }) => {
   if (result.resultCode === ApiResultCodes.SUCCESS) {
@@ -32,15 +40,7 @@ getUserInfoFx.done.watch(({ result }) => {
 
     setAppIsInitialized(true);
   } else {
-    setUserInfo({
-      login: null,
-      email: null,
-      id: null,
-      isAuth: false,
-      isCreator: false,
-      photoUrl: null,
-    });
-
+    $userInfo.reset();
     // TODO SVG-22 show commonError
     console.log('🐸 result.messages:', result.messages);
   }
@@ -48,13 +48,4 @@ getUserInfoFx.done.watch(({ result }) => {
 
 getUserInfoFx.fail.watch(({ error, params }) => {
   console.info('🦆 Get user info failed', error, params);
-
-  setUserInfo({
-    login: null,
-    email: null,
-    id: null,
-    isAuth: false,
-    isCreator: false,
-    photoUrl: null,
-  });
 });

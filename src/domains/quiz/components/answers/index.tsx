@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 
 type Props = {
   data: AnswerT[];
-  currentAnswerId: IdT;
+  currentAnswerId: number | null;
   isAnswerScoresVisible: boolean;
   onAnswerClick: (e: MouseEvent) => void;
 };
@@ -18,16 +18,18 @@ export const Answers: FC<Props> = ({
 }) => {
   return (
     <div className={styles.root}>
-      {data.map((answer) => (
-        <div key={answer.id} className={styles['answers-item']}>
-          <Answer
-            data={answer}
-            isSelected={currentAnswerId === answer.id}
-            isAnswerScoresVisible={isAnswerScoresVisible}
-            onAnswerClick={onAnswerClick}
-          />
-        </div>
-      ))}
+      {data.map((answer) => {
+        return (
+          <div key={answer.id} className={styles['answers-item']}>
+            <Answer
+              data={answer}
+              isSelected={currentAnswerId === Number(answer.id)}
+              isAnswerScoresVisible={isAnswerScoresVisible}
+              onAnswerClick={onAnswerClick}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };

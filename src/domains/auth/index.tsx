@@ -4,7 +4,12 @@ import { useGate, useStore } from 'effector-react';
 import { compose } from 'lodash/fp';
 import { withFormik } from 'formik';
 import { $userInfo } from '../../models/userInfo';
-import { AuthAppGate, loginUser, logoutUser, $loginState } from './models';
+import {
+  AuthAppGate,
+  loginUser,
+  logoutUser,
+  $isLoginProcessing,
+} from './models';
 import { AuthPage } from './page';
 import { FormValuesT, FormikOuterPropsT } from './types';
 import { getFormikConfig } from './utils/getFormikConfig';
@@ -14,7 +19,7 @@ export { AuthInfo } from './modules/authInfo';
 export const Auth: FC = () => {
   useGate(AuthAppGate);
 
-  const loginState = useStore($loginState);
+  const isLoginProcessing = useStore($isLoginProcessing);
   const userInfo = useStore($userInfo);
   const { email } = userInfo;
 
@@ -26,7 +31,7 @@ export const Auth: FC = () => {
     <PageWithHocs
       userInfo={userInfo}
       initialEmail={email}
-      loginState={loginState}
+      isLoginProcessing={isLoginProcessing}
       logoutUser={logoutUser}
     />
   );
