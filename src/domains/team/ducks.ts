@@ -1,18 +1,22 @@
 // playground for redux-arch
-// import { TODO_ANY } from '../../types';
+import { BaseActionT, BaseThunkT, RootStateT } from '../../redux-store';
 
-const CHANGE_TEAM_NAME = 'CHANGE_TEAM_NAME' as const;
-const ADD_TEAM_NAME = 'ADD_TEAM_NAME' as const;
+const NAMESPACE = 'TEAM';
+
+const CHANGE_TEAM_NAME = `${NAMESPACE}/CHANGE_TEAM_NAME` as const;
+const ADD_TEAM_NAME = `${NAMESPACE}/ADD_TEAM_NAME` as const;
 
 export const teamInitialState = {
   names: [] as string[],
   name: '',
 };
 
+export type TeamInitialStateT = typeof teamInitialState;
+
 export const teamReducer = (
   teamState = teamInitialState,
-  action: teamActionType
-): typeof teamInitialState => {
+  action: ActionT
+): TeamInitialStateT => {
   switch (action.type) {
     case CHANGE_TEAM_NAME:
       return {
@@ -32,22 +36,30 @@ export const teamReducer = (
   }
 };
 
-type changeTeamNameACT = {
-  type: typeof CHANGE_TEAM_NAME;
-  payload: string;
+export const actionCreators = {
+  changeTeamName: (value: string) =>
+    ({
+      type: CHANGE_TEAM_NAME,
+      payload: value,
+    } as const),
+  addTeamName: () =>
+    ({
+      type: ADD_TEAM_NAME,
+    } as const),
 };
 
-export const changeTeamNameAC = (value: string): changeTeamNameACT => ({
-  type: CHANGE_TEAM_NAME,
-  payload: value,
-});
-
-type addTeamNameACT = {
-  type: typeof ADD_TEAM_NAME;
+// thunks
+export const changeTeamName = (value: string): ThunkActionT => {
+  return (dispatch) => {
+    dispatch(actionCreators.changeTeamName(value));
+  };
 };
 
-export const addTeamNameAC = (): addTeamNameACT => ({
-  type: ADD_TEAM_NAME,
-});
+// selectors
+export const selectTeamState = (state: RootStateT) => {
+  return state.teamState;
+};
 
-type teamActionType = changeTeamNameACT | addTeamNameACT;
+// types
+type ActionT = BaseActionT<typeof actionCreators>;
+type ThunkActionT = BaseThunkT<ActionT>;

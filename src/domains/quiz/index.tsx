@@ -4,13 +4,19 @@ import { useGate, useStore } from 'effector-react';
 import { compose } from 'lodash/fp';
 import { withAuthRedirect } from '../../hocs';
 import {
-  $quiz,
-  restartGame,
   $scores,
-  selectAnswer,
-  showAnswerScores,
-  goToNextQuestion,
   $data,
+  $buttonType,
+  $isAnswerScoresVisible,
+  $isButtonDisabled,
+  $isAnyAnswerSelected,
+  $currentAnswerId,
+  $currentQuestionId,
+  $isGameOver,
+  restartGame,
+  selectAnswer,
+  goToNextQuestion,
+  showAnswerScores,
   QuizAppGate,
 } from './models';
 import { QuizPage } from './page';
@@ -18,21 +24,35 @@ import { QuizPage } from './page';
 export const Quiz: FC = () => {
   useGate(QuizAppGate);
 
-  const quiz = useStore($quiz);
   const scores = useStore($scores);
   const quizData = useStore($data);
+  const buttonType = useStore($buttonType);
+  const isAnswerScoresVisible = useStore($isAnswerScoresVisible);
+  const isButtonDisabled = useStore($isButtonDisabled);
+  const isAnyAnswerSelected = useStore($isAnyAnswerSelected);
+  const currentAnswerId = useStore($currentAnswerId);
+  const currentQuestionId = useStore($currentQuestionId);
+  const isGameOver = useStore($isGameOver);
 
-  const PageWithHocs = compose(withAuthRedirect)(QuizPage);
+  // TODO This breaks types!!
+  // const PageWithHocs = compose(withAuthRedirect)(QuizPage);
 
   return (
-    <PageWithHocs
-      quiz={quiz}
+    <QuizPage
+      buttonType={buttonType}
+      isAnswerScoresVisible={isAnswerScoresVisible}
+      isButtonDisabled={isButtonDisabled}
+      isAnyAnswerSelected={isAnyAnswerSelected}
+      isGameOver={isGameOver}
+      currentQuestionId={currentQuestionId}
+      currentAnswerId={currentAnswerId}
       quizData={quizData}
       scores={scores}
       restartGame={restartGame}
       selectAnswer={selectAnswer}
       showAnswerScores={showAnswerScores}
       goToNextQuestion={goToNextQuestion}
+      // updateTotalScores={updateTotalScores}
     />
   );
 };

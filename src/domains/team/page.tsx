@@ -1,22 +1,10 @@
 import React, { FC, useRef, useCallback } from 'react';
 import { noop } from 'lodash/fp';
-import { BrowserHistory } from 'history';
 import { getOr } from 'lodash/fp';
-import { UserInfoT } from '../../models/userInfo/types';
 import { Button } from '../../components';
+import { PropsT } from './types';
 
-type Props = {
-  history: BrowserHistory;
-  teamState: {
-    names: string[];
-    name: string;
-  };
-  userInfo: UserInfoT;
-  onChangeTeamName: (value: string) => void;
-  onAddTeamName: () => void;
-};
-
-export const TeamPage: FC<Props> = ({
+export const TeamPage: FC<PropsT> = ({
   teamState,
   userInfo,
   onChangeTeamName,
@@ -60,7 +48,7 @@ export const TeamPage: FC<Props> = ({
         <a href='#'>Скопировать ссылку-приглашение</a>
         <ul>
           <li>
-            <img src={photoUrl} width={50} height={50} />
+            {photoUrl && <img src={photoUrl} width={50} height={50} />}
             <span>{login}</span>
           </li>
         </ul>

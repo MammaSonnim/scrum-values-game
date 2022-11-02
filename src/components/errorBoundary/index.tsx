@@ -1,7 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment, ReactElement } from 'react';
 import { Button } from '../button';
+import { Nav } from '../nav';
 
-export class ErrorBoundary extends Component {
+type PropsT = {
+  children: ReactElement[];
+};
+
+type StateT = {
+  isError: boolean;
+  error: string | null;
+};
+export class ErrorBoundary extends Component<PropsT, StateT> {
   state = { isError: false, error: null };
 
   promiseRejectionHandler = (event: PromiseRejectionEvent) => {
@@ -12,14 +21,21 @@ export class ErrorBoundary extends Component {
   };
 
   componentDidMount() {
-    window.addEventListener('unhandledrejection', this.promiseRejectionHandler);
+    if (typeof window !== 'undefined') {
+      window.addEventListener(
+        'unhandledrejection',
+        this.promiseRejectionHandler
+      );
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener(
-      'unhandledrejection',
-      this.promiseRejectionHandler
-    );
+    if (typeof window !== 'undefined') {
+      window.removeEventListener(
+        'unhandledrejection',
+        this.promiseRejectionHandler
+      );
+    }
   }
 
   componentDidCatch() {
@@ -28,7 +44,12 @@ export class ErrorBoundary extends Component {
 
   render() {
     if (this.state.isError) {
-      return <Button onClick={this.handleReload}>Reload page</Button>;
+      return (
+        <Fragment>
+          <Nav />
+          <Button onClick={this.handleReload}>Reload page</Button>
+        </Fragment>
+      );
     }
 
     return this.props.children;

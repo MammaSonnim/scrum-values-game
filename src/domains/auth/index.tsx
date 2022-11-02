@@ -4,9 +4,14 @@ import { useGate, useStore } from 'effector-react';
 import { compose } from 'lodash/fp';
 import { withFormik } from 'formik';
 import { $userInfo } from '../../models/userInfo';
-import { AuthAppGate, loginUser, logoutUser, $loginState } from './models';
+import {
+  AuthAppGate,
+  loginUser,
+  logoutUser,
+  $isLoginProcessing,
+} from './models';
 import { AuthPage } from './page';
-import { FormValuesT, WithFormikPropsT } from './types';
+import { FormValuesT, FormikOuterPropsT } from './types';
 import { getFormikConfig } from './utils/getFormikConfig';
 
 export { AuthInfo } from './modules/authInfo';
@@ -14,19 +19,19 @@ export { AuthInfo } from './modules/authInfo';
 export const Auth: FC = () => {
   useGate(AuthAppGate);
 
-  const loginState = useStore($loginState);
+  const isLoginProcessing = useStore($isLoginProcessing);
   const userInfo = useStore($userInfo);
   const { email } = userInfo;
 
   const PageWithHocs = compose(
-    withFormik<WithFormikPropsT, FormValuesT>(getFormikConfig(loginUser))
+    withFormik<FormikOuterPropsT, FormValuesT>(getFormikConfig(loginUser))
   )(AuthPage);
 
   return (
     <PageWithHocs
       userInfo={userInfo}
       initialEmail={email}
-      loginState={loginState}
+      isLoginProcessing={isLoginProcessing}
       logoutUser={logoutUser}
     />
   );

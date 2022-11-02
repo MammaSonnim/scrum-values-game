@@ -36,3 +36,6 @@ export type QuizT = {
   currentAnswerId: IdT;
   error: string;
 };
+
+export type QuizModeT = 'solo' | 'democracy' | 'chosen-one' | 'ultimate';
+export type ButtonTypeT = 'showAnswerScores' | 'nextQuestion';

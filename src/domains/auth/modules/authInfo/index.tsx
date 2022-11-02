@@ -3,16 +3,16 @@ import React, { FC } from 'react';
 import { useStore } from 'effector-react';
 import { $userInfo } from '../../../../models/userInfo';
 import { AuthInfoModule } from './authInfo';
-import { $logoutState, logoutUser } from '../../models';
+import { $isLogoutProcessing, logoutUser } from '../../models';
 
 export const AuthInfo: FC = () => {
   const userInfo = useStore($userInfo);
-  const logoutState = useStore($logoutState);
+  const isLogoutProcessing = useStore($isLogoutProcessing);
 
   return (
     <AuthInfoModule
       userInfo={userInfo}
-      logoutState={logoutState}
+      isLogoutProcessing={isLogoutProcessing}
       logoutUser={logoutUser}
     />
   );

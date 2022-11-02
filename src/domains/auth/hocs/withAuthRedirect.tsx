@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useStore } from 'effector-react';
 import { $userInfo } from '../../../models/userInfo';
 import { $isAppInitialized } from '../../../models/ui';
 
-export const withAuthRedirect = <T,>(WrappedComponent: React.FC<T>) => {
+export const withAuthRedirect = <
+  T extends JSX.IntrinsicAttributes & { children?: ReactNode }
+>(
+  WrappedComponent: React.FC<T>
+) => {
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
 

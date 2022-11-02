@@ -1,9 +1,7 @@
 import { createDomain } from 'effector';
 import { createGate } from 'effector-react';
 import { attachLogger } from 'effector-logger/attach';
-import { quizData } from '../../../data';
-import { IdT, DataT, QuizT } from './types';
-import { ScoresT } from './types';
+import { ButtonTypeT, DataT, QuizModeT, ScoresT } from './types';
 
 export const Domain = createDomain('Quiz');
 
@@ -11,49 +9,30 @@ attachLogger(Domain);
 
 export const QuizAppGate = createGate('QuizAppGate');
 
-// QUIZ
-export const $quiz = Domain.createStore<QuizT>({
-  isAnswerScoresVisible: false,
-  isGameOverVisible: false,
-  currentQuestionId: '0',
-  currentAnswerId: '',
-  error: '',
-});
+export const $data = Domain.createStore<DataT>([]);
 
-export const toggleAnswerScoresVisibility = Domain.createEvent<boolean>(
-  'TOGGLE_ANSWER_SCORES'
+export const initQuiz = Domain.createEvent<QuizModeT>('INIT_QUIZ');
+export const initQuizFx = Domain.createEffect<QuizModeT, DataT, Error>(
+  'INIT_QUIZ/FX'
 );
 
-export const showAnswerScores = Domain.createEvent<void>('SHOW_ANSWER_SCORES');
-export const showAnswerScoresFx = Domain.createEffect<void, void, void>(
-  'SHOW_ANSWER_SCORES/FX'
+// QUESTIONS / ANSWERS
+export const selectAnswer = Domain.createEvent<number>('SELECT_ANSWER');
+export const goToNextQuestion = Domain.createEvent('GO_TO_NEXT_QUESTION');
+export const showAnswerScores = Domain.createEvent('SHOW_ANSWER_SCORES');
+
+export const $buttonType = Domain.createStore<ButtonTypeT>('showAnswerScores');
+export const $isAnswerScoresVisible = Domain.createStore<boolean>(false);
+export const $isButtonDisabled = Domain.createStore<boolean>(true);
+export const $isAnyAnswerSelected = Domain.createStore<boolean>(false);
+export const $currentAnswerId = Domain.createStore<number | null>(null);
+export const $currentQuestionId = Domain.createStore<number>(1);
+
+// TOTAL SCORES
+export const updateTotalScores = Domain.createEvent<ScoresT | undefined>(
+  'UPDATE_TOTAL_SCORES'
 );
 
-export const showGameOver = Domain.createEvent<boolean>('SET_SHOW_GAME_OVER');
-
-export const setCurrentQuestionId = Domain.createEvent<IdT>(
-  'SET_CURRENT_QUESTION_ID'
-);
-
-export const setCurrentAnswerId = Domain.createEvent<IdT>(
-  'SET_CURRENT_ANSWER_ID'
-);
-export const selectAnswer = Domain.createEvent<IdT>('SELECT_ANSWER');
-export const selectAnswerFx = Domain.createEffect<IdT, void, void>(
-  'SELECT_ANSWER/FX'
-);
-
-export const setError = Domain.createEvent<string>('SET_ERROR');
-export const resetErrorFx = Domain.createEffect<string, void, void>(
-  'RESET_ERROR/FX'
-);
-
-export const goToNextQuestion = Domain.createEvent<void>('GO_TO_NEXT_QUESTION');
-export const goToNextQuestionFx = Domain.createEffect<void, void, void>(
-  'GO_TO_NEXT_QUESTION/FX'
-);
-
-// SCORES
 export const $scores = Domain.createStore<ScoresT>({
   courage: 2,
   focus: 2,
@@ -62,15 +41,11 @@ export const $scores = Domain.createStore<ScoresT>({
   opennes: 2,
 });
 
-export const updateTotalScores = Domain.createEvent<ScoresT>(
-  'UPDATE_TOTAL_SCORES'
+// GAME OVER
+export const showGameOver = Domain.createEvent<boolean>('SHOW_GAME_OVER');
+export const showGameOverFx = Domain.createEffect<number, void, void>(
+  'SHOW_GAME_OVER/FX'
 );
-export const updateTotalScoresFx = Domain.createEffect<ScoresT, void, void>(
-  'UPDATE_TOTAL_SCORES/FX'
-);
+export const restartGame = Domain.createEvent('RESTART_GAME');
 
-// COMMON
-export const restartGame = Domain.createEvent<void>('RESTART_GAME');
-
-// QUIZ DATA
-export const $data = Domain.createStore<DataT>(quizData);
+export const $isGameOver = Domain.createStore<boolean>(false);

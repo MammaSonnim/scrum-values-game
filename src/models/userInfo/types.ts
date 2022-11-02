@@ -1,7 +1,4 @@
-import {
-  API_SUCCESS_RESULT_CODE,
-  API_FAILED_RESULT_CODE,
-} from '../../constants';
+import { ApiResponseWithDataT } from '../../types';
 
 export type UserInfoT = {
   login: string | null;
@@ -9,15 +6,11 @@ export type UserInfoT = {
   id: string | null;
   isAuth: boolean;
   isCreator: boolean;
-  photoUrl?: string;
+  photoUrl: string | null;
 };
 
-export type getUserInfoResponseT = {
-  resultCode: typeof API_SUCCESS_RESULT_CODE | typeof API_FAILED_RESULT_CODE;
-  messages: string[];
-  data: {
-    id: number;
-    email: string;
-    login: string;
-  };
-};
+export type GetUserInfoResponseT = ApiResponseWithDataT<{
+  id: number;
+  email: string;
+  login: string;
+}>;
