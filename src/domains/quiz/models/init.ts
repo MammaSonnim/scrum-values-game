@@ -30,16 +30,27 @@ import {
   calcTotalScores,
 } from './utils';
 
+// MOUNT / UNMOUNT
+QuizAppGate.open.watch((payload) => {
+  initQuiz('solo');
+
+  return payload;
+});
+
+QuizAppGate.close.watch((payload) => {
+  return payload;
+});
+
 // INIT
+forward({
+  from: initQuiz,
+  to: initQuizFx,
+});
+
 initQuizFx.use((mode) => {
   console.log('🐸 QuizMode:', mode);
 
   return quizData;
-});
-
-forward({
-  from: initQuiz,
-  to: initQuizFx,
 });
 
 sample({
@@ -119,15 +130,4 @@ showGameOverFx.use(async (sumOfScores) => {
       scores: sumOfScores,
     });
   }
-});
-
-// MOUNT / UNMOUNT
-QuizAppGate.open.watch((payload) => {
-  initQuiz('solo');
-
-  return payload;
-});
-
-QuizAppGate.close.watch((payload) => {
-  return payload;
 });
