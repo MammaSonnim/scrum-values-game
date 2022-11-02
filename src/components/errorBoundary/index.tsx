@@ -52,7 +52,7 @@ export class ErrorBoundary extends Component<PropsT, StateT> {
       );
     }
 
-    return this.props.children;
+    return <Fragment>{this.props.children}</Fragment>;
   }
 
   handleReload = () => {

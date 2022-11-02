@@ -61,6 +61,9 @@ const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
     <Form>
       <fieldset>
         <Field type='text' name='searchString' />
+        {/* TODO SVG-35 */}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
         <ErrorMessage name='searchString' component='div' />
       </fieldset>
       <Button type='submit' disabled={isSubmitting || isProcessing}>
