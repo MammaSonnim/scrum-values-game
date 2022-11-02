@@ -17,7 +17,6 @@ import {
   OwnPropsT,
   FormikOuterPropsT,
   FormValuesT,
-  PropsT,
 } from './types';
 import { getFormikConfig } from './utils';
 
@@ -34,21 +33,13 @@ const mapDispatchToProps: DispatchPropsT = {
   onSubmit: loadRating,
 };
 
-// const RatingWithFormik = withFormik<FormikOuterPropsT, FormValuesT>(
-//   getFormikConfig()
-// )(RatingPage);
-// const Rating = connect<StatePropsT, DispatchPropsT, OwnPropsT, RootStateT>(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(RatingWithFormik);
-
 const Rating: FC<OwnPropsT> = ({ history }) => {
   const PageWithHocs = compose(
     connect<StatePropsT, DispatchPropsT, OwnPropsT, RootStateT>(
       mapStateToProps,
       mapDispatchToProps
     ),
-    // withAuthRedirect,
+    withAuthRedirect,
     withFormik<FormikOuterPropsT, FormValuesT>(getFormikConfig())
   )(RatingPage);
 

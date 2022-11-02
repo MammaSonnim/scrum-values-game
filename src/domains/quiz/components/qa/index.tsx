@@ -1,7 +1,7 @@
 import React, { FC, MouseEvent } from 'react';
-import cn from 'classnames/bind';
+import cn from 'classnames';
 import { Error, Button } from '../../../../components';
-import { AnswerT, QuestionT, IdT } from '../../models/types';
+import { AnswerT, QuestionT } from '../../models/types';
 import { Progress } from '../progress';
 import { Question } from '../question';
 import { Answers } from '../answers';
@@ -25,11 +25,8 @@ type Props = {
 };
 
 export const QA: FC<Props> = ({
-  buttonType,
   isAnswerScoresVisible,
   isButtonDisabled,
-  isAnyAnswerSelected,
-
   quizDataLength,
   currentQuestionId,
   question,
