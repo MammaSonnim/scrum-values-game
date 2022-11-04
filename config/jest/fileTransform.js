@@ -2,7 +2,7 @@
 'use strict';
 
 const path = require('path');
-const camelcase = require('camelcase');
+//const camelcase = require('camelcase');
 
 // This is a custom Jest transformer turning file imports into filenames.
 // http://facebook.github.io/jest/docs/en/webpack.html
@@ -10,6 +10,8 @@ const camelcase = require('camelcase');
 module.exports = {
   process(src, filename) {
     const assetFilename = JSON.stringify(path.basename(filename));
+    // Must use import to load ES Module
+    const camelcase = import('camelcase');
 
     if (filename.match(/\.svg$/)) {
       // Based on how SVGR generates a component name:
