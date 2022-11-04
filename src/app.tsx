@@ -11,7 +11,6 @@ import { Nav } from './components';
 import { getUserInfo } from './models/userInfo';
 import { ErrorBoundary, Loader } from './components';
 import { requestDev } from './utils/request';
-import { ApiResponseWithItemsT } from './types';
 
 const Rating = lazy(() => import('./domains/rating'));
 
@@ -27,6 +26,20 @@ export const App = ({ store }: { store: Store }) => {
       <HashRouter>
         <Provider store={store}>
           <ErrorBoundary>
+            <button
+              onClick={async () => {
+                const result = await requestDev.post('rating', {
+                  teamName: 'Hej from test App',
+                  scores: 19,
+                });
+
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                console.log('🐸 result.body:', result.body);
+              }}
+            >
+              Piu
+            </button>
             <Nav />
             <AuthInfo />
             <Routes>

@@ -6,12 +6,6 @@ export type RatingItemT = {
   teamName: string;
   scores: number;
   date: number;
-  index: number;
-};
-
-export type RatingItemRawT = {
-  id: number;
-  name: string;
 };
 
 // FORM PARAMS
@@ -19,6 +13,11 @@ export type GetRatingRequestParamsT = {
   count?: number;
   page?: number;
   searchString?: string;
+};
+
+export type PostRatingRequestParamsT = {
+  teamName: string;
+  scores: number;
 };
 
 // FORMIK

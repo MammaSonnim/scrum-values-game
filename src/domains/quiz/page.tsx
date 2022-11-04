@@ -2,7 +2,7 @@ import React, { FC, MouseEvent, useCallback } from 'react';
 import cn from 'classnames';
 import { getOr } from 'lodash/fp';
 import { Event } from 'effector';
-import { ScoresT, QuizT, DataT, IdT, QuestionT } from './models/types';
+import { ScoresT, DataT, QuestionT } from './models/types';
 import { Heading, QA, GameOver } from './components';
 import styles from './styles.module.css';
 

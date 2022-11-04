@@ -1,8 +1,6 @@
 import './models/init';
 import React, { FC } from 'react';
 import { useGate, useStore } from 'effector-react';
-import { compose } from 'lodash/fp';
-import { withAuthRedirect } from '../../hocs';
 import {
   $scores,
   $data,
@@ -52,7 +50,6 @@ export const Quiz: FC = () => {
       selectAnswer={selectAnswer}
       showAnswerScores={showAnswerScores}
       goToNextQuestion={goToNextQuestion}
-      // updateTotalScores={updateTotalScores}
     />
   );
 };

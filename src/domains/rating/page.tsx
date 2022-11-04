@@ -40,8 +40,8 @@ export const RatingPage: FC<PropsT> = ({
                 <th>Date</th>
               </thead>
               <tbody>
-                {items.map((item) => {
-                  return <RatingItem {...item} />;
+                {items.map((item, index) => {
+                  return <RatingItem {...item} index={index} />;
                 })}
               </tbody>
             </table>
@@ -73,7 +73,13 @@ const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
   );
 };
 
-const RatingItem: FC<RatingItemT> = ({ teamName, scores, date, id, index }) => {
+const RatingItem: FC<RatingItemT & { index: number }> = ({
+  teamName,
+  scores,
+  date,
+  id,
+  index,
+}) => {
   return (
     <tr key={id}>
       <td>{index}</td>
