@@ -81,20 +81,21 @@ $scores
   .reset(restartGame);
 
 sample({
-  // TODO SVG-36
+  // TODO
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   clock: showAnswerScores,
-  source: [$data, $currentQuestionId, $currentAnswerId],
+  source: {
+    data: $data,
+    currentQuestionId: $currentQuestionId,
+    currentAnswerId: $currentAnswerId,
+  },
   target: updateTotalScores,
-  fn: ([data, questionId, answerId]) => {
-    // TODO SVG-36
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const { answers } = data[questionId - 1];
+  fn: ({ data, currentQuestionId, currentAnswerId }) => {
+    const { answers } = data[currentQuestionId - 1];
 
     const answerData: AnswerT | undefined = find((answer: AnswerT) => {
-      return Number(answer.id) === answerId;
+      return Number(answer.id) === currentAnswerId;
     }, answers);
 
     return answerData && answerData.scores;
@@ -108,30 +109,31 @@ $isGameOver
 
 sample({
   clock: goToNextQuestion,
-  source: [$data, $currentQuestionId, $scores],
+  source: {
+    data: $data,
+    currentQuestionId: $currentQuestionId,
+    scores: $scores,
+  },
   target: showGameOver,
-  fn: ([data, questionId, totalScores]) => {
-    // TODO SVG-36
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return data.length === questionId || calcIsNeedToGameOver(totalScores);
+  fn: ({ data, currentQuestionId, scores }) => {
+    return data.length === currentQuestionId || calcIsNeedToGameOver(scores);
   },
 });
 
 sample({
   clock: showGameOver,
-  source: [$data, $currentQuestionId, $scores],
+  source: {
+    data: $data,
+    currentQuestionId: $currentQuestionId,
+    scores: $scores,
+  },
   target: showGameOverFx,
-  fn: ([data, questionId, totalScores], isShowGameOver) => {
-    // TODO SVG-36
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const sumOfScores = calcSumOfScores(totalScores);
+  fn: ({ data, currentQuestionId, scores }, isShowGameOver) => {
+    const sumOfScores = calcSumOfScores(scores);
 
-    // TODO SVG-36
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return isShowGameOver && sumOfScores > 0 && data.length === questionId
+    return isShowGameOver &&
+      sumOfScores > 0 &&
+      data.length === currentQuestionId
       ? sumOfScores
       : 0;
   },
