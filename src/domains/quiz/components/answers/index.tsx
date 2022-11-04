@@ -1,5 +1,5 @@
 import React, { FC, MouseEvent } from 'react';
-import { AnswerT, IdT } from '../../models/types';
+import { AnswerT } from '../../models/types';
 import { Answer } from '../answer';
 import styles from './styles.module.css';
 

@@ -22,7 +22,7 @@ import {
   updateTotalScores,
 } from '.';
 import { quizData } from '../../../data';
-import { requestDev } from '../../../utils/request';
+import { ratingApi } from '../../rating/api';
 import { AnswerT } from './types';
 import {
   calcIsNeedToGameOver,
@@ -124,9 +124,8 @@ sample({
 
 showGameOverFx.use(async (sumOfScores) => {
   if (sumOfScores) {
-    // TODO Move to API
-    return await requestDev.post('rating/addItem', {
-      teamName: 'PiuPiuPiu!',
+    return await ratingApi.postRatingItem({
+      teamName: 'From FE with ❤️!',
       scores: sumOfScores,
     });
   }

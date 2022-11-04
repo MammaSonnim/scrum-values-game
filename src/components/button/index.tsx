@@ -1,5 +1,4 @@
 import React, { FC, MouseEvent, ReactNode } from 'react';
-import { noop } from 'lodash/fp';
 
 type Props = {
   type?: 'button' | 'submit' | 'reset';

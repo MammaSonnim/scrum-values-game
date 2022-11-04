@@ -25,6 +25,6 @@ export type ApiResponseWithItemsT<T = []> = {
   error: string;
 };
 
-export type EmptyObjectT = Record<string, unknown>;
+export type EmptyObjectT = Record<string, never>;
 
 export type FunctionWithoutParamsT<R = void> = () => R;

@@ -5,7 +5,7 @@ import {
   RaitingInitialStateT,
   ratingReducer,
 } from '../ducks';
-import { RatingItemRawT, RatingItemT } from '../types';
+import { RatingItemT } from '../types';
 import { GetRatingResponseT, ratingApi } from '../api';
 
 const ratingItems: RatingItemT[] = [
@@ -14,7 +14,6 @@ const ratingItems: RatingItemT[] = [
     teamName: 'piu',
     scores: 12,
     date: fakeDate,
-    index: 1,
   },
 ];
 
@@ -90,13 +89,6 @@ const fakeDispatch = jest.fn();
 const fakeGetState = jest.fn();
 
 describe('thunks', () => {
-  const ratingItemsRaw: RatingItemRawT[] = [
-    {
-      id: 1,
-      name: 'piu',
-    },
-  ];
-
   beforeEach(() => {
     jest.spyOn(global.Math, 'random').mockReturnValue(0.123456789);
     jest.spyOn(Date, 'now').mockImplementation(() => fakeDate);

@@ -14,5 +14,5 @@ export const request = axios.create({
 
 export const requestDev = axios.create({
   withCredentials: true,
-  baseURL: 'http://localhost:3003',
+  baseURL: '/api',
 });
