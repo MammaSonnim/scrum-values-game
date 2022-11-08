@@ -4,7 +4,7 @@ Domain consists of:
 
 - `AuthPage`
 - `AuthInfo` module
-- `withAuthRedirect` hoc
+- `withAuthRedirect` wrapper
 
 #### External deps
 
@@ -33,7 +33,7 @@ url `/login` (TODO SVG-21 move url to domain).
 
 ### `withAuthRedirect`
 
-- `!isAuth`: if any page is wrapped by hoc, user is redirected to `AuthPage` (if `isAppInitialized` true).
+- `!isAuth`: if any page is wrapped by wrapper, user is redirected to `AuthPage` (if `isAppInitialized` true).
   Otherwise – user can visit any page not wrapped by `withAuthRedirect`.
 - `isAuth`: nothing happens.
 

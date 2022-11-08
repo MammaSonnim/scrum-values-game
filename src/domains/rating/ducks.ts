@@ -8,12 +8,16 @@ const NAMESPACE = 'RATING';
 const LOAD_RAITING_WIP = `${NAMESPACE}/LOAD_RAITING_WIP` as const;
 const LOAD_RAITING_SUCCESS = `${NAMESPACE}/LOAD_RAITING_SUCCESS` as const;
 const LOAD_RAITING_FAILED = `${NAMESPACE}/LOAD_RAITING_FAILED` as const;
+const SET_QUERY_PARAMS = `${NAMESPACE}/SET_QUERY_PARAMS` as const;
+
+type QueryParamsT = GetRatingRequestParamsT | null | undefined;
 
 export const ratingInitialState = {
   items: [] as RatingItemT[],
   isProcessing: false,
   totalCount: 0,
-  //searchParams: null as GetRatingRequestParamsT | null | undefined,
+  // TODO maybe not in object, but in separate fields
+  queryParams: null as QueryParamsT,
 };
 
 export type RaitingInitialStateT = typeof ratingInitialState;
@@ -44,6 +48,12 @@ export const ratingReducer = (
         isProcessing: false,
       };
 
+    case SET_QUERY_PARAMS:
+      return {
+        ...state,
+        queryParams: action.payload,
+      };
+
     default:
       return state;
   }
@@ -54,6 +64,7 @@ export const actionCreators = {
     ({
       type: LOAD_RAITING_WIP,
     } as const),
+
   loadRatingSuccess: ({
     items,
     totalCount,
@@ -68,9 +79,16 @@ export const actionCreators = {
         totalCount,
       },
     } as const),
+
   loadRatingFailed: () =>
     ({
       type: LOAD_RAITING_FAILED,
+    } as const),
+
+  setQueryParams: (params?: QueryParamsT) =>
+    ({
+      type: SET_QUERY_PARAMS,
+      payload: params,
     } as const),
 };
 
@@ -78,6 +96,7 @@ export const actionCreators = {
 export const loadRating = (params?: GetRatingRequestParamsT): ThunkActionT => {
   return async (dispatch) => {
     dispatch(actionCreators.loadRatingWip());
+    dispatch(actionCreators.setQueryParams(params));
 
     const result = await ratingApi.requestRating(params);
 

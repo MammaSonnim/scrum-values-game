@@ -19,22 +19,16 @@ export const AuthPage: FC<
     return <Navigate to='/' />;
   }
 
-  const errorMessage = 'Test';
+  const errorMessage = '';
 
   return (
     <Form>
       <fieldset className={styles.fieldset}>
         <Field type='email' name='email' />
-        {/* TODO SVG-35 */}
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/* @ts-ignore */}
         <ErrorMessage name='email' component='div' />
       </fieldset>
       <fieldset className={styles.fieldset}>
         <Field type='password' name='password' />
-        {/* TODO SVG-35 */}
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/* @ts-ignore */}
         <ErrorMessage name='password' component='div' />
       </fieldset>
       <label>

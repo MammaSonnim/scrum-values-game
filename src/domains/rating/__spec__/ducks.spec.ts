@@ -29,6 +29,7 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: false,
+        queryParams: null,
       };
 
       const newState = ratingReducer(state, actionCreators.loadRatingWip());
@@ -37,6 +38,7 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: true,
+        queryParams: null,
       });
     });
   });
@@ -47,6 +49,7 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: true,
+        queryParams: null,
       };
 
       const newState = ratingReducer(
@@ -58,6 +61,7 @@ describe('teamReducer', () => {
         items: ratingItems,
         totalCount: 1,
         isProcessing: false,
+        queryParams: null,
       });
     });
   });
@@ -68,6 +72,7 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: true,
+        queryParams: null,
       };
 
       const newState = ratingReducer(state, actionCreators.loadRatingFailed());
@@ -76,6 +81,34 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: false,
+        queryParams: null,
+      });
+    });
+  });
+
+  describe('SET_QUERY_PARAMS', () => {
+    it('should return new state with queryParams', () => {
+      const state: RaitingInitialStateT = {
+        items: [],
+        totalCount: 0,
+        isProcessing: false,
+        queryParams: null,
+      };
+
+      const newState = ratingReducer(
+        state,
+        actionCreators.setQueryParams({
+          searchString: 'Hej',
+        })
+      );
+
+      expect(newState).toEqual({
+        items: [],
+        totalCount: 0,
+        isProcessing: false,
+        queryParams: {
+          searchString: 'Hej',
+        },
       });
     });
   });
@@ -114,13 +147,13 @@ describe('thunks', () => {
 
       await thunk(fakeDispatch, fakeGetState, null);
 
-      expect(fakeDispatch).toBeCalledTimes(2);
+      expect(fakeDispatch).toBeCalledTimes(3);
       expect(fakeDispatch).toHaveBeenNthCalledWith(
         1,
         actionCreators.loadRatingWip()
       );
       expect(fakeDispatch).toHaveBeenNthCalledWith(
-        2,
+        3,
         actionCreators.loadRatingSuccess(ratingData)
       );
     });
@@ -140,13 +173,13 @@ describe('thunks', () => {
 
       await thunk(fakeDispatch, fakeGetState, null);
 
-      expect(fakeDispatch).toBeCalledTimes(2);
+      expect(fakeDispatch).toBeCalledTimes(3);
       expect(fakeDispatch).toHaveBeenNthCalledWith(
         1,
         actionCreators.loadRatingWip()
       );
       expect(fakeDispatch).toHaveBeenNthCalledWith(
-        2,
+        3,
         actionCreators.loadRatingFailed()
       );
     });
