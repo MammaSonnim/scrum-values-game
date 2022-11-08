@@ -3,7 +3,6 @@ import React, { lazy, Suspense, useEffect } from 'react';
 import { Store } from 'redux';
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createBrowserHistory } from 'history';
 import 'nes.css/css/nes.min.css';
 import './app.css';
 import { Quiz, Team, Auth, AuthInfo } from './domains';
@@ -15,8 +14,6 @@ import { requestDev } from './utils/request';
 const Rating = lazy(() => import('./domains/rating'));
 
 export const App = ({ store }: { store: Store }) => {
-  const history = createBrowserHistory();
-
   useEffect(() => {
     getUserInfo();
   }, []);
@@ -46,12 +43,12 @@ export const App = ({ store }: { store: Store }) => {
               <Route path='/' element={<Navigate to='/game' />} />
               <Route path='/game' element={<Quiz />} />
               <Route path='/login' element={<Auth />} />
-              <Route path='/team' element={<Team history={history} />} />
+              <Route path='/team' element={<Team />} />
               <Route
                 path='/rating'
                 element={
                   <Suspense fallback={<Loader />}>
-                    <Rating history={history} />
+                    <Rating />
                   </Suspense>
                 }
               />

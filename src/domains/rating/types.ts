@@ -1,5 +1,5 @@
-import { BrowserHistory } from 'history';
 import { FormikProps } from 'formik';
+import { EmptyObjectT } from '../../types';
 
 export type RatingItemT = {
   id: number;
@@ -9,16 +9,20 @@ export type RatingItemT = {
 };
 
 // FORM PARAMS
-export type GetRatingRequestParamsT = {
+export type RatingFilterParamsT = {
   count?: number;
   page?: number;
   searchString?: string;
 };
 
+export type GetRatingRequestParamsT = RatingFilterParamsT;
+
 export type PostRatingRequestParamsT = {
   teamName: string;
   scores: number;
 };
+
+export type SavedFilterParamsT = RatingFilterParamsT | null | undefined;
 
 // FORMIK
 export type FormValuesT = {
@@ -28,10 +32,13 @@ export type FormValuesT = {
 export type FormikOuterPropsT = OwnPropsT;
 
 // PROPS
-export type OwnPropsT = {
-  history: BrowserHistory;
-};
+export type OwnPropsT = EmptyObjectT;
 
 export type HocsPropsT = FormikProps<FormValuesT>;
 
-export type PropsT = OwnPropsT & HocsPropsT;
+export type PropsT = OwnPropsT &
+  HocsPropsT & {
+    items: RatingItemT[];
+    totalCount: number;
+    isProcessing: boolean;
+  };

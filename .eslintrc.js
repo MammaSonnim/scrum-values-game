@@ -18,7 +18,7 @@ module.exports = {
     ecmaVersion: 13,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'react-hooks'],
   rules: {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-var-requires': 'off',
@@ -46,5 +46,6 @@ module.exports = {
 
       { blankLine: 'always', prev: '*', next: 'return' },
     ],
+    'react-hooks/rules-of-hooks': 'error',
   },
 };

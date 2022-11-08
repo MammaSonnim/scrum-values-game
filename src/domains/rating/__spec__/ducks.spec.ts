@@ -1,7 +1,7 @@
 import { fakeDate } from '../../../constants';
 import {
   actionCreators,
-  loadRating,
+  loadRatingAndSaveParams,
   RaitingInitialStateT,
   ratingReducer,
 } from '../ducks';
@@ -29,7 +29,7 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: false,
-        queryParams: null,
+        savedFilterParams: null,
       };
 
       const newState = ratingReducer(state, actionCreators.loadRatingWip());
@@ -38,7 +38,7 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: true,
-        queryParams: null,
+        savedFilterParams: null,
       });
     });
   });
@@ -49,7 +49,7 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: true,
-        queryParams: null,
+        savedFilterParams: null,
       };
 
       const newState = ratingReducer(
@@ -61,7 +61,7 @@ describe('teamReducer', () => {
         items: ratingItems,
         totalCount: 1,
         isProcessing: false,
-        queryParams: null,
+        savedFilterParams: null,
       });
     });
   });
@@ -72,7 +72,7 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: true,
-        queryParams: null,
+        savedFilterParams: null,
       };
 
       const newState = ratingReducer(state, actionCreators.loadRatingFailed());
@@ -81,23 +81,23 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: false,
-        queryParams: null,
+        savedFilterParams: null,
       });
     });
   });
 
   describe('SET_QUERY_PARAMS', () => {
-    it('should return new state with queryParams', () => {
+    it('should return new state with savedFilterParams', () => {
       const state: RaitingInitialStateT = {
         items: [],
         totalCount: 0,
         isProcessing: false,
-        queryParams: null,
+        savedFilterParams: null,
       };
 
       const newState = ratingReducer(
         state,
-        actionCreators.setQueryParams({
+        actionCreators.saveFilterParams({
           searchString: 'Hej',
         })
       );
@@ -106,7 +106,7 @@ describe('teamReducer', () => {
         items: [],
         totalCount: 0,
         isProcessing: false,
-        queryParams: {
+        savedFilterParams: {
           searchString: 'Hej',
         },
       });
@@ -143,17 +143,17 @@ describe('thunks', () => {
         Promise.resolve(ratingRequestResponseSuccess)
       );
 
-      const thunk = loadRating();
+      const thunk = loadRatingAndSaveParams();
 
       await thunk(fakeDispatch, fakeGetState, null);
 
-      expect(fakeDispatch).toBeCalledTimes(3);
+      expect(fakeDispatch).toBeCalledTimes(2);
       expect(fakeDispatch).toHaveBeenNthCalledWith(
         1,
         actionCreators.loadRatingWip()
       );
       expect(fakeDispatch).toHaveBeenNthCalledWith(
-        3,
+        2,
         actionCreators.loadRatingSuccess(ratingData)
       );
     });
@@ -169,17 +169,17 @@ describe('thunks', () => {
         Promise.resolve(ratingRequestResponseFailed)
       );
 
-      const thunk = loadRating();
+      const thunk = loadRatingAndSaveParams();
 
       await thunk(fakeDispatch, fakeGetState, null);
 
-      expect(fakeDispatch).toBeCalledTimes(3);
+      expect(fakeDispatch).toBeCalledTimes(2);
       expect(fakeDispatch).toHaveBeenNthCalledWith(
         1,
         actionCreators.loadRatingWip()
       );
       expect(fakeDispatch).toHaveBeenNthCalledWith(
-        3,
+        2,
         actionCreators.loadRatingFailed()
       );
     });

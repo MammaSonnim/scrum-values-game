@@ -1,31 +1,18 @@
-import { AnyAction } from 'redux';
-import { useDispatch, useSelector } from 'react-redux';
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { isEmpty } from 'lodash/fp';
 import { format } from 'date-fns';
 import { Form, Field, ErrorMessage } from 'formik';
 import { Button, Loader } from '../../components';
 import { PropsT, RatingItemT } from './types';
 import styles from './styles.module.css';
-import {
-  loadRating,
-  selectRatingisProcessing,
-  selectRatingItems,
-  selectRatingTotalCount,
-} from './ducks';
 
-export const RatingPage: FC<PropsT> = ({ isSubmitting, touched }) => {
-  const items = useSelector(selectRatingItems);
-  const totalCount = useSelector(selectRatingTotalCount);
-  const isProcessing = useSelector(selectRatingisProcessing);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    // to fix it, need to add AnyAction type to ThunkActionT, but I don't like such freedom
-    dispatch(loadRating() as unknown as AnyAction);
-  }, []);
-
+export const RatingPage: FC<PropsT> = ({
+  isSubmitting,
+  touched,
+  items,
+  totalCount,
+  isProcessing,
+}) => {
   const hasItemsBeforeFiltered = !isEmpty(items) || touched.searchString;
 
   return (
@@ -71,22 +58,6 @@ export const RatingPage: FC<PropsT> = ({ isSubmitting, touched }) => {
   );
 };
 
-type FormPropsT = Pick<PropsT, 'isSubmitting'> & { isProcessing: boolean };
-
-const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
-  return (
-    <Form>
-      <fieldset>
-        <Field type='text' name='searchString' />
-        <ErrorMessage name='searchString' component='div' />
-      </fieldset>
-      <Button type='submit' disabled={isSubmitting || isProcessing}>
-        Подтвердить
-      </Button>
-    </Form>
-  );
-};
-
 const RatingItem: FC<RatingItemT & { index: number }> = ({
   teamName,
   scores,
@@ -100,5 +71,21 @@ const RatingItem: FC<RatingItemT & { index: number }> = ({
       <td>{scores}</td>
       <td>{format(date, 'Pp')}</td>
     </tr>
+  );
+};
+
+type FormPropsT = Pick<PropsT, 'isSubmitting'> & { isProcessing: boolean };
+
+const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
+  return (
+    <Form>
+      <fieldset>
+        <Field type='text' name='searchString' />
+        <ErrorMessage name='searchString' component='div' />
+      </fieldset>
+      <Button type='submit' disabled={isSubmitting || isProcessing}>
+        Подтвердить
+      </Button>
+    </Form>
   );
 };

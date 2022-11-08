@@ -1,6 +1,5 @@
-import { BrowserHistory } from 'history';
 import { UserInfoT } from '../../models/userInfo/types';
-import { FunctionWithoutParamsT } from '../../types';
+import { EmptyObjectT, FunctionWithoutParamsT } from '../../types';
 
 export type TeamStateT = {
   names: string[];
@@ -17,9 +16,7 @@ export type DispatchPropsT = {
   onChangeTeamName: (value: string) => void;
 };
 
-export type OwnPropsT = {
-  history: BrowserHistory;
-};
+export type OwnPropsT = EmptyObjectT;
 
 export type HocsPropsT = {
   userInfo: UserInfoT;
