@@ -32,9 +32,6 @@ export const Quiz: FC = () => {
   const currentQuestionId = useStore($currentQuestionId);
   const isGameOver = useStore($isGameOver);
 
-  // TODO This breaks types!!
-  // const PageWithHocs = compose(withAuthRedirect)(QuizPage);
-
   return (
     <QuizPage
       buttonType={buttonType}

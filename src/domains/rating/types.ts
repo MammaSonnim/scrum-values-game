@@ -25,24 +25,13 @@ export type FormValuesT = {
   searchString: string;
 };
 
-export type FormikOuterPropsT = StatePropsT & DispatchPropsT & OwnPropsT;
+export type FormikOuterPropsT = OwnPropsT;
 
 // PROPS
-export type StatePropsT = {
-  items: RatingItemT[];
-  totalCount: number;
-  isProcessing: boolean;
-};
-
-export type DispatchPropsT = {
-  onMount: (params?: GetRatingRequestParamsT) => void;
-  onSubmit: (params?: GetRatingRequestParamsT) => void;
-};
-
 export type OwnPropsT = {
   history: BrowserHistory;
 };
 
 export type HocsPropsT = FormikProps<FormValuesT>;
 
-export type PropsT = StatePropsT & DispatchPropsT & OwnPropsT & HocsPropsT;
+export type PropsT = OwnPropsT & HocsPropsT;

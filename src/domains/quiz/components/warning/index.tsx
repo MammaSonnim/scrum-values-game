@@ -3,12 +3,12 @@ import cn from 'classnames';
 import styles from './styles.module.css';
 
 // TODO add normal type
-type Props = {
+type PropsT = {
   warning: string | null;
   note: string | null;
 };
 
-export const Warning: FC<Props> = ({ warning, note }) => {
+export const Warning: FC<PropsT> = ({ warning, note }) => {
   const [isNoteVisible, toggleNoteVisibility] = useState(false);
 
   const handleToggleNoteVisibility = useCallback(() => {
