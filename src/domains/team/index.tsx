@@ -19,7 +19,7 @@ const mapDispatchToProps: DispatchPropsT = {
   onAddTeamName: actionCreators.addTeamName,
 };
 
-export const Team: FC<OwnPropsT> = ({ history }) => {
+export const Team: FC<OwnPropsT> = () => {
   const PageWithHocs = compose(
     withUserInfo,
     connect<StatePropsT, DispatchPropsT, OwnPropsT, RootStateT>(
@@ -28,9 +28,5 @@ export const Team: FC<OwnPropsT> = ({ history }) => {
     )
   )(TeamPage);
 
-  return (
-    <WrapperWithAuthRedirect
-      render={() => <PageWithHocs history={history} />}
-    />
-  );
+  return <WrapperWithAuthRedirect render={() => <PageWithHocs />} />;
 };

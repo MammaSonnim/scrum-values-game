@@ -1,23 +1,22 @@
 // playground for redux-arch
 import { BaseActionT, BaseThunkT, RootStateT } from '../../redux-store';
 import { ratingApi } from './api';
-import { GetRatingRequestParamsT, RatingItemT } from './types';
+import { SavedFilterParamsT, RatingItemT, RatingFilterParamsT } from './types';
 
 const NAMESPACE = 'RATING';
 
 const LOAD_RAITING_WIP = `${NAMESPACE}/LOAD_RAITING_WIP` as const;
 const LOAD_RAITING_SUCCESS = `${NAMESPACE}/LOAD_RAITING_SUCCESS` as const;
 const LOAD_RAITING_FAILED = `${NAMESPACE}/LOAD_RAITING_FAILED` as const;
-const SET_QUERY_PARAMS = `${NAMESPACE}/SET_QUERY_PARAMS` as const;
-
-type QueryParamsT = GetRatingRequestParamsT | null | undefined;
+const SAVE_FILTER_PARAMS = `${NAMESPACE}/SAVE_FILTER_PARAMS` as const;
 
 export const ratingInitialState = {
   items: [] as RatingItemT[],
   isProcessing: false,
   totalCount: 0,
+  // Saved params when form is submitted
   // TODO maybe not in object, but in separate fields
-  queryParams: null as QueryParamsT,
+  savedFilterParams: null as SavedFilterParamsT,
 };
 
 export type RaitingInitialStateT = typeof ratingInitialState;
@@ -48,10 +47,10 @@ export const ratingReducer = (
         isProcessing: false,
       };
 
-    case SET_QUERY_PARAMS:
+    case SAVE_FILTER_PARAMS:
       return {
         ...state,
-        queryParams: action.payload,
+        savedFilterParams: action.payload,
       };
 
     default:
@@ -85,18 +84,24 @@ export const actionCreators = {
       type: LOAD_RAITING_FAILED,
     } as const),
 
-  setQueryParams: (params?: QueryParamsT) =>
+  saveFilterParams: (params?: SavedFilterParamsT) =>
     ({
-      type: SET_QUERY_PARAMS,
+      type: SAVE_FILTER_PARAMS,
       payload: params,
     } as const),
 };
 
 // thunks
-export const loadRating = (params?: GetRatingRequestParamsT): ThunkActionT => {
+// fetching data and saving params from UI (form or URL) to BLL
+export const loadRatingAndSaveParams = (
+  params?: RatingFilterParamsT
+): ThunkActionT => {
   return async (dispatch) => {
+    if (params) {
+      dispatch(actionCreators.saveFilterParams(params));
+    }
+
     dispatch(actionCreators.loadRatingWip());
-    dispatch(actionCreators.setQueryParams(params));
 
     const result = await ratingApi.requestRating(params);
 
@@ -128,10 +133,14 @@ export const selectRatingTotalCount = (state: RootStateT) => {
   return selectRatingState(state).totalCount;
 };
 
-export const selectRatingisProcessing = (state: RootStateT) => {
+export const selectRatingIsProcessing = (state: RootStateT) => {
   return selectRatingState(state).isProcessing;
 };
 
+export const selectSavedFilterParams = (state: RootStateT) => {
+  return selectRatingState(state).savedFilterParams;
+};
+
 // types
-type ActionT = BaseActionT<typeof actionCreators>;
-type ThunkActionT = BaseThunkT<ActionT>;
+export type ActionT = BaseActionT<typeof actionCreators>;
+export type ThunkActionT = BaseThunkT<ActionT>;

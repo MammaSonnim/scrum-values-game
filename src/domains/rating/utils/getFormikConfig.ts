@@ -1,17 +1,19 @@
 import { FormikErrors, FormikHelpers } from 'formik';
-import { AnyAction, Dispatch } from 'redux';
-import { loadRating } from '../ducks';
-import { FormValuesT, FormikOuterPropsT } from '../types';
+import { FormValuesT, FormikOuterPropsT, SavedFilterParamsT } from '../types';
 
-interface FormikHelpersWithPropsFromConnect extends FormikHelpers<FormValuesT> {
+type FormikHelpersWithPropsFromConnectT = FormikHelpers<FormValuesT> & {
   props: FormikOuterPropsT;
-}
+};
 
-export const getFormikConfig = (dispatch: Dispatch) => {
+export const getFormikConfig = (
+  handleSubmitForm: (values: FormValuesT) => void,
+  savedFilterParams: SavedFilterParamsT
+) => {
   return {
+    // init values usually come as props from connect, but index doesn't have it anymore
     mapPropsToValues: () => {
       return {
-        searchString: '',
+        searchString: savedFilterParams?.searchString || '',
       };
     },
 
@@ -27,19 +29,11 @@ export const getFormikConfig = (dispatch: Dispatch) => {
       return errors;
     },
 
-    handleSubmit: async (
+    handleSubmit: (
       values: FormValuesT,
-      { setSubmitting }: FormikHelpersWithPropsFromConnect
+      { setSubmitting }: FormikHelpersWithPropsFromConnectT
     ) => {
-      // TODO if there are more params, move to helper for constructing params object
-      const params = values.searchString
-        ? {
-            searchString: values.searchString,
-          }
-        : undefined;
-
-      // to fix it, need to add AnyAction type to ThunkActionT, but I don't like such freedom
-      await dispatch(loadRating(params) as unknown as AnyAction);
+      handleSubmitForm(values);
 
       setSubmitting(false);
     },
