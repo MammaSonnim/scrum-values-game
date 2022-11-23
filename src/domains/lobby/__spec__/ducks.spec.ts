@@ -9,8 +9,7 @@ describe('teamReducer', () => {
   describe('CHANGE_TEAM_NAME', () => {
     it('should return new state with updated name', () => {
       const state: LobbyInitialStateT = {
-        names: [],
-        name: '',
+        teamName: '',
         data: null,
         isChannelReady: false,
       };
@@ -21,46 +20,7 @@ describe('teamReducer', () => {
       );
 
       expect(newState).toEqual({
-        names: [],
-        name: 'piu',
-        data: null,
-        isChannelReady: false,
-      });
-    });
-  });
-
-  describe('ADD_TEAM_NAME', () => {
-    it('should return new state with updated names and clear name', () => {
-      const state: LobbyInitialStateT = {
-        names: [],
-        name: 'piu',
-        data: null,
-        isChannelReady: false,
-      };
-
-      const newState = lobbyReducer(state, actionCreators.addTeamName());
-
-      expect(newState).toEqual({
-        names: ['piu'],
-        name: '',
-        data: null,
-        isChannelReady: false,
-      });
-    });
-
-    it('should return new state with several names and clear name', () => {
-      const state: LobbyInitialStateT = {
-        names: ['miu'],
-        name: 'piu',
-        data: null,
-        isChannelReady: false,
-      };
-
-      const newState = lobbyReducer(state, actionCreators.addTeamName());
-
-      expect(newState).toEqual({
-        names: ['miu', 'piu'],
-        name: '',
+        teamName: 'piu',
         data: null,
         isChannelReady: false,
       });
@@ -70,7 +30,7 @@ describe('teamReducer', () => {
 
 describe('thunks', () => {
   const fakeDispatch = jest.fn();
-  const fakeGetState = jest.fn();
+  let fakeGetState = jest.fn();
 
   beforeEach(() => {
     fakeDispatch.mockClear();
@@ -79,11 +39,19 @@ describe('thunks', () => {
 
   describe('changeTeamName', () => {
     it('should call dispatch specific times with specific actionCreator', () => {
+      fakeGetState = jest.fn(() => {
+        return {
+          data: {
+            teamSessionId: '1',
+          },
+        };
+      });
+
       const thunk = changeTeamName('piu');
 
       thunk(fakeDispatch, fakeGetState, null);
 
-      expect(fakeDispatch).toBeCalledTimes(1);
+      expect(fakeDispatch).toBeCalledTimes(2);
       expect(fakeDispatch).toHaveBeenNthCalledWith(
         1,
         actionCreators.changeTeamName('piu')

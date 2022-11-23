@@ -1,9 +1,5 @@
 import { UserInfoT } from '../../models/userInfo/types';
-import {
-  EmptyObjectT,
-  FunctionWithoutParamsT,
-  TeamSessionIdT,
-} from '../../types';
+import { EmptyObjectT, TeamSessionIdT } from '../../types';
 
 export type TeammateT = {
   photoUrl: string;
@@ -16,16 +12,18 @@ export type TeammateT = {
 export type ResponseDataT = {
   id: TeamSessionIdT;
   teammates: TeammateT[];
+  teamName?: string;
 };
 
 export type LobbyDataT = {
   teamSessionId: TeamSessionIdT | null;
   teammates: TeammateT[];
+  teamName?: string;
 };
 
 export type LobbyStateT = {
-  names: string[];
-  name: string;
+  // TODO SVG-8 store only this teamName
+  teamName: string;
   data: LobbyDataT | null;
   isChannelReady: boolean;
 };
@@ -36,7 +34,6 @@ export type EventNameT = 'message_received' | 'status_changed';
 export type StatePropsT = LobbyStateT;
 
 export type DispatchPropsT = {
-  onAddTeamName: FunctionWithoutParamsT;
   onChangeTeamName: (value: string) => void;
   onStartDataListening: (teamSessionId: TeamSessionIdT | null) => void;
   onStopDataListening: () => void;

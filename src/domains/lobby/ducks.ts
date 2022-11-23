@@ -10,14 +10,12 @@ import { LobbyDataT, ResponseDataT } from './types';
 const NAMESPACE = 'LOBBY';
 
 const CHANGE_TEAM_NAME = `${NAMESPACE}/CHANGE_TEAM_NAME` as const;
-const ADD_TEAM_NAME = `${NAMESPACE}/ADD_TEAM_NAME` as const;
 
 const DATA_RECEIVED = `${NAMESPACE}/DATA_RECEIVED` as const;
 const SET_IS_CHANNEL_READY = `${NAMESPACE}/SET_IS_CHANNEL_READY` as const;
 
 export const lobbyInitialState = {
-  names: [] as string[],
-  name: '',
+  teamName: 'Super Puper Team',
   data: null as LobbyDataT | null,
   isChannelReady: false,
 };
@@ -32,20 +30,14 @@ export const lobbyReducer = (
     case CHANGE_TEAM_NAME:
       return {
         ...lobbyState,
-        name: action.payload,
-      };
-
-    case ADD_TEAM_NAME:
-      return {
-        ...lobbyState,
-        names: [...lobbyState.names, lobbyState.name],
-        name: '',
+        teamName: action.payload,
       };
 
     case DATA_RECEIVED:
       return {
         ...lobbyState,
         data: action.payload,
+        teamName: action.payload.teamName || lobbyState.teamName,
       };
 
     case SET_IS_CHANNEL_READY:
@@ -65,10 +57,6 @@ export const actionCreators = {
       type: CHANGE_TEAM_NAME,
       payload: value,
     } as const),
-  addTeamName: () =>
-    ({
-      type: ADD_TEAM_NAME,
-    } as const),
   dataReceived: (data: LobbyDataT) =>
     ({
       type: DATA_RECEIVED,
@@ -83,8 +71,19 @@ export const actionCreators = {
 
 // thunks
 export const changeTeamName = (value: string): ThunkActionT => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const teamSessionId = selectTeamSessionId(getState());
+
     dispatch(actionCreators.changeTeamName(value));
+    dispatch(
+      sendData(
+        JSON.stringify({
+          type: 'change-teamdata',
+          teamName: value,
+          teamSessionId: teamSessionId || null,
+        })
+      )
+    );
   };
 };
 
@@ -108,6 +107,7 @@ const dataHandlerCreator = (dispatch: Dispatch<ActionT>) => {
         actionCreators.dataReceived({
           teamSessionId: parsedData?.id || null,
           teammates: parsedData?.teammates || [],
+          teamName: parsedData?.teamName,
         })
       );
     };
@@ -181,12 +181,8 @@ export const selectLobbyState = (state: RootStateT) => {
   return state.lobbyState;
 };
 
-export const selectTeamNames = (state: RootStateT) => {
-  return selectLobbyState(state).names;
-};
-
 export const selectTeamName = (state: RootStateT) => {
-  return selectLobbyState(state).name;
+  return selectLobbyState(state).teamName;
 };
 
 export const selectLobbyData = (state: RootStateT) => {
@@ -195,6 +191,10 @@ export const selectLobbyData = (state: RootStateT) => {
 
 export const selectIsChannelReady = (state: RootStateT) => {
   return selectLobbyState(state).isChannelReady;
+};
+
+export const selectTeamSessionId = (state: RootStateT) => {
+  return selectLobbyState(state)?.data?.teamSessionId;
 };
 
 // types
