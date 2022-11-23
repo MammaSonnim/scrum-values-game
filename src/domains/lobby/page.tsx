@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect } from 'react';
+import React, { FC, useRef, useEffect, useState, Fragment } from 'react';
 import { getOr } from 'lodash/fp';
 import { Button } from '../../components';
 import { PropsT, TeammatePropsT } from './types';
@@ -7,22 +7,23 @@ import { TeamSessionIdT } from '../../types';
 
 export const LobbyPage: FC<PropsT> = ({
   data,
-  names,
-  name,
+  teamName,
   userInfo,
   onChangeTeamName,
-  onAddTeamName,
   onStartDataListening,
   onStopDataListening,
   sendData,
 }) => {
   const [searchParamsFromUrl, setSearchParamsToUrl] = useSearchParams();
+  const [isEditMode, setEditMode] = useState(false);
+  const [tempName, setTempName] = useState(teamName);
 
   useEffect(() => {
     const teamSessionId = searchParamsFromUrl.get(
       'teamSessionId'
     ) as TeamSessionIdT | null;
 
+    // TODO SVG-8 set from url to state, grab from state
     onStartDataListening(teamSessionId);
 
     return onStopDataListening;
@@ -38,28 +39,40 @@ export const LobbyPage: FC<PropsT> = ({
     }
   }, [data?.teamSessionId]);
 
-  console.log('🐸 data:', data);
+  useEffect(() => {
+    setTempName(teamName);
+  }, [teamName]);
 
-  const teamInput = useRef(null);
-  const { login, isCreator, photoUrl } = userInfo;
+  const teamNameInput = useRef(null);
+
+  const enableEditMode = () => {
+    setEditMode(true);
+  };
+
+  const disableEditMode = () => {
+    setEditMode(false);
+  };
 
   const changeNameInput = () => {
-    const value = getOr('', ['current', 'value'], teamInput);
+    const value = getOr('', ['current', 'value'], teamNameInput);
 
-    onChangeTeamName(value);
+    setTempName(value);
   };
 
-  const submitTeam = () => {
-    onAddTeamName();
+  const submitName = () => {
+    disableEditMode();
+    onChangeTeamName(tempName);
   };
 
-  const onStartGame = () => {
+  const startGame = () => {
     sendData(
       JSON.stringify({
         quizId: 1,
       })
     );
   };
+
+  const { login, isCreator, photoUrl } = userInfo;
 
   return (
     <div>
@@ -68,17 +81,29 @@ export const LobbyPage: FC<PropsT> = ({
         <h3>Teamname</h3>
         {isCreator && (
           <div>
-            <input
-              ref={teamInput}
-              onChange={changeNameInput}
-              placeholder='Teamname'
-              type='text'
-              value={name}
-            />
-            <Button onClick={submitTeam}>Submit</Button>
+            {!isEditMode && (
+              <Fragment>
+                <div>{teamName}</div>
+                <Button onClick={enableEditMode}>Edit</Button>
+              </Fragment>
+            )}
+
+            {isEditMode && (
+              <Fragment>
+                <input
+                  ref={teamNameInput}
+                  placeholder='Teamname'
+                  type='text'
+                  value={tempName}
+                  autoFocus
+                  onChange={changeNameInput}
+                  onFocus={(e) => e.currentTarget.select()}
+                />
+                <Button onClick={submitName}>Submit</Button>
+              </Fragment>
+            )}
           </div>
         )}
-        <div>{names}</div>
       </section>
       <section>
         <h3>Me</h3>
@@ -97,7 +122,7 @@ export const LobbyPage: FC<PropsT> = ({
           ))}
         </ul>
       </section>
-      <Button onClick={onStartGame}>Start game</Button>
+      <Button onClick={startGame}>Start game</Button>
     </div>
   );
 };

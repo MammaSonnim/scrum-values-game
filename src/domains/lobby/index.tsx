@@ -6,12 +6,10 @@ import { withUserInfo } from '../../hocs';
 import { WrapperWithAuthRedirect } from '../auth/rpc/withAuthRedirect';
 import { LobbyPage } from './page';
 import {
-  actionCreators,
   changeTeamName,
   startDataListening,
   stopDataListening,
   sendData,
-  selectTeamNames,
   selectTeamName,
   selectLobbyData,
   selectIsChannelReady,
@@ -20,8 +18,7 @@ import { DispatchPropsT, StatePropsT, OwnPropsT } from './types';
 
 const mapStateToProps = (state: RootStateT): StatePropsT => {
   return {
-    names: selectTeamNames(state),
-    name: selectTeamName(state),
+    teamName: selectTeamName(state),
     data: selectLobbyData(state),
     isChannelReady: selectIsChannelReady(state),
   };
@@ -29,7 +26,6 @@ const mapStateToProps = (state: RootStateT): StatePropsT => {
 
 const mapDispatchToProps: DispatchPropsT = {
   onChangeTeamName: changeTeamName,
-  onAddTeamName: actionCreators.addTeamName,
   onStartDataListening: startDataListening,
   onStopDataListening: stopDataListening,
   sendData,
