@@ -16,7 +16,8 @@ https://localhost:3000
    All endpoints starting with `/api` are proxied to localhost with backend.
 
 2. https://social-network.samuraijs.com/docs Vendor for auth (I plan to get rid of it, TODO SVG-36).
-   If you don't have credentials and something doesn't work, remove `withAuth` hoc (it wraps some pages in domains' index-files).
+   Credentials for testing are posted there https://social-network.samuraijs.com/article/faq_po_api.
+   If you don't have credentials and something doesn't work, remove `withAuth` wrapper (it wraps some pages in domains' index-files).
 
 ## Deploy
 

@@ -1,53 +1,68 @@
 import {
   actionCreators,
   changeTeamName,
-  TeamInitialStateT,
-  teamReducer,
+  LobbyInitialStateT,
+  lobbyReducer,
 } from '../ducks';
 
 describe('teamReducer', () => {
   describe('CHANGE_TEAM_NAME', () => {
     it('should return new state with updated name', () => {
-      const state: TeamInitialStateT = {
+      const state: LobbyInitialStateT = {
         names: [],
         name: '',
+        data: null,
+        isChannelReady: false,
       };
 
-      const newState = teamReducer(state, actionCreators.changeTeamName('piu'));
+      const newState = lobbyReducer(
+        state,
+        actionCreators.changeTeamName('piu')
+      );
 
       expect(newState).toEqual({
         names: [],
         name: 'piu',
+        data: null,
+        isChannelReady: false,
       });
     });
   });
 
   describe('ADD_TEAM_NAME', () => {
     it('should return new state with updated names and clear name', () => {
-      const state: TeamInitialStateT = {
+      const state: LobbyInitialStateT = {
         names: [],
         name: 'piu',
+        data: null,
+        isChannelReady: false,
       };
 
-      const newState = teamReducer(state, actionCreators.addTeamName());
+      const newState = lobbyReducer(state, actionCreators.addTeamName());
 
       expect(newState).toEqual({
         names: ['piu'],
         name: '',
+        data: null,
+        isChannelReady: false,
       });
     });
 
     it('should return new state with several names and clear name', () => {
-      const state: TeamInitialStateT = {
+      const state: LobbyInitialStateT = {
         names: ['miu'],
         name: 'piu',
+        data: null,
+        isChannelReady: false,
       };
 
-      const newState = teamReducer(state, actionCreators.addTeamName());
+      const newState = lobbyReducer(state, actionCreators.addTeamName());
 
       expect(newState).toEqual({
         names: ['miu', 'piu'],
         name: '',
+        data: null,
+        isChannelReady: false,
       });
     });
   });

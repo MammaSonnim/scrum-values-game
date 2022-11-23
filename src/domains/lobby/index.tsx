@@ -4,29 +4,45 @@ import { compose } from 'lodash/fp';
 import { RootStateT } from '../../redux-store';
 import { withUserInfo } from '../../hocs';
 import { WrapperWithAuthRedirect } from '../auth/rpc/withAuthRedirect';
-import { TeamPage } from './page';
-import { actionCreators, changeTeamName, selectTeamState } from './ducks';
+import { LobbyPage } from './page';
+import {
+  actionCreators,
+  changeTeamName,
+  startDataListening,
+  stopDataListening,
+  sendData,
+  selectTeamNames,
+  selectTeamName,
+  selectLobbyData,
+  selectIsChannelReady,
+} from './ducks';
 import { DispatchPropsT, StatePropsT, OwnPropsT } from './types';
 
 const mapStateToProps = (state: RootStateT): StatePropsT => {
   return {
-    teamState: selectTeamState(state),
+    names: selectTeamNames(state),
+    name: selectTeamName(state),
+    data: selectLobbyData(state),
+    isChannelReady: selectIsChannelReady(state),
   };
 };
 
 const mapDispatchToProps: DispatchPropsT = {
   onChangeTeamName: changeTeamName,
   onAddTeamName: actionCreators.addTeamName,
+  onStartDataListening: startDataListening,
+  onStopDataListening: stopDataListening,
+  sendData,
 };
 
-export const Team: FC<OwnPropsT> = () => {
+export const Lobby: FC<OwnPropsT> = () => {
   const PageWithHocs = compose(
     withUserInfo,
     connect<StatePropsT, DispatchPropsT, OwnPropsT, RootStateT>(
       mapStateToProps,
       mapDispatchToProps
     )
-  )(TeamPage);
+  )(LobbyPage);
 
   return <WrapperWithAuthRedirect render={() => <PageWithHocs />} />;
 };

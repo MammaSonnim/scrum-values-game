@@ -1,3 +1,3 @@
 export { Quiz } from './quiz';
-export { Team } from './team';
+export { Lobby } from './lobby';
 export { Auth, AuthInfo } from './auth';

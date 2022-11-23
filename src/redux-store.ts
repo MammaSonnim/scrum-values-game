@@ -6,11 +6,11 @@ import {
   Action,
 } from 'redux';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
-import { teamReducer } from './domains/team/ducks';
+import { lobbyReducer } from './domains/lobby/ducks';
 import { ratingReducer } from './domains/rating/ducks';
 
 const rootReducer = combineReducers({
-  teamState: teamReducer,
+  lobbyState: lobbyReducer,
   rating: ratingReducer,
 });
 
