@@ -6,15 +6,15 @@ import styles from './styles.module.css';
 const navItems = [
   {
     link: '/game',
-    title: 'Игра',
+    title: 'Solo game',
   },
   {
-    link: '/team',
-    title: 'Команда',
+    link: '/lobby',
+    title: 'Team game',
   },
   {
     link: '/rating',
-    title: 'Рейтинг',
+    title: 'Rating',
   },
 ];
 
@@ -47,7 +47,7 @@ export const Nav: FC = () => {
         </nav>
       )}
       <div className={styles['icon']} onClick={handleIconClick}>
-        {isExpanded ? 'Закрыть' : 'Открыть'}
+        {isExpanded ? 'Close' : 'Open'}
       </div>
     </div>
   );

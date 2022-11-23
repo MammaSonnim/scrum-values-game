@@ -3,8 +3,8 @@ import { ApiResultCodes } from './constants';
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 export type TODO_ANY = any;
 
-// TODO use it for IdT?
 export type Brand<T, U> = T & { __brand: U };
+export type TeamSessionIdT = Brand<string, 'TeamSidT'>;
 
 export type PropertiesT<T> = T extends { [key: string]: infer U } ? U : never;
 

@@ -1,15 +1,14 @@
 import './models/init';
 import React, { lazy, Suspense, useEffect } from 'react';
 import { Store } from 'redux';
-import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import 'nes.css/css/nes.min.css';
-import './app.css';
-import { Quiz, Team, Auth, AuthInfo } from './domains';
+import { Quiz, Lobby, Auth, AuthInfo } from './domains';
 import { Nav } from './components';
 import { getUserInfo } from './models/userInfo';
 import { ErrorBoundary, Loader } from './components';
-import { requestDev } from './utils/request';
+import './app.css';
 
 const Rating = lazy(() => import('./domains/rating'));
 
@@ -20,30 +19,16 @@ export const App = ({ store }: { store: Store }) => {
 
   return (
     <div className='app'>
-      <HashRouter>
+      <BrowserRouter>
         <Provider store={store}>
           <ErrorBoundary>
-            <button
-              onClick={async () => {
-                const result = await requestDev.post('rating', {
-                  teamName: 'Hej from test App',
-                  scores: 19,
-                });
-
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                console.log('🐸 result.body:', result.body);
-              }}
-            >
-              Piu
-            </button>
             <Nav />
             <AuthInfo />
             <Routes>
               <Route path='/' element={<Navigate to='/game' />} />
               <Route path='/game' element={<Quiz />} />
               <Route path='/login' element={<Auth />} />
-              <Route path='/team' element={<Team />} />
+              <Route path='/lobby' element={<Lobby />} />
               <Route
                 path='/rating'
                 element={
@@ -56,7 +41,7 @@ export const App = ({ store }: { store: Store }) => {
             </Routes>
           </ErrorBoundary>
         </Provider>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 };

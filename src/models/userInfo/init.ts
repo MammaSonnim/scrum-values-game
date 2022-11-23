@@ -19,12 +19,6 @@ getUserInfoFx.use(async () => {
   return await requestUserInfo();
 });
 
-// sample({
-//   source: getUserInfoFx,
-//   target: $userInfo,
-//   clock: getUserInfoFx.done,
-// });
-
 getUserInfoFx.done.watch(({ result }) => {
   if (result.resultCode === ApiResultCodes.SUCCESS) {
     const { login, email, id } = result.data;
