@@ -10,7 +10,8 @@ describe('teamReducer', () => {
     it('should return new state with updated name', () => {
       const state: LobbyInitialStateT = {
         teamName: '',
-        data: null,
+        teammates: [],
+        teamSessionId: null,
         isChannelReady: false,
       };
 
@@ -21,7 +22,8 @@ describe('teamReducer', () => {
 
       expect(newState).toEqual({
         teamName: 'piu',
-        data: null,
+        teammates: [],
+        teamSessionId: null,
         isChannelReady: false,
       });
     });
@@ -51,7 +53,7 @@ describe('thunks', () => {
 
       thunk(fakeDispatch, fakeGetState, null);
 
-      expect(fakeDispatch).toBeCalledTimes(2);
+      expect(fakeDispatch).toBeCalledTimes(1);
       expect(fakeDispatch).toHaveBeenNthCalledWith(
         1,
         actionCreators.changeTeamName('piu')

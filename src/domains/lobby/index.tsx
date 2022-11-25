@@ -11,16 +11,16 @@ import {
   stopDataListening,
   sendData,
   selectTeamName,
-  selectLobbyData,
-  selectIsChannelReady,
+  selectTeammates,
+  selectTeamSessionId,
 } from './ducks';
 import { DispatchPropsT, StatePropsT, OwnPropsT } from './types';
 
 const mapStateToProps = (state: RootStateT): StatePropsT => {
   return {
     teamName: selectTeamName(state),
-    data: selectLobbyData(state),
-    isChannelReady: selectIsChannelReady(state),
+    teammates: selectTeammates(state),
+    teamSessionId: selectTeamSessionId(state),
   };
 };
 

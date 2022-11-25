@@ -26,7 +26,7 @@ getUserInfoFx.done.watch(({ result }) => {
     setUserInfo({
       login,
       email,
-      id: String(id),
+      id,
       isAuth: true,
       isCreator: true,
       photoUrl: 'https://emojio.ru/images/apple-b/1f984.png',
