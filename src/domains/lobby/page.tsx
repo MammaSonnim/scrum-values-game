@@ -12,6 +12,7 @@ export const LobbyPage: FC<PropsT> = ({
   teamSessionId,
   teamName,
   userInfo,
+  isUserCreator,
   onChangeTeamName,
   onStartDataListening,
   onStopDataListening,
@@ -24,7 +25,6 @@ export const LobbyPage: FC<PropsT> = ({
       teamSessionQueryParam
     ) as TeamSessionIdT | null;
 
-    // TODO SVG-8 set from url to state, grab from state
     onStartDataListening(teamSessionIdInUrl);
 
     return onStopDataListening;
@@ -48,7 +48,7 @@ export const LobbyPage: FC<PropsT> = ({
     );
   };
 
-  const { login, isCreator, photoUrl } = userInfo;
+  const { login, photoUrl } = userInfo;
 
   return (
     <div>
@@ -56,7 +56,7 @@ export const LobbyPage: FC<PropsT> = ({
       <section>
         <h3>Teamname</h3>
         <TeamName
-          isCreator={isCreator}
+          isUserCreator={isUserCreator}
           teamName={teamName}
           onChangeTeamName={onChangeTeamName}
         />
@@ -84,7 +84,7 @@ export const LobbyPage: FC<PropsT> = ({
 };
 
 export const TeamName: FC<TeamNamePropsT> = memo(
-  ({ isCreator, teamName, onChangeTeamName }) => {
+  ({ isUserCreator, teamName, onChangeTeamName }) => {
     const [isEditMode, setEditMode] = useState(false);
     const [tempName, setTempName] = useState(teamName);
 
@@ -115,7 +115,7 @@ export const TeamName: FC<TeamNamePropsT> = memo(
 
     return (
       <Fragment>
-        {isCreator && (
+        {isUserCreator && (
           <div>
             {!isEditMode && (
               <Fragment>
@@ -140,7 +140,7 @@ export const TeamName: FC<TeamNamePropsT> = memo(
             )}
           </div>
         )}
-        {!isCreator && <div>{teamName}</div>}
+        {!isUserCreator && <div>{teamName}</div>}
       </Fragment>
     );
   }

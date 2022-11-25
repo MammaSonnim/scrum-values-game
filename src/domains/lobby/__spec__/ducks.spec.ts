@@ -13,6 +13,7 @@ describe('teamReducer', () => {
         teammates: [],
         teamSessionId: null,
         isChannelReady: false,
+        isUserCreator: false,
       };
 
       const newState = lobbyReducer(
@@ -25,6 +26,7 @@ describe('teamReducer', () => {
         teammates: [],
         teamSessionId: null,
         isChannelReady: false,
+        isUserCreator: false,
       });
     });
   });
@@ -40,18 +42,18 @@ describe('thunks', () => {
   });
 
   describe('changeTeamName', () => {
-    it('should call dispatch specific times with specific actionCreator', () => {
+    it('should call dispatch specific times with specific actionCreator when there is no teamSessionId', () => {
       fakeGetState = jest.fn(() => {
         return {
-          data: {
-            teamSessionId: '1',
+          lobbyState: {
+            teamSessionId: null,
           },
         };
       });
 
-      const thunk = changeTeamName('piu');
+      const changeTeamNameThunk = changeTeamName('piu');
 
-      thunk(fakeDispatch, fakeGetState, null);
+      changeTeamNameThunk(fakeDispatch, fakeGetState, null);
 
       expect(fakeDispatch).toBeCalledTimes(1);
       expect(fakeDispatch).toHaveBeenNthCalledWith(

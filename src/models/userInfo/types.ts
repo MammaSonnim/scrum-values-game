@@ -5,7 +5,6 @@ export type UserInfoT = {
   email: string | null;
   id: number | null;
   isAuth: boolean;
-  isCreator: boolean;
   photoUrl: string | null;
 };
 

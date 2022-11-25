@@ -28,7 +28,6 @@ getUserInfoFx.done.watch(({ result }) => {
       email,
       id,
       isAuth: true,
-      isCreator: true,
       photoUrl: 'https://emojio.ru/images/apple-b/1f984.png',
     });
 

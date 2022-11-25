@@ -13,6 +13,7 @@ import {
   selectTeamName,
   selectTeammates,
   selectTeamSessionId,
+  selectIsUserCreator,
 } from './ducks';
 import { DispatchPropsT, StatePropsT, OwnPropsT } from './types';
 
@@ -21,6 +22,7 @@ const mapStateToProps = (state: RootStateT): StatePropsT => {
     teamName: selectTeamName(state),
     teammates: selectTeammates(state),
     teamSessionId: selectTeamSessionId(state),
+    isUserCreator: selectIsUserCreator(state),
   };
 };
 

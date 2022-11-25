@@ -17,8 +17,11 @@ const NAMESPACE = 'LOBBY';
 
 const CHANGE_TEAM_NAME = `${NAMESPACE}/CHANGE_TEAM_NAME` as const;
 
+const INIT_SEND_DATA = `${NAMESPACE}/INIT_SEND_DATA` as const;
 const SESSION_RECEIVED = `${NAMESPACE}/SESSION_RECEIVED` as const;
 const TEAM_NAME_RECEIVED = `${NAMESPACE}/TEAM_NAME_RECEIVED` as const;
+const SET_IS_USER_CREATOR = `${NAMESPACE}/SET_IS_USER_CREATOR` as const;
+
 const SET_IS_CHANNEL_READY = `${NAMESPACE}/SET_IS_CHANNEL_READY` as const;
 
 export const lobbyInitialState = {
@@ -26,6 +29,7 @@ export const lobbyInitialState = {
   teammates: [] as TeammateT[],
   teamSessionId: null as TeamSessionIdT | null,
   isChannelReady: false,
+  isUserCreator: false,
 };
 
 export type LobbyInitialStateT = typeof lobbyInitialState;
@@ -55,6 +59,12 @@ export const lobbyReducer = (
         teamName: action.payload,
       };
 
+    case SET_IS_USER_CREATOR:
+      return {
+        ...lobbyState,
+        isUserCreator: action.payload,
+      };
+
     case SET_IS_CHANNEL_READY:
       return {
         ...lobbyState,
@@ -77,9 +87,18 @@ export const actionCreators = {
       type: SESSION_RECEIVED,
       payload: data,
     } as const),
+  initSendData: () => ({
+    type: INIT_SEND_DATA,
+    payload: null,
+  }),
   teamNameReceived: (data: string) =>
     ({
       type: TEAM_NAME_RECEIVED,
+      payload: data,
+    } as const),
+  setIsUserCreator: (data: boolean) =>
+    ({
+      type: SET_IS_USER_CREATOR,
       payload: data,
     } as const),
   setIsChannelReady: (isChannelReady: boolean) =>
@@ -111,7 +130,10 @@ export const changeTeamName = (value: string): ThunkActionT => {
 /** Cash handler for passing dispatch and unsubscribe (need same link to handler) */
 let _dataHandlerCached: ((message: string) => void) | null = null;
 
-const dataHandlerCreator = (dispatch: Dispatch<ActionT>) => {
+const dataHandlerCreator = (
+  dispatch: Dispatch<ActionT>,
+  userInfo?: UserInfoT
+) => {
   if (!_dataHandlerCached) {
     _dataHandlerCached = (message: string) => {
       let parsedData: TeamSessionResponseT | EmptyObjectT = {};
@@ -132,6 +154,12 @@ const dataHandlerCreator = (dispatch: Dispatch<ActionT>) => {
         };
 
         dispatch(actionCreators.sessionReceived(session));
+
+        session.teammates.forEach((teammate) => {
+          if (userInfo?.id === teammate.id) {
+            dispatch(actionCreators.setIsUserCreator(teammate.isCreator));
+          }
+        });
       }
 
       if (parsedData.type === 'change-team-name') {
@@ -186,7 +214,10 @@ export const startDataListening = (
 ): ThunkActionT => {
   return (dispatch) => {
     lobbiApi.start();
-    lobbiApi.subscribe('message_received', dataHandlerCreator(dispatch));
+    lobbiApi.subscribe(
+      'message_received',
+      dataHandlerCreator(dispatch, $userInfo.getState())
+    );
     lobbiApi.subscribe(
       'status_changed',
       statusHandlerCreator(dispatch, $userInfo.getState(), teamSessionId)
@@ -203,7 +234,9 @@ export const stopDataListening = (): ThunkActionT => {
 };
 
 export const sendData = (message: string): ThunkActionT => {
-  return () => {
+  return (dispatch) => {
+    dispatch(actionCreators.initSendData());
+
     lobbiApi.sendMessage(message);
   };
 };
@@ -227,6 +260,10 @@ export const selectTeammates = (state: RootStateT) => {
 
 export const selectTeamSessionId = (state: RootStateT) => {
   return selectLobbyState(state).teamSessionId;
+};
+
+export const selectIsUserCreator = (state: RootStateT) => {
+  return selectLobbyState(state).isUserCreator;
 };
 
 // types
