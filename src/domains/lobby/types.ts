@@ -1,5 +1,6 @@
 import { UserInfoT } from '../../models/userInfo/types';
 import { EmptyObjectT, TeamSessionIdT } from '../../types';
+import { LobbyInitialStateT } from './ducks';
 
 export type TeammateT = {
   photoUrl: string;
@@ -9,29 +10,40 @@ export type TeammateT = {
   isCreator: boolean;
 };
 
-export type ResponseDataT = {
+export type TeammateAddRequestParamsT = {
+  type: 'get-team-session';
+  id: number;
+  name: string;
+  photoUrl?: string | null;
+  teamSessionId?: TeamSessionIdT | null;
+};
+
+export type TeamDataChangeRequestParamsT = {
+  type: 'change-team-name';
+  teamName: string;
+  teamSessionId: TeamSessionIdT;
+};
+
+export type TeamSessionResponseT = {
+  type: 'get-team-session' | 'change-team-name';
   id: TeamSessionIdT;
   teammates: TeammateT[];
   teamName?: string;
 };
 
-export type LobbyDataT = {
+export type TeamSessionT = {
   teamSessionId: TeamSessionIdT | null;
   teammates: TeammateT[];
   teamName?: string;
 };
 
-export type LobbyStateT = {
-  // TODO SVG-8 store only this teamName
-  teamName: string;
-  data: LobbyDataT | null;
-  isChannelReady: boolean;
-};
-
 export type EventNameT = 'message_received' | 'status_changed';
 
 // PROPS
-export type StatePropsT = LobbyStateT;
+export type StatePropsT = Pick<
+  LobbyInitialStateT,
+  'teamName' | 'teamSessionId' | 'teammates'
+>;
 
 export type DispatchPropsT = {
   onChangeTeamName: (value: string) => void;
@@ -51,3 +63,6 @@ export type PropsT = StatePropsT & DispatchPropsT & OwnPropsT & HocsPropsT;
 export type TeammatePropsT = {
   data: TeammateT;
 };
+
+export type TeamNamePropsT = Pick<PropsT, 'teamName' | 'onChangeTeamName'> &
+  Pick<UserInfoT, 'isCreator'>;

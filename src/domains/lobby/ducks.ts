@@ -3,20 +3,28 @@ import { Dispatch } from 'react';
 import { $userInfo } from '../../models/userInfo';
 import { UserInfoT } from '../../models/userInfo/types';
 import { BaseActionT, BaseThunkT, RootStateT } from '../../redux-store';
-import { TeamSessionIdT } from '../../types';
+import { EmptyObjectT, TeamSessionIdT } from '../../types';
 import { lobbiApi } from './api';
-import { LobbyDataT, ResponseDataT } from './types';
+import {
+  TeamSessionT,
+  TeamSessionResponseT,
+  TeamDataChangeRequestParamsT,
+  TeammateAddRequestParamsT,
+  TeammateT,
+} from './types';
 
 const NAMESPACE = 'LOBBY';
 
 const CHANGE_TEAM_NAME = `${NAMESPACE}/CHANGE_TEAM_NAME` as const;
 
-const DATA_RECEIVED = `${NAMESPACE}/DATA_RECEIVED` as const;
+const SESSION_RECEIVED = `${NAMESPACE}/SESSION_RECEIVED` as const;
+const TEAM_NAME_RECEIVED = `${NAMESPACE}/TEAM_NAME_RECEIVED` as const;
 const SET_IS_CHANNEL_READY = `${NAMESPACE}/SET_IS_CHANNEL_READY` as const;
 
 export const lobbyInitialState = {
   teamName: 'Super Puper Team',
-  data: null as LobbyDataT | null,
+  teammates: [] as TeammateT[],
+  teamSessionId: null as TeamSessionIdT | null,
   isChannelReady: false,
 };
 
@@ -33,11 +41,18 @@ export const lobbyReducer = (
         teamName: action.payload,
       };
 
-    case DATA_RECEIVED:
+    case SESSION_RECEIVED:
       return {
         ...lobbyState,
-        data: action.payload,
+        teammates: action.payload.teammates,
+        teamSessionId: action.payload.teamSessionId,
         teamName: action.payload.teamName || lobbyState.teamName,
+      };
+
+    case TEAM_NAME_RECEIVED:
+      return {
+        ...lobbyState,
+        teamName: action.payload,
       };
 
     case SET_IS_CHANNEL_READY:
@@ -57,9 +72,14 @@ export const actionCreators = {
       type: CHANGE_TEAM_NAME,
       payload: value,
     } as const),
-  dataReceived: (data: LobbyDataT) =>
+  sessionReceived: (data: TeamSessionT) =>
     ({
-      type: DATA_RECEIVED,
+      type: SESSION_RECEIVED,
+      payload: data,
+    } as const),
+  teamNameReceived: (data: string) =>
+    ({
+      type: TEAM_NAME_RECEIVED,
       payload: data,
     } as const),
   setIsChannelReady: (isChannelReady: boolean) =>
@@ -75,15 +95,16 @@ export const changeTeamName = (value: string): ThunkActionT => {
     const teamSessionId = selectTeamSessionId(getState());
 
     dispatch(actionCreators.changeTeamName(value));
-    dispatch(
-      sendData(
-        JSON.stringify({
-          type: 'change-teamdata',
-          teamName: value,
-          teamSessionId: teamSessionId || null,
-        })
-      )
-    );
+
+    if (teamSessionId) {
+      const teamDataRequestParams: TeamDataChangeRequestParamsT = {
+        type: 'change-team-name',
+        teamName: value,
+        teamSessionId,
+      };
+
+      dispatch(sendData(JSON.stringify(teamDataRequestParams)));
+    }
   };
 };
 
@@ -93,7 +114,7 @@ let _dataHandlerCached: ((message: string) => void) | null = null;
 const dataHandlerCreator = (dispatch: Dispatch<ActionT>) => {
   if (!_dataHandlerCached) {
     _dataHandlerCached = (message: string) => {
-      let parsedData: ResponseDataT | null = null;
+      let parsedData: TeamSessionResponseT | EmptyObjectT = {};
 
       try {
         parsedData = JSON.parse(message);
@@ -103,13 +124,23 @@ const dataHandlerCreator = (dispatch: Dispatch<ActionT>) => {
         }
       }
 
-      dispatch(
-        actionCreators.dataReceived({
+      if (parsedData.type === 'get-team-session') {
+        const session: TeamSessionT = {
           teamSessionId: parsedData?.id || null,
           teammates: parsedData?.teammates || [],
           teamName: parsedData?.teamName,
-        })
-      );
+        };
+
+        dispatch(actionCreators.sessionReceived(session));
+      }
+
+      if (parsedData.type === 'change-team-name') {
+        const teamName = parsedData?.teamName;
+
+        if (teamName) {
+          dispatch(actionCreators.teamNameReceived(teamName));
+        }
+      }
     };
   }
 
@@ -128,20 +159,21 @@ const statusHandlerCreator = (
     _statusHandlerCached = (status: number) => {
       dispatch(actionCreators.setIsChannelReady(status === WebSocket.OPEN));
 
-      if (status === WebSocket.OPEN && userInfo) {
-        dispatch(
-          sendData(
-            JSON.stringify({
-              type: 'add-teammate',
-              // TODO SVG-8 NOT PRODUCTION CODE!
-              id: Date.now() / 100,
-              name: userInfo.login,
-              isCreator: userInfo.isCreator,
-              photoUrl: userInfo.photoUrl,
-              teamSessionId: teamSessionId || null,
-            })
-          )
-        );
+      if (
+        status === WebSocket.OPEN &&
+        userInfo &&
+        userInfo.login &&
+        userInfo.id
+      ) {
+        const newTeammate: TeammateAddRequestParamsT = {
+          type: 'get-team-session',
+          id: userInfo.id,
+          name: userInfo.login,
+          photoUrl: userInfo.photoUrl,
+          teamSessionId,
+        };
+
+        dispatch(sendData(JSON.stringify(newTeammate)));
       }
     };
   }
@@ -185,16 +217,16 @@ export const selectTeamName = (state: RootStateT) => {
   return selectLobbyState(state).teamName;
 };
 
-export const selectLobbyData = (state: RootStateT) => {
-  return selectLobbyState(state).data;
-};
-
 export const selectIsChannelReady = (state: RootStateT) => {
   return selectLobbyState(state).isChannelReady;
 };
 
+export const selectTeammates = (state: RootStateT) => {
+  return selectLobbyState(state).teammates;
+};
+
 export const selectTeamSessionId = (state: RootStateT) => {
-  return selectLobbyState(state)?.data?.teamSessionId;
+  return selectLobbyState(state).teamSessionId;
 };
 
 // types
