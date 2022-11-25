@@ -42,7 +42,7 @@ export type EventNameT = 'message_received' | 'status_changed';
 // PROPS
 export type StatePropsT = Pick<
   LobbyInitialStateT,
-  'teamName' | 'teamSessionId' | 'teammates'
+  'teamName' | 'teamSessionId' | 'teammates' | 'isUserCreator'
 >;
 
 export type DispatchPropsT = {
@@ -64,5 +64,7 @@ export type TeammatePropsT = {
   data: TeammateT;
 };
 
-export type TeamNamePropsT = Pick<PropsT, 'teamName' | 'onChangeTeamName'> &
-  Pick<UserInfoT, 'isCreator'>;
+export type TeamNamePropsT = Pick<
+  PropsT,
+  'teamName' | 'onChangeTeamName' | 'isUserCreator'
+>;

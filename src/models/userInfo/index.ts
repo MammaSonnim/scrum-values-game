@@ -14,7 +14,6 @@ export const $userInfo = Domain.createStore<UserInfoT>({
   email: null,
   id: null,
   isAuth: false,
-  isCreator: true,
   photoUrl: null,
 });
 
