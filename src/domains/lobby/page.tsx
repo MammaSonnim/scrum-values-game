@@ -1,9 +1,9 @@
 import React, { FC, useRef, useEffect, useState, Fragment, memo } from 'react';
-import { getOr } from 'lodash/fp';
-import { Button } from '../../components';
-import { PropsT, TeammatePropsT, TeamNamePropsT } from './types';
 import { useSearchParams } from 'react-router-dom';
+import { Button, Page, Section, Text } from '../../components';
 import { TeamSessionIdT } from '../../types';
+import { PropsT, TeammatePropsT, TeamNamePropsT } from './types';
+import { Link } from '../../components/link';
 
 const teamSessionQueryParam = 'tsid';
 
@@ -51,35 +51,35 @@ export const LobbyPage: FC<PropsT> = ({
   const { login, photoUrl } = userInfo;
 
   return (
-    <div>
-      <h2>Lobby</h2>
-      <section>
-        <h3>Teamname</h3>
+    <Page>
+      <Text tag='h2'>Lobby</Text>
+      <Section>
+        <Text tag='h3'>Teamname</Text>
         <TeamName
           isUserCreator={isUserCreator}
           teamName={teamName}
           onChangeTeamName={onChangeTeamName}
         />
-      </section>
-      <section>
-        <h3>Me</h3>
+      </Section>
+      <Section>
+        <Text tag='h3'>Me</Text>
         {photoUrl && <img src={photoUrl} width={50} height={50} />}
-        <span>{login}</span>
-        <Button>Edit my info</Button>
-      </section>
-      <section>
-        <h3>Teammates</h3>
-        <a href={`lobby?${teamSessionQueryParam}=${teamSessionId}`}>
+        <Text>{login}</Text>
+        <Button isIcon={true}>Edit</Button>
+      </Section>
+      <Section>
+        <Text tag='h3'>Teammates</Text>
+        <Link href={`lobby?${teamSessionQueryParam}=${teamSessionId}`}>
           Copy invitation link
-        </a>
+        </Link>
         <ul>
           {teammates?.map((teammate) => (
             <Teammate data={teammate} />
           ))}
         </ul>
-      </section>
+      </Section>
       <Button onClick={startGame}>Start game</Button>
-    </div>
+    </Page>
   );
 };
 
@@ -103,9 +103,9 @@ export const TeamName: FC<TeamNamePropsT> = memo(
     };
 
     const changeNameInput = () => {
-      const value = getOr('', ['current', 'value'], teamNameInput);
-
-      setTempName(value);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      setTempName(teamNameInput?.current?.value ?? '');
     };
 
     const submitName = () => {
@@ -119,22 +119,26 @@ export const TeamName: FC<TeamNamePropsT> = memo(
           <div>
             {!isEditMode && (
               <Fragment>
-                <div>{teamName}</div>
-                <Button onClick={enableEditMode}>Edit</Button>
+                <Text>{teamName}</Text>
+                <Button isIcon={true} onClick={enableEditMode}>
+                  Edit
+                </Button>
               </Fragment>
             )}
 
             {isEditMode && (
               <Fragment>
-                <input
-                  ref={teamNameInput}
-                  placeholder='Teamname'
-                  type='text'
-                  value={tempName}
-                  autoFocus
-                  onChange={changeNameInput}
-                  onFocus={(e) => e.currentTarget.select()}
-                />
+                <div>
+                  <input
+                    ref={teamNameInput}
+                    placeholder='Teamname'
+                    type='text'
+                    value={tempName}
+                    autoFocus
+                    onChange={changeNameInput}
+                    onFocus={(e) => e.currentTarget.select()}
+                  />
+                </div>
                 <Button onClick={submitName}>Submit</Button>
               </Fragment>
             )}
@@ -151,10 +155,10 @@ export const Teammate: FC<TeammatePropsT> = ({ data }) => {
 
   return (
     <li>
-      {isCreator && <span>SM</span>}
+      {isCreator && <Text isInline={true}>SM</Text>}
       {photoUrl && <img src={photoUrl} width={50} height={50} />}
-      <span>{login}</span>
-      {isReady && <span>Ready</span>}
+      <Text isInline={true}>{login}</Text>
+      {isReady && <Text isInline={true}>Ready</Text>}
     </li>
   );
 };
