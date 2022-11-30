@@ -1,9 +1,9 @@
-import React, { Component, Fragment, ReactElement } from 'react';
+import React, { Component, Fragment, ReactNode } from 'react';
 import { Button } from '../button';
 import { Nav } from '../nav';
 
 type PropsT = {
-  children: ReactElement[];
+  children: ReactNode;
 };
 
 type StateT = {

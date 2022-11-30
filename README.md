@@ -19,6 +19,12 @@ https://localhost:3000
    Credentials for testing are posted there https://social-network.samuraijs.com/article/faq_po_api.
    If you don't have credentials and something doesn't work, remove `withAuth` wrapper (it wraps some pages in domains' index-files).
 
+   After creating account, add file .env.local in project root and add there API_KEY from vendor
+
+   ```bash
+      REACT_APP_API_KEY='YOUR_API_KEY'
+   ```
+
 ## Deploy
 
 TBD

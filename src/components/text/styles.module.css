@@ -1,0 +1,24 @@
+.text {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.xs {
+  font-size: 10px;
+}
+
+.s {
+  font-size: 12px;
+}
+
+.m {
+  font-size: 14px;
+}
+
+.l {
+  font-size: 16px;
+}
+
+.inline {
+  display: inline;
+}
