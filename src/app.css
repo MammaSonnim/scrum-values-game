@@ -4,3 +4,8 @@ body {
   margin: 0;
   background-color: #209cee;
 }
+
+th,
+td {
+  padding: 2px 10px;
+}

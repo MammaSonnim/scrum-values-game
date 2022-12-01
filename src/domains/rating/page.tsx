@@ -2,9 +2,8 @@ import React, { FC } from 'react';
 import { isEmpty } from 'lodash/fp';
 import { format } from 'date-fns';
 import { Form, Field, ErrorMessage } from 'formik';
-import { Button, Loader } from '../../components';
+import { Button, Loader, Page, Section, Text } from '../../components';
 import { PropsT, RatingItemT } from './types';
-import styles from './styles.module.css';
 
 export const RatingPage: FC<PropsT> = ({
   isSubmitting,
@@ -16,17 +15,17 @@ export const RatingPage: FC<PropsT> = ({
   const hasItemsBeforeFiltered = !isEmpty(items) || touched.searchString;
 
   return (
-    <div>
-      <h2>Top games</h2>
+    <Page>
+      <Text tag='h2'>Top games</Text>
       {isProcessing && <Loader />}
       {hasItemsBeforeFiltered && (
-        <div className={styles.block}>
+        <Section>
           <RatingForm isSubmitting={isSubmitting} isProcessing={isProcessing} />
-        </div>
+        </Section>
       )}
 
       {!isEmpty(items) && (
-        <div className={styles.block}>
+        <Section>
           <table>
             <thead>
               <tr>
@@ -48,13 +47,15 @@ export const RatingPage: FC<PropsT> = ({
               })}
             </tbody>
           </table>
-        </div>
+        </Section>
       )}
 
       {hasItemsBeforeFiltered && (
-        <div className={styles.block}>Total: {totalCount}</div>
+        <Section>
+          <Text>Total: {totalCount}</Text>
+        </Section>
       )}
-    </div>
+    </Page>
   );
 };
 
