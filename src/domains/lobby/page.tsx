@@ -1,8 +1,12 @@
 import React, { FC, useRef, useEffect, useState, Fragment, memo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button, Page, Section, Text } from '../../components';
-import { TeamSessionIdT } from '../../types';
-import { PropsT, TeammatePropsT, TeamNamePropsT } from './types';
+import {
+  PropsT,
+  TeammatePropsT,
+  TeamNamePropsT,
+  TeamSessionIdT,
+} from './types';
 import { Link } from '../../components/link';
 
 const teamSessionQueryParam = 'tsid';
@@ -13,10 +17,13 @@ export const LobbyPage: FC<PropsT> = ({
   teamName,
   userInfo,
   isUserCreator,
+  isReadyForGame,
+  canStartGame,
   onChangeTeamName,
   onStartDataListening,
   onStopDataListening,
-  sendData,
+  changeReadyForGameStatus,
+  initGame,
 }) => {
   const [searchParamsFromUrl, setSearchParamsToUrl] = useSearchParams();
 
@@ -40,12 +47,12 @@ export const LobbyPage: FC<PropsT> = ({
     }
   }, [teamSessionId]);
 
-  const startGame = () => {
-    sendData(
-      JSON.stringify({
-        quizId: 1,
-      })
-    );
+  const handleClickReadyButton = () => {
+    changeReadyForGameStatus(true);
+  };
+
+  const handleClickStartButton = () => {
+    initGame();
   };
 
   const { login, photoUrl } = userInfo;
@@ -54,11 +61,12 @@ export const LobbyPage: FC<PropsT> = ({
     <Page>
       <Text tag='h2'>Lobby</Text>
       <Section>
-        <Text tag='h3'>Teamname</Text>
+        <Text tag='h3'>Team Info</Text>
         <TeamName
           isUserCreator={isUserCreator}
           teamName={teamName}
           onChangeTeamName={onChangeTeamName}
+          changeReadyForGameStatus={changeReadyForGameStatus}
         />
       </Section>
       <Section>
@@ -78,13 +86,21 @@ export const LobbyPage: FC<PropsT> = ({
           ))}
         </ul>
       </Section>
-      <Button onClick={startGame}>Start game</Button>
+      <Button onClick={handleClickReadyButton} disabled={isReadyForGame}>
+        I am ready for game!
+      </Button>
+      {isReadyForGame && !canStartGame && (
+        <Text>Wait for other teammates...</Text>
+      )}
+      {canStartGame && (
+        <Button onClick={handleClickStartButton}>Start game</Button>
+      )}
     </Page>
   );
 };
 
 export const TeamName: FC<TeamNamePropsT> = memo(
-  ({ isUserCreator, teamName, onChangeTeamName }) => {
+  ({ isUserCreator, teamName, onChangeTeamName, changeReadyForGameStatus }) => {
     const [isEditMode, setEditMode] = useState(false);
     const [tempName, setTempName] = useState(teamName);
 
@@ -96,6 +112,9 @@ export const TeamName: FC<TeamNamePropsT> = memo(
 
     const enableEditMode = () => {
       setEditMode(true);
+
+      // TODO SVG-32 make all this stuff in parent
+      changeReadyForGameStatus(false);
     };
 
     const disableEditMode = () => {
@@ -144,7 +163,7 @@ export const TeamName: FC<TeamNamePropsT> = memo(
             )}
           </div>
         )}
-        {!isUserCreator && <div>{teamName}</div>}
+        {!isUserCreator && <Text>{teamName}</Text>}
       </Fragment>
     );
   }

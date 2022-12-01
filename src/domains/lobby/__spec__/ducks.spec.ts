@@ -14,6 +14,8 @@ describe('teamReducer', () => {
         teamSessionId: null,
         isChannelReady: false,
         isUserCreator: false,
+        isReadyForGame: false,
+        canStartGame: false,
       };
 
       const newState = lobbyReducer(
@@ -27,6 +29,8 @@ describe('teamReducer', () => {
         teamSessionId: null,
         isChannelReady: false,
         isUserCreator: false,
+        isReadyForGame: false,
+        canStartGame: false,
       });
     });
   });

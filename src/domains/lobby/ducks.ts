@@ -3,26 +3,41 @@ import { Dispatch } from 'react';
 import { $userInfo } from '../../models/userInfo';
 import { UserInfoT } from '../../models/userInfo/types';
 import { BaseActionT, BaseThunkT, RootStateT } from '../../redux-store';
-import { EmptyObjectT, TeamSessionIdT } from '../../types';
+import { EmptyObjectT } from '../../types';
 import { lobbiApi } from './api';
 import {
   TeamSessionT,
-  TeamSessionResponseT,
-  TeamDataChangeRequestParamsT,
-  TeammateAddRequestParamsT,
+  TeamSessionGetResponseT,
+  TeamNameChangeResponseT,
+  TeamNameChangeRequestParamsT,
+  TeamSessionGetRequestParamsT,
   TeammateT,
+  TeamReadyStatusChangeRequestParamsT,
+  TeammateDataChangeResponseT,
+  TeamSessionIdT,
+  CanTeammateStartGameUpdateResponseT,
 } from './types';
 
 const NAMESPACE = 'LOBBY';
 
-const CHANGE_TEAM_NAME = `${NAMESPACE}/CHANGE_TEAM_NAME` as const;
+const SET_IS_CHANNEL_READY = `${NAMESPACE}/SET_IS_CHANNEL_READY` as const;
 
+// actions started from UI
 const INIT_SEND_DATA = `${NAMESPACE}/INIT_SEND_DATA` as const;
+const CHANGE_TEAM_NAME = `${NAMESPACE}/CHANGE_TEAM_NAME` as const;
+const CHANGE_READY_FOR_GAME_STATUS =
+  `${NAMESPACE}/CHANGE_READY_FOR_GAME_STATUS` as const;
+const INIT_START_GAME = `${NAMESPACE}/INIT_START_GAME` as const;
+
+// received messages from server
 const SESSION_RECEIVED = `${NAMESPACE}/SESSION_RECEIVED` as const;
 const TEAM_NAME_RECEIVED = `${NAMESPACE}/TEAM_NAME_RECEIVED` as const;
-const SET_IS_USER_CREATOR = `${NAMESPACE}/SET_IS_USER_CREATOR` as const;
+const TEAMMATES_RECEIVED = `${NAMESPACE}/TEAMMATES_RECEIVED` as const;
+const CAN_START_GAME_STATUS_RECEIVED =
+  `${NAMESPACE}/CAN_START_GAME_STATUS_RECEIVED` as const;
 
-const SET_IS_CHANNEL_READY = `${NAMESPACE}/SET_IS_CHANNEL_READY` as const;
+// additional setters after parsing message from server
+const SET_IS_USER_CREATOR = `${NAMESPACE}/SET_IS_USER_CREATOR` as const;
 
 export const lobbyInitialState = {
   teamName: 'Super Puper Team',
@@ -30,6 +45,8 @@ export const lobbyInitialState = {
   teamSessionId: null as TeamSessionIdT | null,
   isChannelReady: false,
   isUserCreator: false,
+  isReadyForGame: false,
+  canStartGame: false,
 };
 
 export type LobbyInitialStateT = typeof lobbyInitialState;
@@ -45,6 +62,12 @@ export const lobbyReducer = (
         teamName: action.payload,
       };
 
+    case CHANGE_READY_FOR_GAME_STATUS:
+      return {
+        ...lobbyState,
+        isReadyForGame: action.payload,
+      };
+
     case SESSION_RECEIVED:
       return {
         ...lobbyState,
@@ -57,6 +80,18 @@ export const lobbyReducer = (
       return {
         ...lobbyState,
         teamName: action.payload,
+      };
+
+    case TEAMMATES_RECEIVED:
+      return {
+        ...lobbyState,
+        teammates: action.payload,
+      };
+
+    case CAN_START_GAME_STATUS_RECEIVED:
+      return {
+        ...lobbyState,
+        canStartGame: action.payload,
       };
 
     case SET_IS_USER_CREATOR:
@@ -82,6 +117,11 @@ export const actionCreators = {
       type: CHANGE_TEAM_NAME,
       payload: value,
     } as const),
+  changeReadyForGameStatus: (value: boolean) =>
+    ({
+      type: CHANGE_READY_FOR_GAME_STATUS,
+      payload: value,
+    } as const),
   sessionReceived: (data: TeamSessionT) =>
     ({
       type: SESSION_RECEIVED,
@@ -91,11 +131,24 @@ export const actionCreators = {
     type: INIT_SEND_DATA,
     payload: null,
   }),
+  initStartGame: () => ({
+    type: INIT_START_GAME,
+    payload: null,
+  }),
   teamNameReceived: (data: string) =>
     ({
       type: TEAM_NAME_RECEIVED,
       payload: data,
     } as const),
+  teammatesReceived: (data: TeammateT[]) =>
+    ({
+      type: TEAMMATES_RECEIVED,
+      payload: data,
+    } as const),
+  canStartGameStatusReceived: (data: boolean) => ({
+    type: CAN_START_GAME_STATUS_RECEIVED,
+    payload: data,
+  }),
   setIsUserCreator: (data: boolean) =>
     ({
       type: SET_IS_USER_CREATOR,
@@ -116,13 +169,34 @@ export const changeTeamName = (value: string): ThunkActionT => {
     dispatch(actionCreators.changeTeamName(value));
 
     if (teamSessionId) {
-      const teamDataRequestParams: TeamDataChangeRequestParamsT = {
+      const teamDataRequestParams: TeamNameChangeRequestParamsT = {
         type: 'change-team-name',
         teamName: value,
         teamSessionId,
       };
 
       dispatch(sendData(JSON.stringify(teamDataRequestParams)));
+    }
+  };
+};
+
+export const changeReadyForGameStatus = (value: boolean): ThunkActionT => {
+  return (dispatch, getState) => {
+    const teamSessionId = selectTeamSessionId(getState());
+    const userId = $userInfo.getState().id;
+
+    if (userId && teamSessionId) {
+      // SVG-32 TODO add error handlers
+      dispatch(actionCreators.changeReadyForGameStatus(value));
+
+      const requestParams: TeamReadyStatusChangeRequestParamsT = {
+        type: 'change-teammate-ready-for-game-status',
+        isReadyForGame: value,
+        teamSessionId,
+        teammateId: userId,
+      };
+
+      dispatch(sendData(JSON.stringify(requestParams)));
     }
   };
 };
@@ -135,8 +209,14 @@ const dataHandlerCreator = (
   userInfo?: UserInfoT
 ) => {
   if (!_dataHandlerCached) {
+    /** Handle data received from server */
     _dataHandlerCached = (message: string) => {
-      let parsedData: TeamSessionResponseT | EmptyObjectT = {};
+      let parsedData:
+        | TeamSessionGetResponseT
+        | TeamNameChangeResponseT
+        | TeammateDataChangeResponseT
+        | CanTeammateStartGameUpdateResponseT
+        | EmptyObjectT = {};
 
       try {
         parsedData = JSON.parse(message);
@@ -169,6 +249,20 @@ const dataHandlerCreator = (
           dispatch(actionCreators.teamNameReceived(teamName));
         }
       }
+
+      if (parsedData.type === 'change-teammate-data') {
+        const teammates = parsedData?.teammates;
+
+        if (teammates) {
+          dispatch(actionCreators.teammatesReceived(teammates));
+        }
+      }
+
+      if (parsedData.type === 'update-can-teammate-start-game') {
+        const canStartGame = parsedData?.canStartGame;
+
+        dispatch(actionCreators.canStartGameStatusReceived(canStartGame));
+      }
     };
   }
 
@@ -193,7 +287,7 @@ const statusHandlerCreator = (
         userInfo.login &&
         userInfo.id
       ) {
-        const newTeammate: TeammateAddRequestParamsT = {
+        const newTeammate: TeamSessionGetRequestParamsT = {
           type: 'get-team-session',
           id: userInfo.id,
           name: userInfo.login,
@@ -233,6 +327,20 @@ export const stopDataListening = (): ThunkActionT => {
   };
 };
 
+export const initGame = (): ThunkActionT => {
+  return (dispatch, getState) => {
+    const teamSessionId = selectTeamSessionId(getState());
+
+    dispatch(
+      sendData(
+        JSON.stringify({
+          teamSessionId,
+        })
+      )
+    );
+  };
+};
+
 export const sendData = (message: string): ThunkActionT => {
   return (dispatch) => {
     dispatch(actionCreators.initSendData());
@@ -264,6 +372,14 @@ export const selectTeamSessionId = (state: RootStateT) => {
 
 export const selectIsUserCreator = (state: RootStateT) => {
   return selectLobbyState(state).isUserCreator;
+};
+
+export const selectIsReadyForGame = (state: RootStateT) => {
+  return selectLobbyState(state).isReadyForGame;
+};
+
+export const selectCanStartGame = (state: RootStateT) => {
+  return selectLobbyState(state).canStartGame;
 };
 
 // types
