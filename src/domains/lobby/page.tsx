@@ -8,6 +8,7 @@ import {
   TeamSessionIdT,
 } from './types';
 import { Link } from '../../components/link';
+import { Avatar } from '../../components/avatar';
 
 const teamSessionQueryParam = 'tsid';
 
@@ -61,6 +62,11 @@ export const LobbyPage: FC<PropsT> = ({
     <Page>
       <Text tag='h2'>Lobby</Text>
       <Section>
+        <Link href={`lobby?${teamSessionQueryParam}=${teamSessionId}`}>
+          Copy invitation link
+        </Link>
+      </Section>
+      <Section>
         <Text tag='h3'>Team Info</Text>
         <TeamName
           isUserCreator={isUserCreator}
@@ -77,14 +83,14 @@ export const LobbyPage: FC<PropsT> = ({
       </Section>
       <Section>
         <Text tag='h3'>Teammates</Text>
-        <Link href={`lobby?${teamSessionQueryParam}=${teamSessionId}`}>
-          Copy invitation link
-        </Link>
-        <ul>
-          {teammates?.map((teammate) => (
-            <Teammate data={teammate} />
-          ))}
-        </ul>
+        <table>
+          <tbody>
+            {teammates?.map((teammate) => (
+              <Teammate data={teammate} key={teammate.id} />
+            ))}
+          </tbody>
+        </table>
+        <ul></ul>
       </Section>
       <Button onClick={handleClickReadyButton} disabled={isReadyForGame}>
         I am ready for game!
@@ -170,14 +176,21 @@ export const TeamName: FC<TeamNamePropsT> = memo(
 );
 
 export const Teammate: FC<TeammatePropsT> = ({ data }) => {
-  const { photoUrl, login, isReady, isCreator } = data;
+  const { photoUrl, name, isReady, isCreator } = data;
 
   return (
-    <li>
-      {isCreator && <Text isInline={true}>SM</Text>}
-      {photoUrl && <img src={photoUrl} width={50} height={50} />}
-      <Text isInline={true}>{login}</Text>
-      {isReady && <Text isInline={true}>Ready</Text>}
-    </li>
+    <tr>
+      <td>
+        <Avatar photoUrl={photoUrl} />
+      </td>
+
+      <td>
+        <Text isInline={true}>{name}</Text>{' '}
+      </td>
+      <td>
+        <Text isInline={true}>{isReady ? 'Ready' : 'Not ready'}</Text>
+      </td>
+      <td>{isCreator && <Text isInline={true}>⭐</Text>}</td>
+    </tr>
   );
 };

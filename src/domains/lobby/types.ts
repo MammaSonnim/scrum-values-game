@@ -6,7 +6,7 @@ export type TeamSessionIdT = Brand<string, 'TeamSidT'>;
 
 export type TeammateT = {
   photoUrl: string;
-  login: string;
+  name: string;
   id: UserIdT;
   isReady: boolean;
   isCreator: boolean;
