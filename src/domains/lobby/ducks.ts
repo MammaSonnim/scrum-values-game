@@ -16,18 +16,20 @@ import {
   TeammateDataChangeResponseT,
   TeamSessionIdT,
   CanTeammateStartGameUpdateResponseT,
+  GameInitStatusUpdateResponseT,
+  GameInitStatusUpdateRequestParamsT,
 } from './types';
 
 const NAMESPACE = 'LOBBY';
 
 const SET_IS_CHANNEL_READY = `${NAMESPACE}/SET_IS_CHANNEL_READY` as const;
+const RESET_INIT_GAME = `${NAMESPACE}/RESET_INIT_GAME` as const;
 
 // actions started from UI
 const INIT_SEND_DATA = `${NAMESPACE}/INIT_SEND_DATA` as const;
 const CHANGE_TEAM_NAME = `${NAMESPACE}/CHANGE_TEAM_NAME` as const;
 const CHANGE_READY_FOR_GAME_STATUS =
   `${NAMESPACE}/CHANGE_READY_FOR_GAME_STATUS` as const;
-const INIT_START_GAME = `${NAMESPACE}/INIT_START_GAME` as const;
 
 // received messages from server
 const SESSION_RECEIVED = `${NAMESPACE}/SESSION_RECEIVED` as const;
@@ -35,6 +37,8 @@ const TEAM_NAME_RECEIVED = `${NAMESPACE}/TEAM_NAME_RECEIVED` as const;
 const TEAMMATES_RECEIVED = `${NAMESPACE}/TEAMMATES_RECEIVED` as const;
 const CAN_START_GAME_STATUS_RECEIVED =
   `${NAMESPACE}/CAN_START_GAME_STATUS_RECEIVED` as const;
+const GAME_INIT_TRIGGER_RECEIVED =
+  `${NAMESPACE}/GAME_INIT_TRIGGER_RECEIVED` as const;
 
 // additional setters after parsing message from server
 const SET_IS_USER_CREATOR = `${NAMESPACE}/SET_IS_USER_CREATOR` as const;
@@ -47,6 +51,7 @@ export const lobbyInitialState = {
   isUserCreator: false,
   isReadyForGame: false,
   canStartGame: false,
+  isGameInited: false,
 };
 
 export type LobbyInitialStateT = typeof lobbyInitialState;
@@ -94,6 +99,18 @@ export const lobbyReducer = (
         canStartGame: action.payload,
       };
 
+    case GAME_INIT_TRIGGER_RECEIVED:
+      return {
+        ...lobbyState,
+        isGameInited: action.payload,
+      };
+
+    case RESET_INIT_GAME:
+      return {
+        ...lobbyState,
+        isGameInited: false,
+      };
+
     case SET_IS_USER_CREATOR:
       return {
         ...lobbyState,
@@ -131,10 +148,6 @@ export const actionCreators = {
     type: INIT_SEND_DATA,
     payload: null,
   }),
-  initStartGame: () => ({
-    type: INIT_START_GAME,
-    payload: null,
-  }),
   teamNameReceived: (data: string) =>
     ({
       type: TEAM_NAME_RECEIVED,
@@ -143,6 +156,11 @@ export const actionCreators = {
   teammatesReceived: (data: TeammateT[]) =>
     ({
       type: TEAMMATES_RECEIVED,
+      payload: data,
+    } as const),
+  gameInitTriggerReceived: (data: boolean) =>
+    ({
+      type: GAME_INIT_TRIGGER_RECEIVED,
       payload: data,
     } as const),
   canStartGameStatusReceived: (data: boolean) => ({
@@ -159,6 +177,10 @@ export const actionCreators = {
       type: SET_IS_CHANNEL_READY,
       payload: isChannelReady,
     } as const),
+  resetInitGame: () => ({
+    type: RESET_INIT_GAME,
+    payload: null,
+  }),
 };
 
 // thunks
@@ -216,6 +238,7 @@ const dataHandlerCreator = (
         | TeamNameChangeResponseT
         | TeammateDataChangeResponseT
         | CanTeammateStartGameUpdateResponseT
+        | GameInitStatusUpdateResponseT
         | EmptyObjectT = {};
 
       try {
@@ -262,6 +285,12 @@ const dataHandlerCreator = (
         const canStartGame = parsedData?.canStartGame;
 
         dispatch(actionCreators.canStartGameStatusReceived(canStartGame));
+      }
+
+      if (parsedData.type === 'init-game') {
+        const isGameInited = parsedData?.isGameInited;
+
+        dispatch(actionCreators.gameInitTriggerReceived(isGameInited));
       }
     };
   }
@@ -331,13 +360,14 @@ export const initGame = (): ThunkActionT => {
   return (dispatch, getState) => {
     const teamSessionId = selectTeamSessionId(getState());
 
-    dispatch(
-      sendData(
-        JSON.stringify({
-          teamSessionId,
-        })
-      )
-    );
+    if (teamSessionId) {
+      const params: GameInitStatusUpdateRequestParamsT = {
+        type: 'init-game',
+        teamSessionId,
+      };
+
+      dispatch(sendData(JSON.stringify(params)));
+    }
   };
 };
 
@@ -380,6 +410,10 @@ export const selectIsReadyForGame = (state: RootStateT) => {
 
 export const selectCanStartGame = (state: RootStateT) => {
   return selectLobbyState(state).canStartGame;
+};
+
+export const selectIsGameInited = (state: RootStateT) => {
+  return selectLobbyState(state).isGameInited;
 };
 
 // types
