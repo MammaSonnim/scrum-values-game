@@ -1,15 +1,17 @@
-import { ApiResponseWithDataT } from '../../types';
+import { ApiResponseWithDataT, Brand } from '../../types';
+
+export type UserIdT = Brand<number, 'UserIdT'>;
 
 export type UserInfoT = {
   login: string | null;
   email: string | null;
-  id: number | null;
+  id: UserIdT | null;
   isAuth: boolean;
   photoUrl: string | null;
 };
 
 export type GetUserInfoResponseT = ApiResponseWithDataT<{
-  id: number;
+  id: UserIdT;
   email: string;
   login: string;
 }>;

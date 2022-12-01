@@ -7,13 +7,17 @@ import { WrapperWithAuthRedirect } from '../auth/rpc/withAuthRedirect';
 import { LobbyPage } from './page';
 import {
   changeTeamName,
+  changeReadyForGameStatus,
   startDataListening,
   stopDataListening,
   sendData,
+  initGame,
   selectTeamName,
   selectTeammates,
   selectTeamSessionId,
   selectIsUserCreator,
+  selectIsReadyForGame,
+  selectCanStartGame,
 } from './ducks';
 import { DispatchPropsT, StatePropsT, OwnPropsT } from './types';
 
@@ -23,6 +27,8 @@ const mapStateToProps = (state: RootStateT): StatePropsT => {
     teammates: selectTeammates(state),
     teamSessionId: selectTeamSessionId(state),
     isUserCreator: selectIsUserCreator(state),
+    isReadyForGame: selectIsReadyForGame(state),
+    canStartGame: selectCanStartGame(state),
   };
 };
 
@@ -31,6 +37,8 @@ const mapDispatchToProps: DispatchPropsT = {
   onStartDataListening: startDataListening,
   onStopDataListening: stopDataListening,
   sendData,
+  changeReadyForGameStatus,
+  initGame,
 };
 
 export const Lobby: FC<OwnPropsT> = () => {

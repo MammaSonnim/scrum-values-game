@@ -4,7 +4,6 @@ import { ApiResultCodes } from './constants';
 export type TODO_ANY = any;
 
 export type Brand<T, U> = T & { __brand: U };
-export type TeamSessionIdT = Brand<string, 'TeamSidT'>;
 
 export type PropertiesT<T> = T extends { [key: string]: infer U } ? U : never;
 
