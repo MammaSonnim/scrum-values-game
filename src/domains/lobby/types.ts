@@ -63,6 +63,16 @@ export type CanTeammateStartGameUpdateResponseT = {
   canStartGame: boolean;
 };
 
+export type GameInitStatusUpdateRequestParamsT = {
+  type: 'init-game';
+  teamSessionId: TeamSessionIdT;
+};
+
+export type GameInitStatusUpdateResponseT = {
+  type: 'init-game';
+  isGameInited: boolean;
+};
+
 export type EventNameT = 'message_received' | 'status_changed';
 
 // PROPS
@@ -74,6 +84,7 @@ export type StatePropsT = Pick<
   | 'isUserCreator'
   | 'isReadyForGame'
   | 'canStartGame'
+  | 'isGameInited'
 >;
 
 export type DispatchPropsT = {
@@ -83,6 +94,7 @@ export type DispatchPropsT = {
   sendData: (message: string) => void;
   changeReadyForGameStatus: (value: boolean) => void;
   initGame: () => void;
+  resetInitGame: () => void;
 };
 
 export type OwnPropsT = EmptyObjectT;

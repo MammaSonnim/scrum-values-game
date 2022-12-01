@@ -18,6 +18,8 @@ import {
   selectIsUserCreator,
   selectIsReadyForGame,
   selectCanStartGame,
+  selectIsGameInited,
+  actionCreators,
 } from './ducks';
 import { DispatchPropsT, StatePropsT, OwnPropsT } from './types';
 
@@ -29,6 +31,7 @@ const mapStateToProps = (state: RootStateT): StatePropsT => {
     isUserCreator: selectIsUserCreator(state),
     isReadyForGame: selectIsReadyForGame(state),
     canStartGame: selectCanStartGame(state),
+    isGameInited: selectIsGameInited(state),
   };
 };
 
@@ -39,6 +42,7 @@ const mapDispatchToProps: DispatchPropsT = {
   sendData,
   changeReadyForGameStatus,
   initGame,
+  resetInitGame: actionCreators.resetInitGame,
 };
 
 export const Lobby: FC<OwnPropsT> = () => {

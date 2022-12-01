@@ -16,6 +16,7 @@ describe('teamReducer', () => {
         isUserCreator: false,
         isReadyForGame: false,
         canStartGame: false,
+        isGameInited: false,
       };
 
       const newState = lobbyReducer(
@@ -31,6 +32,7 @@ describe('teamReducer', () => {
         isUserCreator: false,
         isReadyForGame: false,
         canStartGame: false,
+        isGameInited: false,
       });
     });
   });

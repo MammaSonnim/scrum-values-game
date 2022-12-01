@@ -1,5 +1,5 @@
 import React, { FC, useRef, useEffect, useState, Fragment, memo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { Button, Page, Section, Text } from '../../components';
 import {
   PropsT,
@@ -20,11 +20,13 @@ export const LobbyPage: FC<PropsT> = ({
   isUserCreator,
   isReadyForGame,
   canStartGame,
+  isGameInited,
   onChangeTeamName,
   onStartDataListening,
   onStopDataListening,
   changeReadyForGameStatus,
   initGame,
+  resetInitGame,
 }) => {
   const [searchParamsFromUrl, setSearchParamsToUrl] = useSearchParams();
 
@@ -43,7 +45,7 @@ export const LobbyPage: FC<PropsT> = ({
 
     if (!teamSessionIdInUrl && teamSessionId) {
       setSearchParamsToUrl({
-        tsid: teamSessionId,
+        [teamSessionQueryParam]: teamSessionId,
       });
     }
   }, [teamSessionId]);
@@ -57,6 +59,12 @@ export const LobbyPage: FC<PropsT> = ({
   };
 
   const { login, photoUrl } = userInfo;
+
+  if (isGameInited) {
+    resetInitGame();
+
+    return <Navigate to={`/game?${teamSessionQueryParam}=${teamSessionId}`} />;
+  }
 
   return (
     <Page>
