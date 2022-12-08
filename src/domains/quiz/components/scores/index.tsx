@@ -25,7 +25,7 @@ export const Scores: FC<Props> = ({ scores }) => {
           >
             <img
               className={styles.icon}
-              src={require(`./assets/${key}.png`).default}
+              src={require(`./assets/${key}.png`)}
               alt={key}
             />
             {value}
