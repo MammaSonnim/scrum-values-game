@@ -90,7 +90,7 @@
     "webpack-manifest-plugin": "^5.0.0"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false node scripts/start.js",
+    "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
