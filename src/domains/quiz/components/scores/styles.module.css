@@ -3,7 +3,7 @@
   justify-content: space-between;
   max-width: 704px;
   list-style-type: none;
-  margin: 0 auto 20px;
+  margin: 0 auto;
   padding: 0;
 }
 
@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 60px;
+  max-width: 60px;
 }
 
 .score:last-of-type {
@@ -22,6 +22,10 @@
   display: block;
   width: 16px;
   height: 16px;
-  margin-right: 2px;
+  margin-right: 10px;
   font-size: 0;
+}
+
+.score__value_negative {
+  margin-left: -5px;
 }

@@ -1,16 +1,15 @@
-import React, { useState, useCallback, FC } from 'react';
+import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
-import cn from 'classnames';
 import styles from './styles.module.css';
 
 const navItems = [
   {
     link: '/game',
-    title: 'Solo game',
+    title: 'Solo',
   },
   {
     link: '/lobby',
-    title: 'Team game',
+    title: 'Teamplay',
   },
   {
     link: '/rating',
@@ -19,36 +18,22 @@ const navItems = [
 ];
 
 export const Nav: FC = () => {
-  const [isExpanded, setExpand] = useState(false);
-
-  const handleIconClick = useCallback(() => {
-    setExpand(!isExpanded);
-  }, [isExpanded]);
-
-  const rootClasses = cn(styles['nav'], {
-    [styles.nav_expanded]: isExpanded,
-  });
-
   return (
-    <div className={rootClasses}>
-      {isExpanded && (
-        <nav className={styles['list']}>
-          {navItems.map((item) => {
-            return (
-              <NavLink
-                key={item.link}
-                // activeClassName={styles.active}
-                to={item.link}
-              >
-                {item.title}
-              </NavLink>
-            );
-          })}
-        </nav>
-      )}
-      <div className={styles['icon']} onClick={handleIconClick}>
-        {isExpanded ? 'Close' : 'Open'}
-      </div>
+    <div className={styles.nav}>
+      <nav className={styles['nav__list']}>
+        {navItems.map((item) => {
+          return (
+            <NavLink
+              className={styles['nav__item']}
+              key={item.link}
+              //activeClassName={styles.active}
+              to={item.link}
+            >
+              {item.title}
+            </NavLink>
+          );
+        })}
+      </nav>
     </div>
   );
 };

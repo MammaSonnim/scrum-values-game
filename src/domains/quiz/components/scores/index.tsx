@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import cn from 'classnames';
 import { startCase, camelCase } from 'lodash';
 import { ScoresT } from '../../models/types';
 import styles from './styles.module.css';
@@ -28,6 +29,11 @@ export const Scores: FC<Props> = ({ scores }) => {
               src={require(`./assets/${key}.png`)}
               alt={key}
             />
+            <span
+              className={cn(styles['score__value'], {
+                [styles['score__value_negative']]: value < 0,
+              })}
+            ></span>
             {value}
           </li>
         );

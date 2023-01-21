@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Text } from '../text';
 
 type Props = {
   error: string;
@@ -9,5 +10,5 @@ export const Error: FC<Props> = ({ error }) => {
     return null;
   }
 
-  return <div className='nes-text is-error'>{error}</div>;
+  return <Text type='warn'>{error}</Text>;
 };

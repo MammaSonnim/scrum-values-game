@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { getOr } from 'lodash/fp';
 import { Event } from 'effector';
 import { ScoresT, DataT, QuestionT } from './models/types';
-import { Heading, QA, GameOver } from './components';
+import { Scores, QA, GameOver } from './components';
 import styles from './styles.module.css';
 
 type Props = {
@@ -62,12 +62,12 @@ export const QuizPage: FC<Props> = ({
     restartGame();
   }, [restartGame]);
 
-  console.log('🐸 isGameOver:', isGameOver);
-
   return (
-    <div className={styles.root}>
-      <Heading scores={scores} />
-      <div className={cn(styles.content, 'nes-container is-rounded')}>
+    <div className={styles.quiz}>
+      <div className={styles['quiz__scores']}>
+        <Scores scores={scores} />
+      </div>
+      <div className={cn(styles['quiz__content'])}>
         {isGameOver ? (
           <GameOver onRestart={handleClickRestart} />
         ) : (

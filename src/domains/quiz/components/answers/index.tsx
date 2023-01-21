@@ -17,10 +17,10 @@ export const Answers: FC<Props> = ({
   onAnswerClick,
 }) => {
   return (
-    <div className={styles.root}>
+    <div className={styles.answers}>
       {data.map((answer) => {
         return (
-          <div key={answer.id} className={styles['answers-item']}>
+          <div key={answer.id} className={styles['answers__item']}>
             <Answer
               data={answer}
               isSelected={currentAnswerId === Number(answer.id)}

@@ -1,7 +1,9 @@
-import React, { FC, Fragment, useCallback } from 'react';
-import { UserInfoT } from '../../../../models/userInfo/types';
+import React, { FC, useCallback } from 'react';
 import { Event } from 'effector';
 import { NavLink } from 'react-router-dom';
+import { UserInfoT } from '../../../../models/userInfo/types';
+import { Text, Button } from '../../../../components';
+import styles from './styles.module.css';
 
 type Props = {
   userInfo: UserInfoT;
@@ -21,18 +23,18 @@ export const AuthInfoModule: FC<Props> = ({
   const { login, isAuth } = userInfo;
 
   return (
-    <div>
+    <div className={styles['auth-info']}>
       {isAuth ? (
-        <Fragment>
-          <p>Hello, {login}!</p>
-          <p>
-            <button onClick={handleLogout} disabled={isLogoutProcessing}>
-              Выйти
-            </button>
-          </p>
-        </Fragment>
+        <div className={styles.block}>
+          <Text>{login}</Text>
+          <div className={styles['button-wrapper']}>
+            <Button onClick={handleLogout} disabled={isLogoutProcessing} asLink>
+              Sign out
+            </Button>
+          </div>
+        </div>
       ) : (
-        <NavLink to='/login'>Войти</NavLink>
+        <NavLink to='/login'>Sign in</NavLink>
       )}
     </div>
   );

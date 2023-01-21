@@ -6,5 +6,5 @@ export type Props = {
 };
 
 export const Page: FC<Props> = ({ children }) => {
-  return <p className={styles.page}>{children}</p>;
+  return <section className={styles.page}>{children}</section>;
 };

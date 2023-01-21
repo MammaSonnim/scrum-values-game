@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import styles from './styles.module.css';
+import { Text } from '../../../../components';
 
 type Props = {
   currentCount: number;
@@ -8,8 +8,8 @@ type Props = {
 
 export const Progress: FC<Props> = ({ currentCount, total }) => {
   return (
-    <div className={styles.root}>
-      Вопрос <span>{currentCount}</span> из <span>{total}</span>
-    </div>
+    <Text size='l'>
+      {currentCount} / {total}
+    </Text>
   );
 };

@@ -1,0 +1,13 @@
+.auth-info {
+  margin-left: auto;
+  padding-left: 20px;
+}
+
+.block {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-wrapper {
+  margin-left: 4px;
+}
