@@ -85,7 +85,7 @@ const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
         <ErrorMessage name='searchString' component='div' />
       </fieldset>
       <Button type='submit' disabled={isSubmitting || isProcessing}>
-        Подтвердить
+        Search
       </Button>
     </Form>
   );

@@ -6,11 +6,7 @@ import { App } from './app';
 const root = createRoot(document.getElementById('root') as Element);
 
 export const renderDom = () => {
-  root.render(
-    <div>
-      <App store={store} />
-    </div>
-  );
+  root.render(<App store={store} />);
 };
 
 renderDom();

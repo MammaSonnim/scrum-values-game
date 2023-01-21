@@ -1,7 +1,6 @@
 export { Answer } from './answer';
 export { Answers } from './answers';
 export { GameOver } from './gameOver';
-export { Heading } from './heading';
 export { Progress } from './progress';
 export { QA } from './qa';
 export { Question } from './question';

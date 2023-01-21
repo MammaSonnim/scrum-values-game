@@ -1,3 +1,20 @@
 .button {
-  outline-width: 1px;
+  outline: none;
+  border: 1px solid black;
+  padding: 6px 12px;
+  background-color: transparent;
+  border-radius: 4px;
+}
+
+.primary {
+  border-color: black;
+}
+
+.disabled {
+  border-color: grey;
+}
+
+.as-link {
+  padding: 0;
+  border: none;
 }

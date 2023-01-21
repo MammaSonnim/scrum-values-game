@@ -14,7 +14,7 @@ export const WrapperWithAuthRedirect: FC<PropsT> = ({ render }) => {
   const { isAuth } = userInfo;
 
   if (!isAppInitialized) {
-    return <div>Загрузка</div>;
+    return <div>Loading</div>;
   }
 
   if (!isAuth) {

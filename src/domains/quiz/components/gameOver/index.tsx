@@ -10,7 +10,7 @@ export const GameOver: FC<Props> = ({ onRestart }) => {
   return (
     <div className={styles.content}>
       <h1>Game Over</h1>
-      <Button onClick={onRestart}>Начать заново</Button>
+      <Button onClick={onRestart}>Play again</Button>
     </div>
   );
 };

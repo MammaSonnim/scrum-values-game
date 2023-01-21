@@ -6,6 +6,7 @@ export type Props = {
   children: ReactNode;
   size?: 'xs' | 's' | 'm' | 'l';
   tag?: 'p' | 'h2' | 'h3' | 'h4';
+  type?: 'warn';
   isInline?: boolean;
 };
 
@@ -13,6 +14,7 @@ export const Text: FC<Props> = ({
   children,
   size = 'm',
   tag = 'p',
+  type,
   isInline,
 }) => {
   const sizeClass = styles[size];
@@ -21,6 +23,7 @@ export const Text: FC<Props> = ({
   const classes = cn(styles.text, {
     [sizeClass]: !isHeading,
     [styles.inline]: isInline,
+    [styles.warn]: type === 'warn',
   });
 
   return React.createElement(

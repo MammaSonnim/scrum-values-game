@@ -33,10 +33,10 @@ export const AuthPage: FC<
       </fieldset>
       <label>
         <Field type='checkbox' name='rememberMe' />
-        Запомнить
+        Remember me
       </label>
       <button type='submit' disabled={isSubmitting || isLoginProcessing}>
-        Подтвердить
+        Submit
       </button>
       <div>{errorMessage}</div>
     </Form>

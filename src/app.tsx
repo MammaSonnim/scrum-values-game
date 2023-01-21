@@ -3,12 +3,11 @@ import React, { lazy, Suspense, useEffect } from 'react';
 import { Store } from 'redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import 'nes.css/css/nes.min.css';
-import { Quiz, Lobby, Auth, AuthInfo } from './domains';
-import { Nav } from './components';
+import { Quiz, Lobby, Auth } from './domains';
+import { Nav, Link } from './components';
 import { getUserInfo } from './models/userInfo';
 import { ErrorBoundary, Loader } from './components';
-import './app.css';
+import styles from './styles.module.css';
 
 const Rating = lazy(() => import('./domains/rating'));
 
@@ -18,12 +17,14 @@ export const App = ({ store }: { store: Store }) => {
   }, []);
 
   return (
-    <div className='app'>
+    <div className={styles.app}>
       <BrowserRouter>
         <Provider store={store}>
           <ErrorBoundary>
-            <Nav />
-            <AuthInfo />
+            <header className={styles.header}>
+              <Nav />
+              <Link href='#'>ru/en</Link>
+            </header>
             <Routes>
               <Route path='/' element={<Navigate to='/game' />} />
               <Route path='/game' element={<Quiz />} />

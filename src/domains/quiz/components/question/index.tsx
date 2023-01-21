@@ -1,17 +1,13 @@
 import React, { FC } from 'react';
 import { QuestionT } from '../../models/types';
-import styles from './styles.module.css';
+import { Text } from '../../../../components';
 
 type Props = {
   data: QuestionT;
 };
 
 export const Question: FC<Props> = ({ data }) => {
-  const { id, text } = data;
+  const { text } = data;
 
-  return (
-    <div className={styles.question}>
-      {id}. {text}
-    </div>
-  );
+  return <Text size='l'>{text}</Text>;
 };
