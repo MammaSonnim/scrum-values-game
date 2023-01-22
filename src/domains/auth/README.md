@@ -4,7 +4,7 @@ Domain consists of:
 
 - `AuthPage`
 - `AuthInfo` module
-- `withAuthRedirect` wrapper
+- `withAuthRedirect` plugin
 
 #### External deps
 

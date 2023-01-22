@@ -2,8 +2,7 @@ import React, { FC } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'lodash/fp';
 import { RootStateT } from '../../redux-store';
-import { withUserInfo } from '../../hocs';
-import { WrapperWithAuthRedirect } from '../auth/rpc/withAuthRedirect';
+import { withUserInfo, WrapperWithAuthRedirect } from '../../plugins';
 import { LobbyPage } from './page';
 import {
   changeTeamName,
