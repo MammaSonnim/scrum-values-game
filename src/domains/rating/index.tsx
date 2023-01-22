@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { compose } from 'lodash/fp';
 import { withFormik } from 'formik';
-import { WrapperWithAuthRedirect } from '../auth/rpc/withAuthRedirect';
+import { WrapperWithAuthRedirect } from '../auth/plugins/withAuthRedirect';
 import { RatingPage } from './page';
 import { OwnPropsT, FormikOuterPropsT, FormValuesT } from './types';
 import { createParamsObject, getFormikConfig } from './utils';

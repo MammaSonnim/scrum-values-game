@@ -1,4 +1,4 @@
-import React, { Fragment, FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import cn from 'classnames';
 import { Text } from '../../../../components';
 import { AnswerT } from '../../models/types';
