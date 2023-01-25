@@ -1,6 +1,7 @@
 export { Button } from './button';
 export { Error } from './error';
 export { ErrorBoundary } from './errorBoundary';
+export { Field } from './field';
 export { Link } from './link';
 export { Loader } from './loader';
 export { Nav } from './nav';
