@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 import { isEmpty } from 'lodash/fp';
 import { format } from 'date-fns';
-import { Form, Field, ErrorMessage } from 'formik';
-import { Button, Loader, Page, Section, Text } from '../../components';
+import { Form, Field as FormikField, ErrorMessage } from 'formik';
+import { Button, Loader, Page, Section, Text, Field } from '../../components';
 import { PropsT, RatingItemT } from './types';
+import styles from './styles.module.css';
 
 export const RatingPage: FC<PropsT> = ({
   isSubmitting,
@@ -26,12 +27,12 @@ export const RatingPage: FC<PropsT> = ({
 
       {!isEmpty(items) && (
         <Section>
-          <table>
+          <table className={styles.table}>
             <thead>
-              <tr>
-                <th>#</th>
+              <tr className={styles['table__header']}>
+                <th className={styles['table__cell_index']}>#</th>
                 <th>Team</th>
-                <th>Scores</th>
+                <th className={styles['table__cell_right']}>Scores</th>
                 <th>Date</th>
               </tr>
             </thead>
@@ -52,7 +53,7 @@ export const RatingPage: FC<PropsT> = ({
 
       {hasItemsBeforeFiltered && (
         <Section>
-          <Text>Total: {totalCount}</Text>
+          <Text size='l'>Total: {totalCount}</Text>
         </Section>
       )}
     </Page>
@@ -66,11 +67,19 @@ const RatingItem: FC<RatingItemT & { index: number }> = ({
   index,
 }) => {
   return (
-    <tr>
-      <td>{index + 1}</td>
-      <td>{teamName}</td>
-      <td>{scores}</td>
-      <td>{format(date, 'Pp')}</td>
+    <tr className={styles['table__row']}>
+      <td className={styles['table__cell_index']}>
+        <Text>{index + 1}</Text>
+      </td>
+      <td>
+        <Text>{teamName}</Text>
+      </td>
+      <td className={styles['table__cell_right']}>
+        <Text>{scores}</Text>
+      </td>
+      <td>
+        <Text>{format(date, 'P')}</Text>
+      </td>
     </tr>
   );
 };
@@ -79,10 +88,27 @@ type FormPropsT = Pick<PropsT, 'isSubmitting'> & { isProcessing: boolean };
 
 const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
   return (
-    <Form>
-      <fieldset>
-        <Field type='text' name='searchString' />
-        <ErrorMessage name='searchString' component='div' />
+    <Form className={styles.form}>
+      <fieldset className={styles['form__fieldset']}>
+        <FormikField
+          type='text'
+          name='searchString'
+          placeholder='Team name'
+          className={styles['form__field']}
+          component={Field}
+        />
+        <ErrorMessage
+          name='searchString'
+          render={(message) => {
+            return (
+              <div className={styles['form__error']}>
+                <Text size='s' type='warn'>
+                  {message}
+                </Text>
+              </div>
+            );
+          }}
+        />
       </fieldset>
       <Button type='submit' disabled={isSubmitting || isProcessing}>
         Search

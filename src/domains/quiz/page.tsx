@@ -2,6 +2,7 @@ import React, { FC, MouseEvent, useCallback } from 'react';
 import cn from 'classnames';
 import { getOr } from 'lodash/fp';
 import { Event } from 'effector';
+import { Page } from '../../components/page';
 import { ScoresT, DataT, QuestionT } from './models/types';
 import { Scores, QA, GameOver } from './components';
 import styles from './styles.module.css';
@@ -63,31 +64,33 @@ export const QuizPage: FC<Props> = ({
   }, [restartGame]);
 
   return (
-    <div className={styles.quiz}>
-      <div className={styles['quiz__scores']}>
-        <Scores scores={scores} />
+    <Page>
+      <div className={styles.quiz}>
+        <div className={styles['quiz__scores']}>
+          <Scores scores={scores} />
+        </div>
+        <div className={cn(styles['quiz__content'])}>
+          {isGameOver ? (
+            <GameOver onRestart={handleClickRestart} />
+          ) : (
+            <QA
+              buttonType={buttonType}
+              isAnswerScoresVisible={isAnswerScoresVisible}
+              isButtonDisabled={isButtonDisabled}
+              isAnyAnswerSelected={isAnyAnswerSelected}
+              quizDataLength={quizData.length}
+              currentQuestionId={currentQuestionId}
+              question={question}
+              answers={answers}
+              currentAnswerId={currentAnswerId}
+              error={''}
+              onAnswerClick={handleClickAnswer}
+              onNextClick={handleClickNext}
+              onShowScoresClick={handleClickShowAnswerScores}
+            />
+          )}
+        </div>
       </div>
-      <div className={cn(styles['quiz__content'])}>
-        {isGameOver ? (
-          <GameOver onRestart={handleClickRestart} />
-        ) : (
-          <QA
-            buttonType={buttonType}
-            isAnswerScoresVisible={isAnswerScoresVisible}
-            isButtonDisabled={isButtonDisabled}
-            isAnyAnswerSelected={isAnyAnswerSelected}
-            quizDataLength={quizData.length}
-            currentQuestionId={currentQuestionId}
-            question={question}
-            answers={answers}
-            currentAnswerId={currentAnswerId}
-            error={''}
-            onAnswerClick={handleClickAnswer}
-            onNextClick={handleClickNext}
-            onShowScoresClick={handleClickShowAnswerScores}
-          />
-        )}
-      </div>
-    </div>
+    </Page>
   );
 };
