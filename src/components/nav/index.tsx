@@ -2,12 +2,13 @@ import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useFeatureToggles } from '../../plugins';
 import styles from './styles.module.css';
+import i18next from '../../i18n';
 
 const getNavItems = (isTeamsEnabled: boolean) => {
   const navItems = [
     {
       link: '/game',
-      title: isTeamsEnabled ? 'Solo' : 'Quiz',
+      title: isTeamsEnabled ? i18next.t('solo') : i18next.t('quiz'),
     },
   ];
 
@@ -16,11 +17,11 @@ const getNavItems = (isTeamsEnabled: boolean) => {
       ...[
         {
           link: '/lobby',
-          title: 'Teamplay',
+          title: i18next.t('teamPlay'),
         },
         {
           link: '/rating',
-          title: 'Rating',
+          title: i18next.t('rating'),
         },
       ]
     );

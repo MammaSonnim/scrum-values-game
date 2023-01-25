@@ -9,10 +9,13 @@ import { getUserInfo } from './models/userInfo';
 import { ErrorBoundary, Loader } from './components';
 import { FeatureToggleProvider } from './plugins';
 import styles from './styles.module.css';
+import { useTranslation } from 'react-i18next';
 
 const Rating = lazy(() => import('./domains/rating'));
 
 export const App = ({ store }: { store: Store }) => {
+  const { i18n } = useTranslation();
+
   useEffect(() => {
     getUserInfo();
   }, []);
@@ -25,7 +28,15 @@ export const App = ({ store }: { store: Store }) => {
             <FeatureToggleProvider>
               <header className={styles.header}>
                 <Nav />
-                <Link href='#'>ru/en</Link>
+                <div>
+                  <Link href='#' onClick={() => i18n.changeLanguage('ru')}>
+                    ru
+                  </Link>
+                  /
+                  <Link href='#' onClick={() => i18n.changeLanguage('en')}>
+                    en
+                  </Link>
+                </div>
               </header>
               <Routes>
                 <Route path='/' element={<Navigate to='/game' />} />
