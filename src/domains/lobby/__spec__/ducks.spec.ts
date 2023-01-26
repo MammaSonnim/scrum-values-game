@@ -10,6 +10,7 @@ describe('teamReducer', () => {
     it('should return new state with updated name', () => {
       const state: LobbyInitialStateT = {
         teamName: '',
+        userName: '',
         teammates: [],
         teamSessionId: null,
         isChannelReady: false,
@@ -26,6 +27,7 @@ describe('teamReducer', () => {
 
       expect(newState).toEqual({
         teamName: 'piu',
+        userName: '',
         teammates: [],
         teamSessionId: null,
         isChannelReady: false,

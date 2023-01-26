@@ -6,12 +6,14 @@ import { withUserInfo, WrapperWithAuthRedirect } from '../../plugins';
 import { LobbyPage } from './page';
 import {
   changeTeamName,
+  changeUserName,
   changeReadyForGameStatus,
   startDataListening,
   stopDataListening,
   sendData,
   initGame,
   selectTeamName,
+  selectUserName,
   selectTeammates,
   selectTeamSessionId,
   selectIsUserCreator,
@@ -25,6 +27,7 @@ import { DispatchPropsT, StatePropsT, OwnPropsT } from './types';
 const mapStateToProps = (state: RootStateT): StatePropsT => {
   return {
     teamName: selectTeamName(state),
+    userName: selectUserName(state),
     teammates: selectTeammates(state),
     teamSessionId: selectTeamSessionId(state),
     isUserCreator: selectIsUserCreator(state),
@@ -36,6 +39,7 @@ const mapStateToProps = (state: RootStateT): StatePropsT => {
 
 const mapDispatchToProps: DispatchPropsT = {
   onChangeTeamName: changeTeamName,
+  onChangeUserName: changeUserName,
   onStartDataListening: startDataListening,
   onStopDataListening: stopDataListening,
   sendData,

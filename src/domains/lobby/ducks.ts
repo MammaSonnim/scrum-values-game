@@ -1,4 +1,4 @@
-// playground for redux-arch
+// playground for redux-arch TODO SVG-32 rewrite to effector
 import { Dispatch } from 'react';
 import { $userInfo } from '../../models/userInfo';
 import { UserInfoT } from '../../models/userInfo/types';
@@ -28,6 +28,7 @@ const RESET_INIT_GAME = `${NAMESPACE}/RESET_INIT_GAME` as const;
 // actions started from UI
 const INIT_SEND_DATA = `${NAMESPACE}/INIT_SEND_DATA` as const;
 const CHANGE_TEAM_NAME = `${NAMESPACE}/CHANGE_TEAM_NAME` as const;
+const CHANGE_USER_NAME = `${NAMESPACE}/CHANGE_USER_NAME` as const;
 const CHANGE_READY_FOR_GAME_STATUS =
   `${NAMESPACE}/CHANGE_READY_FOR_GAME_STATUS` as const;
 
@@ -45,6 +46,7 @@ const SET_IS_USER_CREATOR = `${NAMESPACE}/SET_IS_USER_CREATOR` as const;
 
 export const lobbyInitialState = {
   teamName: 'Super Puper Team',
+  userName: null as string | null,
   teammates: [] as TeammateT[],
   teamSessionId: null as TeamSessionIdT | null,
   isChannelReady: false,
@@ -65,6 +67,12 @@ export const lobbyReducer = (
       return {
         ...lobbyState,
         teamName: action.payload,
+      };
+
+    case CHANGE_USER_NAME:
+      return {
+        ...lobbyState,
+        userName: action.payload,
       };
 
     case CHANGE_READY_FOR_GAME_STATUS:
@@ -134,6 +142,11 @@ export const actionCreators = {
       type: CHANGE_TEAM_NAME,
       payload: value,
     } as const),
+  changeUserName: (value: string) =>
+    ({
+      type: CHANGE_USER_NAME,
+      payload: value,
+    } as const),
   changeReadyForGameStatus: (value: boolean) =>
     ({
       type: CHANGE_READY_FOR_GAME_STATUS,
@@ -199,6 +212,13 @@ export const changeTeamName = (value: string): ThunkActionT => {
 
       dispatch(sendData(JSON.stringify(teamDataRequestParams)));
     }
+  };
+};
+
+export const changeUserName = (value: string): ThunkActionT => {
+  return (dispatch) => {
+    // TODO SVG-53 add integration with BE
+    dispatch(actionCreators.changeUserName(value));
   };
 };
 
@@ -386,6 +406,10 @@ export const selectLobbyState = (state: RootStateT) => {
 
 export const selectTeamName = (state: RootStateT) => {
   return selectLobbyState(state).teamName;
+};
+
+export const selectUserName = (state: RootStateT) => {
+  return selectLobbyState(state).userName;
 };
 
 export const selectIsChannelReady = (state: RootStateT) => {

@@ -2,7 +2,14 @@ import React, { FC } from 'react';
 import { isEmpty } from 'lodash/fp';
 import { format } from 'date-fns';
 import { Form, Field as FormikField, ErrorMessage } from 'formik';
-import { Button, Loader, Page, Section, Text, Field } from '../../components';
+import {
+  Button,
+  Loader,
+  Page,
+  Section,
+  Text,
+  FieldForFormik,
+} from '../../components';
 import { PropsT, RatingItemT } from './types';
 import styles from './styles.module.css';
 
@@ -95,7 +102,7 @@ const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
           name='searchString'
           placeholder='Team name'
           className={styles['form__field']}
-          component={Field}
+          component={FieldForFormik}
         />
         <ErrorMessage
           name='searchString'
