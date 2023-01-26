@@ -8,6 +8,7 @@ type Props = {
   isIcon?: boolean;
   disabled?: boolean;
   asLink?: boolean;
+  className?: string;
   onClick?: (e: MouseEvent) => void;
 };
 
@@ -17,11 +18,17 @@ export const Button: FC<Props> = ({
   children,
   onClick,
   asLink,
+  className,
 }) => {
-  const classes = cn(styles.button, styles.primary, {
-    [styles.disabled]: disabled,
-    [styles['as-link']]: asLink,
-  });
+  const classes = cn(
+    styles.button,
+    styles.primary,
+    {
+      [styles.disabled]: disabled,
+      [styles['as-link']]: asLink,
+    },
+    className
+  );
 
   return (
     <button

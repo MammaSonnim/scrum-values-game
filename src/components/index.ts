@@ -1,6 +1,5 @@
 export { Avatar } from './avatar';
 export { Button } from './button';
-export { Error } from './error';
 export { ErrorBoundary } from './errorBoundary';
 export { Field, FieldForFormik } from './field';
 export { Link } from './link';

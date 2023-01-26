@@ -8,6 +8,7 @@ import {
   TeamNamePropsT,
   TeamSessionIdT,
 } from './types';
+import styles from './styles.module.css';
 
 const teamSessionQueryParam = 'tsid';
 
@@ -63,7 +64,7 @@ export const LobbyPage: FC<PropsT> = ({
     initGame();
   };
 
-  const { login, photoUrl } = userInfo;
+  const { login } = userInfo;
 
   if (isGameInited) {
     resetInitGame();
@@ -80,23 +81,26 @@ export const LobbyPage: FC<PropsT> = ({
         </Link>
       </Section>
       <Section>
-        <Text tag='h3'>Team Info</Text>
         <TeamName
           isUserCreator={isUserCreator}
           teamName={teamName}
           onChangeTeamName={onChangeTeamName}
           onStartEditField={onStartEditField}
         />
-      </Section>
-      <Section>
-        <Text tag='h3'>Me</Text>
-        {photoUrl && <img src={photoUrl} width={50} height={50} />}
-        <EditOnPlaceField
-          initValue={userName || login || 'User'}
-          placeholder='My name'
-          onChangeValue={onChangeUserName}
-          onStartEditField={onStartEditField}
-        />
+        <div className={styles.field}>
+          <Text className={styles['field__name']}>My name:</Text>
+          <EditOnPlaceField
+            initValue={userName || login || 'User'}
+            placeholder='My name'
+            onChangeValue={onChangeUserName}
+            onStartEditField={onStartEditField}
+          />
+        </div>
+        <div className={styles.field}>
+          <Text className={styles['field__name']}>My icon:</Text>
+          <Avatar />
+          <Button className={styles['field__button']}>Edit</Button>
+        </div>
       </Section>
       <Section>
         <Text tag='h3'>Teammates</Text>
@@ -108,15 +112,19 @@ export const LobbyPage: FC<PropsT> = ({
           </tbody>
         </table>
       </Section>
-      <Button onClick={handleClickReadyButton} disabled={isReadyForGame}>
-        I am ready for game!
-      </Button>
-      {isReadyForGame && !canStartGame && (
-        <Text>Wait for other teammates...</Text>
-      )}
-      {canStartGame && (
-        <Button onClick={handleClickStartButton}>Start game</Button>
-      )}
+      <Section className={styles.status}>
+        <Button onClick={handleClickReadyButton} disabled={isReadyForGame}>
+          I am ready for game!
+        </Button>
+        {isReadyForGame && !canStartGame && (
+          <Text size='s' className={styles['status__text']}>
+            Wait for the others...
+          </Text>
+        )}
+        {canStartGame && (
+          <Button onClick={handleClickStartButton}>Start game</Button>
+        )}
+      </Section>
     </Page>
   );
 };
@@ -124,7 +132,8 @@ export const LobbyPage: FC<PropsT> = ({
 export const TeamName: FC<TeamNamePropsT> = memo(
   ({ isUserCreator, teamName, onChangeTeamName, onStartEditField }) => {
     return (
-      <Fragment>
+      <div className={styles.field}>
+        <Text className={styles['field__name']}>Team name:</Text>
         {isUserCreator && (
           <EditOnPlaceField
             initValue={teamName}
@@ -134,20 +143,19 @@ export const TeamName: FC<TeamNamePropsT> = memo(
           />
         )}
         {!isUserCreator && <Text>{teamName}</Text>}
-      </Fragment>
+      </div>
     );
   }
 );
 
 export const Teammate: FC<TeammatePropsT> = ({ data }) => {
-  const { photoUrl, name, isReady, isCreator } = data;
+  const { name, isReady, isCreator } = data;
 
   return (
-    <tr>
-      <td>
-        <Avatar photoUrl={photoUrl} />
+    <tr className={styles.teammate}>
+      <td className={styles['teammate__cell_avatar']}>
+        <Avatar />
       </td>
-
       <td>
         <Text isInline={true}>{name}</Text>{' '}
       </td>
