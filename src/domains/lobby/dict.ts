@@ -1,0 +1,30 @@
+export const dict = {
+  en: {
+    lobby: 'Lobby',
+    copyLink: 'Copy invitation link',
+    teamInfo: 'Team Info',
+    me: 'Me',
+    edit: 'Edit',
+    teammates: 'Teammates',
+    iAmReady: 'I am ready for game!',
+    waitTeam: 'Wait for other teammates...',
+    startGame: 'Start game',
+    submit: 'Submit',
+    ready: 'Ready',
+    notReady: 'Not ready',
+  },
+  ru: {
+    lobby: 'Холл',
+    copyLink: 'Копировать ссылку на игру',
+    teamInfo: 'Команда',
+    me: 'Я',
+    edit: 'Изменить',
+    teammates: 'Коллеги',
+    iAmReady: 'Готов играть!',
+    waitTeam: 'Ждем остальных участников...',
+    startGame: 'Начать игру',
+    submit: 'Отправить',
+    ready: 'Готов',
+    notReady: 'Не готов',
+  }
+}

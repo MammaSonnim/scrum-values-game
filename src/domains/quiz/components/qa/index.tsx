@@ -6,6 +6,7 @@ import { Progress } from '../progress';
 import { Question } from '../question';
 import { Answers } from '../answers';
 import styles from './styles.module.css';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   buttonType: string;
@@ -37,6 +38,7 @@ export const QA: FC<Props> = ({
   onShowScoresClick,
   onNextClick,
 }) => {
+  const { t } = useTranslation();
   return (
     <div>
       <div className={styles.row}>
@@ -56,10 +58,10 @@ export const QA: FC<Props> = ({
       </div>
       <div className={cn(styles.row, { [styles['row_with-cols']]: error })}>
         {isAnswerScoresVisible ? (
-          <Button onClick={onNextClick}>Next</Button>
+          <Button onClick={onNextClick}>{t('nextBtn')}</Button>
         ) : (
           <Button onClick={onShowScoresClick} disabled={isButtonDisabled}>
-            Show answers
+            {t('showAnswersBtn')}
           </Button>
         )}
         <span className={cn({ [styles.col]: error })}>

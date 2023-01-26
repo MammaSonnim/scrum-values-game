@@ -9,6 +9,7 @@ import {
 } from './types';
 import { Link } from '../../components/link';
 import { Avatar } from '../../components/avatar';
+import { useTranslation } from 'react-i18next';
 
 const teamSessionQueryParam = 'tsid';
 
@@ -28,6 +29,7 @@ export const LobbyPage: FC<PropsT> = ({
   initGame,
   resetInitGame,
 }) => {
+  const { t } = useTranslation();
   const [searchParamsFromUrl, setSearchParamsToUrl] = useSearchParams();
 
   useEffect(() => {
@@ -68,14 +70,14 @@ export const LobbyPage: FC<PropsT> = ({
 
   return (
     <Page>
-      <Text tag='h2'>Lobby</Text>
+      <Text tag='h2'>{t('lobby')}</Text>
       <Section>
         <Link href={`lobby?${teamSessionQueryParam}=${teamSessionId}`}>
-          Copy invitation link
+          {t('copyLink')}
         </Link>
       </Section>
       <Section>
-        <Text tag='h3'>Team Info</Text>
+        <Text tag='h3'>{t('teamInfo')}</Text>
         <TeamName
           isUserCreator={isUserCreator}
           teamName={teamName}
@@ -84,13 +86,13 @@ export const LobbyPage: FC<PropsT> = ({
         />
       </Section>
       <Section>
-        <Text tag='h3'>Me</Text>
+        <Text tag='h3'>{t('me')}</Text>
         {photoUrl && <img src={photoUrl} width={50} height={50} />}
         <Text>{login}</Text>
-        <Button isIcon={true}>Edit</Button>
+        <Button isIcon={true}>{t('edit')}</Button>
       </Section>
       <Section>
-        <Text tag='h3'>Teammates</Text>
+        <Text tag='h3'>{t('teammates')}</Text>
         <table>
           <tbody>
             {teammates?.map((teammate) => (
@@ -101,13 +103,11 @@ export const LobbyPage: FC<PropsT> = ({
         <ul></ul>
       </Section>
       <Button onClick={handleClickReadyButton} disabled={isReadyForGame}>
-        I am ready for game!
+        {t('iAmReady')}
       </Button>
-      {isReadyForGame && !canStartGame && (
-        <Text>Wait for other teammates...</Text>
-      )}
+      {isReadyForGame && !canStartGame && <Text>{t('waitTeam')}</Text>}
       {canStartGame && (
-        <Button onClick={handleClickStartButton}>Start game</Button>
+        <Button onClick={handleClickStartButton}>{t('startGame')}</Button>
       )}
     </Page>
   );
@@ -117,6 +117,7 @@ export const TeamName: FC<TeamNamePropsT> = memo(
   ({ isUserCreator, teamName, onChangeTeamName, changeReadyForGameStatus }) => {
     const [isEditMode, setEditMode] = useState(false);
     const [tempName, setTempName] = useState(teamName);
+    const { t } = useTranslation();
 
     useEffect(() => {
       setTempName(teamName);
@@ -154,7 +155,7 @@ export const TeamName: FC<TeamNamePropsT> = memo(
               <Fragment>
                 <Text>{teamName}</Text>
                 <Button isIcon={true} onClick={enableEditMode}>
-                  Edit
+                  {t('edit')}
                 </Button>
               </Fragment>
             )}
@@ -172,7 +173,7 @@ export const TeamName: FC<TeamNamePropsT> = memo(
                     onFocus={(e) => e.currentTarget.select()}
                   />
                 </div>
-                <Button onClick={submitName}>Submit</Button>
+                <Button onClick={submitName}>{t('submit')}</Button>
               </Fragment>
             )}
           </div>
@@ -185,6 +186,7 @@ export const TeamName: FC<TeamNamePropsT> = memo(
 
 export const Teammate: FC<TeammatePropsT> = ({ data }) => {
   const { photoUrl, name, isReady, isCreator } = data;
+  const { t } = useTranslation();
 
   return (
     <tr>
@@ -196,7 +198,7 @@ export const Teammate: FC<TeammatePropsT> = ({ data }) => {
         <Text isInline={true}>{name}</Text>{' '}
       </td>
       <td>
-        <Text isInline={true}>{isReady ? 'Ready' : 'Not ready'}</Text>
+        <Text isInline={true}>{isReady ? t('ready') : t('notReady')}</Text>
       </td>
       <td>{isCreator && <Text isInline={true}>⭐</Text>}</td>
     </tr>
