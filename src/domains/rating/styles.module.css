@@ -1,0 +1,38 @@
+.form {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.form__fieldset {
+  position: relative;
+  margin-right: 12px;
+  min-width: 220px;
+}
+
+.form__field {
+  margin-right: 20px;
+}
+
+.form__error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.table {
+  max-width: 600px;
+  width: 100%;
+}
+
+.table__header {
+  text-align: left;
+}
+
+.table__cell_right {
+  text-align: right;
+}
+
+.table__cell_index {
+  padding: 2px 0;
+}
