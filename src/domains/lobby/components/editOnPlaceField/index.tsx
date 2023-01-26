@@ -1,6 +1,7 @@
 import React, { FC, useRef, useEffect, useState, Fragment } from 'react';
 import { Button, Text, Field } from '../../../../components';
 import { FunctionWithoutParamsT } from '../../../../types';
+import styles from './styles.module.css';
 
 type Props = {
   initValue: string;
@@ -43,11 +44,15 @@ export const EditOnPlaceField: FC<Props> = ({
   };
 
   return (
-    <div>
+    <div className={styles['edit-on-place-field']}>
       {!isEditMode && (
         <Fragment>
           <Text>{initValue}</Text>
-          <Button isIcon={true} onClick={enableEditMode}>
+          <Button
+            className={styles['button']}
+            isIcon={true}
+            onClick={enableEditMode}
+          >
             Edit
           </Button>
         </Fragment>
@@ -55,18 +60,19 @@ export const EditOnPlaceField: FC<Props> = ({
 
       {isEditMode && (
         <Fragment>
-          <div>
-            <Field
-              inputNode={inputNode}
-              placeholder={placeholder}
-              type='text'
-              value={tempValue}
-              autoFocus
-              onChange={handleChangeInput}
-              onFocus={(e) => e.currentTarget.select()}
-            />
-          </div>
-          <Button onClick={handleSubmitValue}>Submit</Button>
+          <Field
+            className={styles['field']}
+            inputNode={inputNode}
+            placeholder={placeholder}
+            type='text'
+            value={tempValue}
+            autoFocus
+            onChange={handleChangeInput}
+            onFocus={(e) => e.currentTarget.select()}
+          />
+          <Button className={styles['button']} onClick={handleSubmitValue}>
+            Submit
+          </Button>
         </Fragment>
       )}
     </div>

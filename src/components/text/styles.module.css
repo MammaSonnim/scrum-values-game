@@ -4,19 +4,19 @@
 }
 
 .xs {
-  font-size: 10px;
-}
-
-.s {
   font-size: 12px;
 }
 
-.m {
+.s {
   font-size: 14px;
 }
 
-.l {
+.m {
   font-size: 16px;
+}
+
+.l {
+  font-size: 18px;
 }
 
 .inline {

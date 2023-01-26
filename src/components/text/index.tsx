@@ -8,6 +8,7 @@ export type Props = {
   tag?: 'p' | 'h2' | 'h3' | 'h4';
   type?: 'warn';
   isInline?: boolean;
+  className?: string;
 };
 
 export const Text: FC<Props> = ({
@@ -16,15 +17,20 @@ export const Text: FC<Props> = ({
   tag = 'p',
   type,
   isInline,
+  className,
 }) => {
   const sizeClass = styles[size];
   const isHeading = ['h2', 'h3', 'h4'].includes(tag);
 
-  const classes = cn(styles.text, {
-    [sizeClass]: !isHeading,
-    [styles.inline]: isInline,
-    [styles.warn]: type === 'warn',
-  });
+  const classes = cn(
+    styles.text,
+    {
+      [sizeClass]: !isHeading,
+      [styles.inline]: isInline,
+      [styles.warn]: type === 'warn',
+    },
+    className
+  );
 
   return React.createElement(
     tag,
