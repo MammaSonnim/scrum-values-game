@@ -27,11 +27,14 @@ export const AuthInfoModule: FC<Props> = ({
       {isAuth ? (
         <div className={styles.block}>
           <Text>{login}</Text>
-          <div className={styles['button-wrapper']}>
-            <Button onClick={handleLogout} disabled={isLogoutProcessing} asLink>
-              Sign out
-            </Button>
-          </div>
+          <Button
+            className={styles['button']}
+            onClick={handleLogout}
+            disabled={isLogoutProcessing}
+            asLink
+          >
+            Sign out
+          </Button>
         </div>
       ) : (
         <NavLink to='/login'>Sign in</NavLink>

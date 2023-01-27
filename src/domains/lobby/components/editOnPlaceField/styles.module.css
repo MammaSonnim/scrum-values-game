@@ -1,0 +1,12 @@
+.edit-on-place-field {
+  display: flex;
+  align-items: baseline;
+}
+
+.field {
+  max-width: 200px;
+}
+
+.button {
+  margin-left: 12px;
+}

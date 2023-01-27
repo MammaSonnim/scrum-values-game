@@ -1,15 +1,17 @@
-import React, { FC, useRef, useEffect, useState, Fragment, memo } from 'react';
+import React, { FC, useEffect, Fragment, memo } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import { Button, Page, Section, Text } from '../../components';
+import { Button, Page, Section, Text, Link, Avatar } from '../../components';
+import { EditOnPlaceField } from './components/editOnPlaceField';
 import {
   PropsT,
   TeammatePropsT,
   TeamNamePropsT,
   TeamSessionIdT,
 } from './types';
-import { Link } from '../../components/link';
-import { Avatar } from '../../components/avatar';
+// import { Link } from '../../components/link';
+// import { Avatar } from '../../components/avatar';
 import { useTranslation } from 'react-i18next';
+import styles from './styles.module.css';
 
 const teamSessionQueryParam = 'tsid';
 
@@ -17,12 +19,14 @@ export const LobbyPage: FC<PropsT> = ({
   teammates,
   teamSessionId,
   teamName,
+  userName,
   userInfo,
   isUserCreator,
   isReadyForGame,
   canStartGame,
   isGameInited,
   onChangeTeamName,
+  onChangeUserName,
   onStartDataListening,
   onStopDataListening,
   changeReadyForGameStatus,
@@ -56,11 +60,15 @@ export const LobbyPage: FC<PropsT> = ({
     changeReadyForGameStatus(true);
   };
 
+  const onStartEditField = () => {
+    changeReadyForGameStatus(false);
+  };
+
   const handleClickStartButton = () => {
     initGame();
   };
 
-  const { login, photoUrl } = userInfo;
+  const { login } = userInfo;
 
   if (isGameInited) {
     resetInitGame();
@@ -77,19 +85,26 @@ export const LobbyPage: FC<PropsT> = ({
         </Link>
       </Section>
       <Section>
-        <Text tag='h3'>{t('teamInfo')}</Text>
         <TeamName
           isUserCreator={isUserCreator}
           teamName={teamName}
           onChangeTeamName={onChangeTeamName}
-          changeReadyForGameStatus={changeReadyForGameStatus}
+          onStartEditField={onStartEditField}
         />
-      </Section>
-      <Section>
-        <Text tag='h3'>{t('me')}</Text>
-        {photoUrl && <img src={photoUrl} width={50} height={50} />}
-        <Text>{login}</Text>
-        <Button isIcon={true}>{t('edit')}</Button>
+        <div className={styles.field}>
+          <Text className={styles['field__name']}>My name:</Text>
+          <EditOnPlaceField
+            initValue={userName || login || 'User'}
+            placeholder='My name'
+            onChangeValue={onChangeUserName}
+            onStartEditField={onStartEditField}
+          />
+        </div>
+        <div className={styles.field}>
+          <Text className={styles['field__name']}>My icon:</Text>
+          <Avatar />
+          <Button className={styles['field__button']}>Edit</Button>
+        </div>
       </Section>
       <Section>
         <Text tag='h3'>{t('teammates')}</Text>
@@ -100,100 +115,52 @@ export const LobbyPage: FC<PropsT> = ({
             ))}
           </tbody>
         </table>
-        <ul></ul>
       </Section>
-      <Button onClick={handleClickReadyButton} disabled={isReadyForGame}>
-        {t('iAmReady')}
-      </Button>
-      {isReadyForGame && !canStartGame && <Text>{t('waitTeam')}</Text>}
-      {canStartGame && (
-        <Button onClick={handleClickStartButton}>{t('startGame')}</Button>
-      )}
+      <Section className={styles.status}>
+        <Button onClick={handleClickReadyButton} disabled={isReadyForGame}>
+          {t('iAmReady')}
+        </Button>
+        {isReadyForGame && !canStartGame && (
+          <Text size='s' className={styles['status__text']}>
+            {t('waitTeam')}
+          </Text>
+        )}
+        {canStartGame && (
+          <Button onClick={handleClickStartButton}>{t('startGame')}</Button>
+        )}
+      </Section>
     </Page>
   );
 };
 
 export const TeamName: FC<TeamNamePropsT> = memo(
-  ({ isUserCreator, teamName, onChangeTeamName, changeReadyForGameStatus }) => {
-    const [isEditMode, setEditMode] = useState(false);
-    const [tempName, setTempName] = useState(teamName);
-    const { t } = useTranslation();
-
-    useEffect(() => {
-      setTempName(teamName);
-    }, [teamName]);
-
-    const teamNameInput = useRef(null);
-
-    const enableEditMode = () => {
-      setEditMode(true);
-
-      // TODO SVG-32 make all this stuff in parent
-      changeReadyForGameStatus(false);
-    };
-
-    const disableEditMode = () => {
-      setEditMode(false);
-    };
-
-    const changeNameInput = () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      setTempName(teamNameInput?.current?.value ?? '');
-    };
-
-    const submitName = () => {
-      disableEditMode();
-      onChangeTeamName(tempName);
-    };
-
+  ({ isUserCreator, teamName, onChangeTeamName, onStartEditField }) => {
     return (
-      <Fragment>
+      <div className={styles.field}>
+        <Text className={styles['field__name']}>Team name:</Text>
         {isUserCreator && (
-          <div>
-            {!isEditMode && (
-              <Fragment>
-                <Text>{teamName}</Text>
-                <Button isIcon={true} onClick={enableEditMode}>
-                  {t('edit')}
-                </Button>
-              </Fragment>
-            )}
-
-            {isEditMode && (
-              <Fragment>
-                <div>
-                  <input
-                    ref={teamNameInput}
-                    placeholder='Teamname'
-                    type='text'
-                    value={tempName}
-                    autoFocus
-                    onChange={changeNameInput}
-                    onFocus={(e) => e.currentTarget.select()}
-                  />
-                </div>
-                <Button onClick={submitName}>{t('submit')}</Button>
-              </Fragment>
-            )}
-          </div>
+          <EditOnPlaceField
+            initValue={teamName}
+            placeholder='Team name'
+            onChangeValue={onChangeTeamName}
+            onStartEditField={onStartEditField}
+          />
         )}
         {!isUserCreator && <Text>{teamName}</Text>}
-      </Fragment>
+      </div>
     );
   }
 );
 
 export const Teammate: FC<TeammatePropsT> = ({ data }) => {
-  const { photoUrl, name, isReady, isCreator } = data;
+  const { name, isReady, isCreator } = data;
   const { t } = useTranslation();
 
   return (
-    <tr>
-      <td>
-        <Avatar photoUrl={photoUrl} />
+    <tr className={styles.teammate}>
+      <td className={styles['teammate__cell_avatar']}>
+        <Avatar />
       </td>
-
       <td>
         <Text isInline={true}>{name}</Text>{' '}
       </td>

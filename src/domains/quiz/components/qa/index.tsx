@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent } from 'react';
 import cn from 'classnames';
-import { Error, Button } from '../../../../components';
+import { Text, Button } from '../../../../components';
 import { AnswerT, QuestionT } from '../../models/types';
 import { Progress } from '../progress';
 import { Question } from '../question';
@@ -65,7 +65,7 @@ export const QA: FC<Props> = ({
           </Button>
         )}
         <span className={cn({ [styles.col]: error })}>
-          <Error error={error} />
+          <Text type='warn'>{error}</Text>
         </span>
       </div>
     </div>

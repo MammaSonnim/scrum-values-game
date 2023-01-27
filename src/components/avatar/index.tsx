@@ -1,14 +1,11 @@
 import React, { FC } from 'react';
-import styles from './styles.module.css';
+import { Text } from '../text';
 
 export type Props = {
-  photoUrl?: string;
+  userIcon?: string;
+  className?: string;
 };
 
-export const Avatar: FC<Props> = ({ photoUrl }) => {
-  return photoUrl ? (
-    <img src={photoUrl} width={50} height={50} />
-  ) : (
-    <div className={styles['no-image']} />
-  );
+export const Avatar: FC<Props> = ({ userIcon, className }) => {
+  return <Text className={className}>{userIcon || '🦄'}</Text>;
 };

@@ -1,5 +1,9 @@
 import React, { FC } from 'react';
 
-export const Loader: FC = () => {
-  return <div>Loading...</div>;
+type Props = {
+  className?: string;
+};
+
+export const Loader: FC<Props> = ({ className }) => {
+  return <div className={className}>Loading...</div>;
 };

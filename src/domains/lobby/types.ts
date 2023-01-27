@@ -1,5 +1,5 @@
 import { UserInfoT, UserIdT } from '../../models/userInfo/types';
-import { Brand, EmptyObjectT } from '../../types';
+import { Brand, EmptyObjectT, FunctionWithoutParamsT } from '../../types';
 import { LobbyInitialStateT } from './ducks';
 
 export type TeamSessionIdT = Brand<string, 'TeamSidT'>;
@@ -79,6 +79,7 @@ export type EventNameT = 'message_received' | 'status_changed';
 export type StatePropsT = Pick<
   LobbyInitialStateT,
   | 'teamName'
+  | 'userName'
   | 'teamSessionId'
   | 'teammates'
   | 'isUserCreator'
@@ -89,6 +90,7 @@ export type StatePropsT = Pick<
 
 export type DispatchPropsT = {
   onChangeTeamName: (value: string) => void;
+  onChangeUserName: (value: string) => void;
   onStartDataListening: (teamSessionId: TeamSessionIdT | null) => void;
   onStopDataListening: () => void;
   sendData: (message: string) => void;
@@ -111,5 +113,7 @@ export type TeammatePropsT = {
 
 export type TeamNamePropsT = Pick<
   PropsT,
-  'teamName' | 'onChangeTeamName' | 'isUserCreator' | 'changeReadyForGameStatus'
->;
+  'teamName' | 'onChangeTeamName' | 'isUserCreator'
+> & {
+  onStartEditField: FunctionWithoutParamsT;
+};
