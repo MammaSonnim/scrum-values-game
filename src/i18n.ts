@@ -3,11 +3,11 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 // TODO: add function for path creation
-import { dict } from './components/nav/dict';
-import { dict as dict1 } from './domains/quiz/components/qa/dict';
-import { dict as dict2 } from './domains/lobby/dict';
-import { dict as dict3 } from './domains/rating/dict';
-import { dict as dict4 } from './domains/quiz/components/scores/dict';
+import { dict as navDict } from './components/nav/dict';
+import { dict as qaDict } from './domains/quiz/components/qa/dict';
+import { dict as lobbyDict } from './domains/lobby/dict';
+import { dict as ratingDict } from './domains/rating/dict';
+import { dict as scoresDict } from './domains/quiz/components/scores/dict';
 
 i18n
   .use(LanguageDetector)
@@ -20,10 +20,10 @@ i18n
     },
     resources: {
       en: {
-        translation: { ...dict.en, ...dict1.en, ...dict2.en, ...dict3.en, ...dict4.en },
+        translation: { ...navDict.en, ...qaDict.en, ...lobbyDict.en, ...ratingDict.en, ...scoresDict.en },
       },
       ru: {
-        translation: { ...dict.ru, ...dict1.ru, ...dict2.ru, ...dict3.ru, ...dict4.ru },
+        translation: { ...navDict.ru, ...qaDict.ru, ...lobbyDict.ru, ...ratingDict.ru, ...scoresDict.ru },
       },
     },
   });
