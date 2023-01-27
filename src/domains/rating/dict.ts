@@ -5,7 +5,7 @@ export const dict = {
     score: 'Score',
     date: 'Date',
     total: 'Total',
-    teamName: 'Team name',
+    ratingTeamName: 'Team name',
     search: 'Search'
   },
   ru: {
@@ -14,7 +14,7 @@ export const dict = {
     score: 'Очки',
     date: 'Дата',
     total: 'Всего игр',
-    teamName: 'Имя команды',
+    ratingTeamName: 'Название команды',
     search: 'Поиск'
   }
 }

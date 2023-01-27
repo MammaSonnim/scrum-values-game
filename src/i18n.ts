@@ -7,6 +7,7 @@ import { dict } from './components/nav/dict';
 import { dict as dict1 } from './domains/quiz/components/qa/dict';
 import { dict as dict2 } from './domains/lobby/dict';
 import { dict as dict3 } from './domains/rating/dict';
+import { dict as dict4 } from './domains/quiz/components/scores/dict';
 
 i18n
   .use(LanguageDetector)
@@ -19,10 +20,10 @@ i18n
     },
     resources: {
       en: {
-        translation: { ...dict.en, ...dict1.en, ...dict2.en, ...dict3.en },
+        translation: { ...dict.en, ...dict1.en, ...dict2.en, ...dict3.en, ...dict4.en },
       },
       ru: {
-        translation: { ...dict.ru, ...dict1.ru, ...dict2.ru, ...dict3.ru },
+        translation: { ...dict.ru, ...dict1.ru, ...dict2.ru, ...dict3.ru, ...dict4.ru },
       },
     },
   });

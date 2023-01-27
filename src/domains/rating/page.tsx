@@ -62,7 +62,9 @@ export const RatingPage: FC<PropsT> = ({
 
       {hasItemsBeforeFiltered && (
         <Section>
-          <Text size='l'>{t('total')}: {totalCount}</Text>
+          <Text size='l'>
+            {t('total')}: {totalCount}
+          </Text>
         </Section>
       )}
     </Page>
@@ -96,14 +98,15 @@ const RatingItem: FC<RatingItemT & { index: number }> = ({
 type FormPropsT = Pick<PropsT, 'isSubmitting'> & { isProcessing: boolean };
 
 const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  
   return (
     <Form className={styles.form}>
       <fieldset className={styles['form__fieldset']}>
         <FormikField
           type='text'
           name='searchString'
-          placeholder={t('teamName')}
+          placeholder={t('ratingTeamName')}
           className={styles['form__field']}
           component={FieldForFormik}
         />
@@ -121,7 +124,7 @@ const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
         />
       </fieldset>
       <Button type='submit' disabled={isSubmitting || isProcessing}>
-      {t('search')}
+        {t('search')}
       </Button>
     </Form>
   );

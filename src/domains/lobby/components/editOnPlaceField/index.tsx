@@ -1,4 +1,5 @@
 import React, { FC, useRef, useEffect, useState, Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Text, Field } from '../../../../components';
 import { FunctionWithoutParamsT } from '../../../../types';
 import styles from './styles.module.css';
@@ -18,6 +19,7 @@ export const EditOnPlaceField: FC<Props> = ({
 }) => {
   const [isEditMode, setEditMode] = useState(false);
   const [tempValue, setTempValue] = useState(initValue);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setTempValue(initValue);
@@ -53,7 +55,7 @@ export const EditOnPlaceField: FC<Props> = ({
             isIcon={true}
             onClick={enableEditMode}
           >
-            Edit
+            {t('edit')}
           </Button>
         </Fragment>
       )}
@@ -71,7 +73,7 @@ export const EditOnPlaceField: FC<Props> = ({
             onFocus={(e) => e.currentTarget.select()}
           />
           <Button className={styles['button']} onClick={handleSubmitValue}>
-            Submit
+            {t('submit')}
           </Button>
         </Fragment>
       )}

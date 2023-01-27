@@ -2,8 +2,9 @@ export const dict = {
   en: {
     lobby: 'Lobby',
     copyLink: 'Copy invitation link',
-    teamInfo: 'Team Info',
-    me: 'Me',
+    lobbyTeamName: 'Team name',
+    myName: 'My name',
+    myIcon: 'My icon',
     edit: 'Edit',
     teammates: 'Teammates',
     iAmReady: 'I am ready for game!',
@@ -16,8 +17,9 @@ export const dict = {
   ru: {
     lobby: 'Холл',
     copyLink: 'Копировать ссылку на игру',
-    teamInfo: 'Команда',
-    me: 'Я',
+    lobbyTeamName: 'Название команды',
+    myName: 'Мое имя',
+    myIcon: 'Моя иконка',
     edit: 'Изменить',
     teammates: 'Коллеги',
     iAmReady: 'Готов играть!',

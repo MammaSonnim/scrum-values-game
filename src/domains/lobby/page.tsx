@@ -1,4 +1,4 @@
-import React, { FC, useEffect, Fragment, memo } from 'react';
+import React, { FC, useEffect, memo } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import { Button, Page, Section, Text, Link, Avatar } from '../../components';
 import { EditOnPlaceField } from './components/editOnPlaceField';
@@ -8,8 +8,6 @@ import {
   TeamNamePropsT,
   TeamSessionIdT,
 } from './types';
-// import { Link } from '../../components/link';
-// import { Avatar } from '../../components/avatar';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.css';
 
@@ -92,18 +90,18 @@ export const LobbyPage: FC<PropsT> = ({
           onStartEditField={onStartEditField}
         />
         <div className={styles.field}>
-          <Text className={styles['field__name']}>My name:</Text>
+          <Text className={styles['field__name']}>{t('myName')}:</Text>
           <EditOnPlaceField
             initValue={userName || login || 'User'}
-            placeholder='My name'
+            placeholder={t('myName')}
             onChangeValue={onChangeUserName}
             onStartEditField={onStartEditField}
           />
         </div>
         <div className={styles.field}>
-          <Text className={styles['field__name']}>My icon:</Text>
+          <Text className={styles['field__name']}>{t('myIcon')}:</Text>
           <Avatar />
-          <Button className={styles['field__button']}>Edit</Button>
+          <Button className={styles['field__button']}>{t('edit')}</Button>
         </div>
       </Section>
       <Section>
@@ -135,13 +133,15 @@ export const LobbyPage: FC<PropsT> = ({
 
 export const TeamName: FC<TeamNamePropsT> = memo(
   ({ isUserCreator, teamName, onChangeTeamName, onStartEditField }) => {
+    const { t } = useTranslation();
+
     return (
       <div className={styles.field}>
-        <Text className={styles['field__name']}>Team name:</Text>
+        <Text className={styles['field__name']}>{t('lobbyTeamName')}</Text>
         {isUserCreator && (
           <EditOnPlaceField
             initValue={teamName}
-            placeholder='Team name'
+            placeholder={t('lobbyTeamName')}
             onChangeValue={onChangeTeamName}
             onStartEditField={onStartEditField}
           />

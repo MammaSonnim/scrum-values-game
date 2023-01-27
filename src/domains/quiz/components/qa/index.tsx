@@ -39,6 +39,7 @@ export const QA: FC<Props> = ({
   onNextClick,
 }) => {
   const { t } = useTranslation();
+
   return (
     <div>
       <div className={styles.row}>
