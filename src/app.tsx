@@ -4,11 +4,12 @@ import { Store } from 'redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Quiz, Lobby, Auth } from './domains';
-import { Nav, Link } from './components';
+import { Nav } from './components';
 import { getUserInfo } from './models/userInfo';
 import { ErrorBoundary, Loader } from './components';
 import { FeatureToggleProvider } from './plugins';
 import styles from './styles.module.css';
+import { LanguageSwitcher } from './components/languageSwitcher';
 
 const Rating = lazy(() => import('./domains/rating'));
 
@@ -25,7 +26,7 @@ export const App = ({ store }: { store: Store }) => {
             <FeatureToggleProvider>
               <header className={styles.header}>
                 <Nav />
-                <Link href='#'>ru/en</Link>
+                <LanguageSwitcher />
               </header>
               <Routes>
                 <Route path='/' element={<Navigate to='/game' />} />
