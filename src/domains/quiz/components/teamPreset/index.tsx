@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Text } from '../../../../components';
 import { GameStepT, TeamPresetT } from '../../models/types';
 import styles from './styles.module.css';
@@ -9,6 +10,8 @@ type Props = {
 };
 
 export const TeamPreset: FC<Props> = ({ teamPreset, onChangeGameStep }) => {
+  const { t } = useTranslation();
+
   const handleClickButton = () => {
     onChangeGameStep('quiz');
   };
@@ -18,7 +21,7 @@ export const TeamPreset: FC<Props> = ({ teamPreset, onChangeGameStep }) => {
       <Text size='l'>{teamPreset.title}</Text>
       <Text className={styles.description}>{teamPreset.description}</Text>
       <Button onClick={handleClickButton} className={styles.button}>
-        Next
+        {t('nextPresetBtn')}
       </Button>
     </div>
   );

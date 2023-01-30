@@ -1,18 +1,17 @@
 import React, { FC, MouseEvent } from 'react';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { Text, Button } from '../../../../components';
 import { AnswerT, QuestionT } from '../../models/types';
 import { Progress } from '../progress';
 import { Question } from '../question';
 import { Answers } from '../answers';
 import styles from './styles.module.css';
-import { useTranslation } from 'react-i18next';
 
 type Props = {
   buttonType: string;
   isButtonDisabled: boolean;
   isAnyAnswerSelected: boolean;
-
   quizDataLength: number;
   question: QuestionT;
   answers: AnswerT[];
