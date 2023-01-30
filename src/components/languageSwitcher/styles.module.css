@@ -1,0 +1,10 @@
+.container {
+  /* color: var(--color-primary); */
+  color: #209cee;
+}
+
+.button {
+  /* color: var(--color-primary); */
+  color: #209cee;
+  margin: 0 5px;
+}

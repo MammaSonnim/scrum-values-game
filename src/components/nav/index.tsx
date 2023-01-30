@@ -2,12 +2,14 @@ import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useFeatureToggles } from '../../plugins';
 import styles from './styles.module.css';
+import { useTranslation } from 'react-i18next';
+import { Translation } from '../../types';
 
-const getNavItems = (isTeamsEnabled: boolean) => {
+const getNavItems = (isTeamsEnabled: boolean, translate: Translation) => {
   const navItems = [
     {
       link: '/game',
-      title: isTeamsEnabled ? 'Solo' : 'Quiz',
+      title: translate(isTeamsEnabled ? 'solo' : 'quiz'),
     },
   ];
 
@@ -16,11 +18,11 @@ const getNavItems = (isTeamsEnabled: boolean) => {
       ...[
         {
           link: '/lobby',
-          title: 'Teamplay',
+          title: translate('teamPlay'),
         },
         {
           link: '/rating',
-          title: 'Rating',
+          title: translate('rating'),
         },
       ]
     );
@@ -34,7 +36,8 @@ export const Nav: FC = () => {
     teams?: boolean;
   }>();
 
-  const navItems = getNavItems(Boolean(featureToggles.teams));
+  const { t } = useTranslation();
+  const navItems = getNavItems(Boolean(featureToggles.teams), t);
 
   return (
     <div className={styles.nav}>

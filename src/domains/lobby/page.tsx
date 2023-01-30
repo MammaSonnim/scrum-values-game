@@ -1,4 +1,4 @@
-import React, { FC, useEffect, Fragment, memo } from 'react';
+import React, { FC, useEffect, memo } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import { Button, Page, Section, Text, Link, Avatar } from '../../components';
 import { EditOnPlaceField } from './components/editOnPlaceField';
@@ -8,6 +8,7 @@ import {
   TeamNamePropsT,
   TeamSessionIdT,
 } from './types';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.css';
 
 const teamSessionQueryParam = 'tsid';
@@ -30,6 +31,7 @@ export const LobbyPage: FC<PropsT> = ({
   initGame,
   resetInitGame,
 }) => {
+  const { t } = useTranslation();
   const [searchParamsFromUrl, setSearchParamsToUrl] = useSearchParams();
 
   useEffect(() => {
@@ -74,10 +76,10 @@ export const LobbyPage: FC<PropsT> = ({
 
   return (
     <Page>
-      <Text tag='h2'>Lobby</Text>
+      <Text tag='h2'>{t('lobby')}</Text>
       <Section>
         <Link href={`lobby?${teamSessionQueryParam}=${teamSessionId}`}>
-          Copy invitation link
+          {t('copyLink')}
         </Link>
       </Section>
       <Section>
@@ -88,22 +90,22 @@ export const LobbyPage: FC<PropsT> = ({
           onStartEditField={onStartEditField}
         />
         <div className={styles.field}>
-          <Text className={styles['field__name']}>My name:</Text>
+          <Text className={styles['field__name']}>{t('myName')}:</Text>
           <EditOnPlaceField
             initValue={userName || login || 'User'}
-            placeholder='My name'
+            placeholder={t('myName')}
             onChangeValue={onChangeUserName}
             onStartEditField={onStartEditField}
           />
         </div>
         <div className={styles.field}>
-          <Text className={styles['field__name']}>My icon:</Text>
+          <Text className={styles['field__name']}>{t('myIcon')}:</Text>
           <Avatar />
-          <Button className={styles['field__button']}>Edit</Button>
+          <Button className={styles['field__button']}>{t('edit')}</Button>
         </div>
       </Section>
       <Section>
-        <Text tag='h3'>Teammates</Text>
+        <Text tag='h3'>{t('teammates')}</Text>
         <table>
           <tbody>
             {teammates?.map((teammate) => (
@@ -114,15 +116,15 @@ export const LobbyPage: FC<PropsT> = ({
       </Section>
       <Section className={styles.status}>
         <Button onClick={handleClickReadyButton} disabled={isReadyForGame}>
-          I am ready for game!
+          {t('iAmReady')}
         </Button>
         {isReadyForGame && !canStartGame && (
           <Text size='s' className={styles['status__text']}>
-            Wait for the others...
+            {t('waitTeam')}
           </Text>
         )}
         {canStartGame && (
-          <Button onClick={handleClickStartButton}>Start game</Button>
+          <Button onClick={handleClickStartButton}>{t('startGame')}</Button>
         )}
       </Section>
     </Page>
@@ -131,13 +133,15 @@ export const LobbyPage: FC<PropsT> = ({
 
 export const TeamName: FC<TeamNamePropsT> = memo(
   ({ isUserCreator, teamName, onChangeTeamName, onStartEditField }) => {
+    const { t } = useTranslation();
+
     return (
       <div className={styles.field}>
-        <Text className={styles['field__name']}>Team name:</Text>
+        <Text className={styles['field__name']}>{t('lobbyTeamName')}</Text>
         {isUserCreator && (
           <EditOnPlaceField
             initValue={teamName}
-            placeholder='Team name'
+            placeholder={t('lobbyTeamName')}
             onChangeValue={onChangeTeamName}
             onStartEditField={onStartEditField}
           />
@@ -150,6 +154,7 @@ export const TeamName: FC<TeamNamePropsT> = memo(
 
 export const Teammate: FC<TeammatePropsT> = ({ data }) => {
   const { name, isReady, isCreator } = data;
+  const { t } = useTranslation();
 
   return (
     <tr className={styles.teammate}>
@@ -160,7 +165,7 @@ export const Teammate: FC<TeammatePropsT> = ({ data }) => {
         <Text isInline={true}>{name}</Text>{' '}
       </td>
       <td>
-        <Text isInline={true}>{isReady ? 'Ready' : 'Not ready'}</Text>
+        <Text isInline={true}>{isReady ? t('ready') : t('notReady')}</Text>
       </td>
       <td>{isCreator && <Text isInline={true}>⭐</Text>}</td>
     </tr>

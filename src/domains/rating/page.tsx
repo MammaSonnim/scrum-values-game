@@ -12,6 +12,7 @@ import {
 } from '../../components';
 import { PropsT, RatingItemT } from './types';
 import styles from './styles.module.css';
+import { useTranslation } from 'react-i18next';
 
 export const RatingPage: FC<PropsT> = ({
   isSubmitting,
@@ -21,10 +22,11 @@ export const RatingPage: FC<PropsT> = ({
   isProcessing,
 }) => {
   const hasItemsBeforeFiltered = !isEmpty(items) || touched.searchString;
+  const { t } = useTranslation();
 
   return (
     <Page>
-      <Text tag='h2'>Top games</Text>
+      <Text tag='h2'>{t('topGames')}</Text>
       {isProcessing && <Loader />}
       {hasItemsBeforeFiltered && (
         <Section>
@@ -38,9 +40,9 @@ export const RatingPage: FC<PropsT> = ({
             <thead>
               <tr className={styles['table__header']}>
                 <th className={styles['table__cell_index']}>#</th>
-                <th>Team</th>
-                <th className={styles['table__cell_right']}>Scores</th>
-                <th>Date</th>
+                <th>{t('team')}</th>
+                <th className={styles['table__cell_right']}>{t('score')}</th>
+                <th>{t('date')}</th>
               </tr>
             </thead>
             <tbody>
@@ -60,7 +62,9 @@ export const RatingPage: FC<PropsT> = ({
 
       {hasItemsBeforeFiltered && (
         <Section>
-          <Text size='l'>Total: {totalCount}</Text>
+          <Text size='l'>
+            {t('total')}: {totalCount}
+          </Text>
         </Section>
       )}
     </Page>
@@ -94,13 +98,15 @@ const RatingItem: FC<RatingItemT & { index: number }> = ({
 type FormPropsT = Pick<PropsT, 'isSubmitting'> & { isProcessing: boolean };
 
 const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
+  const { t } = useTranslation();
+  
   return (
     <Form className={styles.form}>
       <fieldset className={styles['form__fieldset']}>
         <FormikField
           type='text'
           name='searchString'
-          placeholder='Team name'
+          placeholder={t('ratingTeamName')}
           className={styles['form__field']}
           component={FieldForFormik}
         />
@@ -118,7 +124,7 @@ const RatingForm: FC<FormPropsT> = ({ isSubmitting, isProcessing }) => {
         />
       </fieldset>
       <Button type='submit' disabled={isSubmitting || isProcessing}>
-        Search
+        {t('search')}
       </Button>
     </Form>
   );
