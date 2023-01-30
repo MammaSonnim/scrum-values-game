@@ -1,4 +1,4 @@
-import React, { FC, useEffect, Fragment, memo } from 'react';
+import React, { FC, useEffect, memo } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import { Button, Page, Section, Text, Link, Avatar } from '../../components';
 import { EditOnPlaceField } from './components/editOnPlaceField';

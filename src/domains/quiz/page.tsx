@@ -3,40 +3,51 @@ import cn from 'classnames';
 import { getOr } from 'lodash/fp';
 import { Event } from 'effector';
 import { Page } from '../../components/page';
-import { ScoresT, DataT, QuestionT } from './models/types';
+import {
+  ScoresT,
+  QuizDataT,
+  QuestionT,
+  GameStepT,
+  TeamPresetT,
+} from './models/types';
 import { Scores, QA, GameOver } from './components';
 import styles from './styles.module.css';
+import { TeamPreset } from './components/teamPreset';
 
 type Props = {
+  teamPreset: TeamPresetT;
   scores: ScoresT;
-  quizData: DataT;
+  quizData: QuizDataT;
+  gameStep: GameStepT;
   buttonType: string;
   isAnswerScoresVisible: boolean;
   isButtonDisabled: boolean;
   isAnyAnswerSelected: boolean;
-  isGameOver: boolean;
   currentQuestionId: number;
   currentAnswerId: number | null;
   restartGame: Event<void>;
   selectAnswer: Event<number>;
   showAnswerScores: Event<void>;
   goToNextQuestion: Event<void>;
+  changeGameStep: Event<GameStepT>;
 };
 
 export const QuizPage: FC<Props> = ({
-  quizData,
+  teamPreset,
   scores,
+  quizData,
+  gameStep,
   buttonType,
   isAnswerScoresVisible,
   isButtonDisabled,
   isAnyAnswerSelected,
-  isGameOver,
   currentQuestionId,
   currentAnswerId,
   restartGame,
   selectAnswer,
   showAnswerScores,
   goToNextQuestion,
+  changeGameStep,
 }) => {
   const quizDataById = quizData[currentQuestionId - 1];
   const question = getOr({} as QuestionT, ['question'], quizDataById);
@@ -70,9 +81,13 @@ export const QuizPage: FC<Props> = ({
           <Scores scores={scores} />
         </div>
         <div className={cn(styles['quiz__content'])}>
-          {isGameOver ? (
-            <GameOver onRestart={handleClickRestart} />
-          ) : (
+          {gameStep === 'teamPreset' && (
+            <TeamPreset
+              teamPreset={teamPreset}
+              onChangeGameStep={changeGameStep}
+            />
+          )}
+          {gameStep === 'quiz' && (
             <QA
               buttonType={buttonType}
               isAnswerScoresVisible={isAnswerScoresVisible}
@@ -88,6 +103,9 @@ export const QuizPage: FC<Props> = ({
               onNextClick={handleClickNext}
               onShowScoresClick={handleClickShowAnswerScores}
             />
+          )}
+          {gameStep === 'gameOver' && (
+            <GameOver onRestart={handleClickRestart} />
           )}
         </div>
       </div>

@@ -2,19 +2,21 @@ import './models/init';
 import React, { FC } from 'react';
 import { useGate, useStore } from 'effector-react';
 import {
+  $teamPreset,
   $scores,
-  $data,
+  $quizData,
+  $gameStep,
   $buttonType,
   $isAnswerScoresVisible,
   $isButtonDisabled,
   $isAnyAnswerSelected,
   $currentAnswerId,
   $currentQuestionId,
-  $isGameOver,
   restartGame,
   selectAnswer,
   goToNextQuestion,
   showAnswerScores,
+  changeGameStep,
   QuizAppGate,
 } from './models';
 import { QuizPage } from './page';
@@ -22,15 +24,16 @@ import { QuizPage } from './page';
 export const Quiz: FC = () => {
   useGate(QuizAppGate);
 
+  const teamPreset = useStore($teamPreset);
   const scores = useStore($scores);
-  const quizData = useStore($data);
+  const quizData = useStore($quizData);
+  const gameStep = useStore($gameStep);
   const buttonType = useStore($buttonType);
   const isAnswerScoresVisible = useStore($isAnswerScoresVisible);
   const isButtonDisabled = useStore($isButtonDisabled);
   const isAnyAnswerSelected = useStore($isAnyAnswerSelected);
   const currentAnswerId = useStore($currentAnswerId);
   const currentQuestionId = useStore($currentQuestionId);
-  const isGameOver = useStore($isGameOver);
 
   return (
     <QuizPage
@@ -38,15 +41,17 @@ export const Quiz: FC = () => {
       isAnswerScoresVisible={isAnswerScoresVisible}
       isButtonDisabled={isButtonDisabled}
       isAnyAnswerSelected={isAnyAnswerSelected}
-      isGameOver={isGameOver}
       currentQuestionId={currentQuestionId}
       currentAnswerId={currentAnswerId}
       quizData={quizData}
+      teamPreset={teamPreset}
       scores={scores}
+      gameStep={gameStep}
       restartGame={restartGame}
       selectAnswer={selectAnswer}
       showAnswerScores={showAnswerScores}
       goToNextQuestion={goToNextQuestion}
+      changeGameStep={changeGameStep}
     />
   );
 };

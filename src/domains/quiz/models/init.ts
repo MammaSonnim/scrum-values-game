@@ -4,11 +4,13 @@ import {
   $buttonType,
   $currentAnswerId,
   $currentQuestionId,
-  $data,
+  $quizData,
+  $gameStep,
+  $teamPreset,
+  $gameMode,
   $isAnswerScoresVisible,
   $isAnyAnswerSelected,
   $isButtonDisabled,
-  $isGameOver,
   $scores,
   goToNextQuestion,
   initQuiz,
@@ -20,14 +22,17 @@ import {
   showGameOver,
   showGameOverFx,
   updateTotalScores,
+  changeGameStep,
 } from '.';
 import { quizData } from '../../../data';
 import { ratingApi } from '../../rating/api';
-import { AnswerT } from './types';
+import { teamPresetData } from './teamPresetData';
+import { AnswerT, GameStepT } from './types';
 import {
   calcIsNeedToGameOver,
   calcSumOfScores,
   calcTotalScores,
+  getTeamPreset,
 } from './utils';
 
 // MOUNT / UNMOUNT
@@ -42,14 +47,14 @@ QuizAppGate.close.watch((payload) => {
 });
 
 // INIT
+$gameMode.on(initQuiz, (mode) => mode);
+
 forward({
   from: initQuiz,
   to: initQuizFx,
 });
 
-initQuizFx.use((mode) => {
-  console.log('🐸 QuizMode:', mode);
-
+initQuizFx.use(() => {
   return quizData;
 });
 
@@ -58,8 +63,13 @@ sample({
   fn: (effect) => {
     return effect.result;
   },
-  target: $data,
+  target: $quizData,
 });
+
+// TEAM PRESET
+$teamPreset
+  .on(initQuiz, () => getTeamPreset(teamPresetData))
+  .on(restartGame, () => getTeamPreset(teamPresetData));
 
 // QUESTIONS / ANSWERS
 $buttonType.on(showAnswerScores, () => 'nextQuestion').reset(goToNextQuestion);
@@ -72,13 +82,20 @@ $currentAnswerId
   .reset(goToNextQuestion);
 
 // TOTAL SCORES
-$scores
-  .on(updateTotalScores, (totalScores, answerScores) => {
-    if (answerScores) {
-      return calcTotalScores(totalScores, answerScores);
-    }
-  })
-  .reset(restartGame);
+$scores.on(updateTotalScores, (totalScores, answerScores) => {
+  if (answerScores) {
+    return calcTotalScores(totalScores, answerScores);
+  }
+});
+
+sample({
+  clock: [initQuiz, restartGame],
+  source: $teamPreset,
+  target: $scores,
+  fn: (teamPreset) => {
+    return teamPreset.scores;
+  },
+});
 
 sample({
   // TODO
@@ -86,7 +103,7 @@ sample({
   // @ts-ignore
   clock: showAnswerScores,
   source: {
-    data: $data,
+    data: $quizData,
     currentQuestionId: $currentQuestionId,
     currentAnswerId: $currentAnswerId,
   },
@@ -102,15 +119,21 @@ sample({
   },
 });
 
-// GAME OVER
-$isGameOver
-  .on(showGameOver, (_prevState, isShowGameOver: boolean) => isShowGameOver)
+// GAME STEP
+$gameStep
+  .on(changeGameStep, (_prevState, gameStep: GameStepT) => gameStep)
+  .on(showGameOver, (_prevState, isShowGameOver: boolean) => {
+    if (isShowGameOver) {
+      return 'gameOver';
+    }
+  })
   .reset(restartGame);
 
+// GAME OVER
 sample({
   clock: goToNextQuestion,
   source: {
-    data: $data,
+    data: $quizData,
     currentQuestionId: $currentQuestionId,
     scores: $scores,
   },
@@ -123,17 +146,20 @@ sample({
 sample({
   clock: showGameOver,
   source: {
-    data: $data,
+    data: $quizData,
     currentQuestionId: $currentQuestionId,
     scores: $scores,
+    gameMode: $gameMode,
   },
   target: showGameOverFx,
-  fn: ({ data, currentQuestionId, scores }, isShowGameOver) => {
+  fn: ({ data, currentQuestionId, scores, gameMode }, isShowGameOver) => {
     const sumOfScores = calcSumOfScores(scores);
 
+    // form result for rating if all conditions are met
     return isShowGameOver &&
       sumOfScores > 0 &&
-      data.length === currentQuestionId
+      data.length === currentQuestionId &&
+      gameMode !== 'solo'
       ? sumOfScores
       : 0;
   },
