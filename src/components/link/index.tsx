@@ -7,24 +7,13 @@ export type Props = {
   children: ReactNode;
   size?: 'xs' | 's' | 'm' | 'l';
   className?: string;
-  onClick?: () => void;
 };
 
-export const Link: FC<Props> = ({
-  href,
-  children,
-  size = 'm',
-  className,
-  onClick,
-}) => {
+export const Link: FC<Props> = ({ href, children, size = 'm', className }) => {
   const sizeClass = styles[size];
 
   return (
-    <a
-      href={href}
-      className={cn(styles.link, sizeClass, className)}
-      onClick={onClick}
-    >
+    <a href={href} className={cn(styles.link, sizeClass, className)}>
       {children}
     </a>
   );

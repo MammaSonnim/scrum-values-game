@@ -1,4 +1,3 @@
-import { type } from 'os';
 import { ApiResultCodes } from './constants';
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -31,4 +30,6 @@ export type EmptyObjectT = Record<string, never>;
 export type AnyObjectT = Record<string, any>;
 
 export type FunctionWithoutParamsT<R = void> = () => R;
+
+export type Translation = (keyWord: string) => string;
 
