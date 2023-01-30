@@ -3,6 +3,7 @@ import React, { lazy, Suspense, useEffect } from 'react';
 import { Store } from 'redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import './i18n';
 import { Quiz, Lobby, Auth } from './domains';
 import { Nav } from './components';
 import { getUserInfo } from './models/userInfo';
