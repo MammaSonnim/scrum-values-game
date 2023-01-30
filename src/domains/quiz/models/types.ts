@@ -24,18 +24,17 @@ export type AnswerT = {
   note: string | null;
 };
 
-export type DataT = {
+export type QuizDataT = {
   question: QuestionT;
   answers: AnswerT[];
 }[];
 
-export type QuizT = {
-  isAnswerScoresVisible: boolean;
-  isGameOverVisible: boolean;
-  currentQuestionId: IdT;
-  currentAnswerId: IdT;
-  error: string;
-};
-
-export type QuizModeT = 'solo' | 'democracy' | 'chosen-one' | 'ultimate';
+export type GameModeT = 'solo' | 'democracy' | 'chosen-one' | 'ultimate';
 export type ButtonTypeT = 'showAnswerScores' | 'nextQuestion';
+export type GameStepT = 'quiz' | 'gameOver' | 'teamPreset';
+
+export type TeamPresetT = {
+  title: string;
+  description: string;
+  scores: ScoresT;
+};
