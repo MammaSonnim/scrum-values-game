@@ -11,6 +11,7 @@ import { ErrorBoundary, Loader } from './components';
 import { FeatureToggleProvider } from './plugins';
 import styles from './styles.module.css';
 import { LanguageSwitcher } from './components/languageSwitcher';
+import { Main } from './domains/main';
 
 const Rating = lazy(() => import('./domains/rating'));
 
@@ -30,7 +31,8 @@ export const App = ({ store }: { store: Store }) => {
                 <LanguageSwitcher />
               </header>
               <Routes>
-                <Route path='/' element={<Navigate to='/game' />} />
+                <Route path='/' element={<Navigate to='/main' />} />
+                <Route path='/main' element={<Main />} />
                 <Route path='/game' element={<Quiz />} />
                 <Route path='/login' element={<Auth />} />
                 <Route path='/lobby' element={<Lobby />} />
