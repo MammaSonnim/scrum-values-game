@@ -2,6 +2,7 @@ import React, { FC, useEffect, memo } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import { Button, Page, Section, Text, Link, Avatar } from '../../components';
 import { EditOnPlaceField } from './components/editOnPlaceField';
+import { EditDropdown } from './components/editDropdown';
 import {
   PropsT,
   TeammatePropsT,
@@ -18,6 +19,7 @@ export const LobbyPage: FC<PropsT> = ({
   teamSessionId,
   teamName,
   userName,
+  userIcon,
   userInfo,
   isUserCreator,
   isReadyForGame,
@@ -25,6 +27,7 @@ export const LobbyPage: FC<PropsT> = ({
   isGameInited,
   onChangeTeamName,
   onChangeUserName,
+  onChangeUserIcon,
   onStartDataListening,
   onStopDataListening,
   changeReadyForGameStatus,
@@ -100,8 +103,11 @@ export const LobbyPage: FC<PropsT> = ({
         </div>
         <div className={styles.field}>
           <Text className={styles['field__name']}>{t('myIcon')}:</Text>
-          <Avatar />
-          <Button className={styles['field__button']}>{t('edit')}</Button>
+          <EditDropdown
+            initValue={userIcon || ''}
+            onChangeIcon={onChangeUserIcon}
+            onStartEditDropdown={onStartEditField}
+          />
         </div>
       </Section>
       <Section>
@@ -159,7 +165,7 @@ export const Teammate: FC<TeammatePropsT> = ({ data }) => {
   return (
     <tr className={styles.teammate}>
       <td className={styles['teammate__cell_avatar']}>
-        <Avatar />
+        <Avatar userIcon='🦄' />
       </td>
       <td>
         <Text isInline={true}>{name}</Text>{' '}

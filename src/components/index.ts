@@ -8,3 +8,4 @@ export { Nav } from './nav';
 export { Page } from './page';
 export { Section } from './section';
 export { Text } from './text';
+export { Dropdown } from './dropdown';

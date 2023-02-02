@@ -80,6 +80,7 @@ export type StatePropsT = Pick<
   LobbyInitialStateT,
   | 'teamName'
   | 'userName'
+  | 'userIcon'
   | 'teamSessionId'
   | 'teammates'
   | 'isUserCreator'
@@ -91,6 +92,7 @@ export type StatePropsT = Pick<
 export type DispatchPropsT = {
   onChangeTeamName: (value: string) => void;
   onChangeUserName: (value: string) => void;
+  onChangeUserIcon: (value: string) => void;
   onStartDataListening: (teamSessionId: TeamSessionIdT | null) => void;
   onStopDataListening: () => void;
   sendData: (message: string) => void;

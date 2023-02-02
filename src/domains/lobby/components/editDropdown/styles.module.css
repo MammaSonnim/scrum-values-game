@@ -1,0 +1,12 @@
+.edit-on-place-dropdown {
+  display: flex;
+  align-items: baseline;
+}
+
+.icon-editing {
+  opacity: 70%;
+}
+
+.button {
+  margin-left: 12px;
+}

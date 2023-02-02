@@ -11,6 +11,7 @@ describe('teamReducer', () => {
       const state: LobbyInitialStateT = {
         teamName: '',
         userName: '',
+        userIcon: '',
         teammates: [],
         teamSessionId: null,
         isChannelReady: false,

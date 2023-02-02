@@ -1,9 +1,11 @@
 // playground for redux-arch TODO SVG-32 rewrite to effector
 import { Dispatch } from 'react';
+import { icons } from '../../data';
 import { $userInfo } from '../../models/userInfo';
 import { UserInfoT } from '../../models/userInfo/types';
 import { BaseActionT, BaseThunkT, RootStateT } from '../../redux-store';
 import { EmptyObjectT } from '../../types';
+import { getRandomItem } from '../../utils/funcs';
 import { lobbiApi } from './api';
 import {
   TeamSessionT,
@@ -29,6 +31,7 @@ const RESET_INIT_GAME = `${NAMESPACE}/RESET_INIT_GAME` as const;
 const INIT_SEND_DATA = `${NAMESPACE}/INIT_SEND_DATA` as const;
 const CHANGE_TEAM_NAME = `${NAMESPACE}/CHANGE_TEAM_NAME` as const;
 const CHANGE_USER_NAME = `${NAMESPACE}/CHANGE_USER_NAME` as const;
+const CHANGE_USER_ICON = `${NAMESPACE}/CHANGE_USER_ICON` as const;
 const CHANGE_READY_FOR_GAME_STATUS =
   `${NAMESPACE}/CHANGE_READY_FOR_GAME_STATUS` as const;
 
@@ -47,6 +50,7 @@ const SET_IS_USER_CREATOR = `${NAMESPACE}/SET_IS_USER_CREATOR` as const;
 export const lobbyInitialState = {
   teamName: 'Super Puper Team',
   userName: null as string | null,
+  userIcon: getRandomItem(icons),
   teammates: [] as TeammateT[],
   teamSessionId: null as TeamSessionIdT | null,
   isChannelReady: false,
@@ -73,6 +77,12 @@ export const lobbyReducer = (
       return {
         ...lobbyState,
         userName: action.payload,
+      };
+
+    case CHANGE_USER_ICON:
+      return {
+        ...lobbyState,
+        userIcon: action.payload,
       };
 
     case CHANGE_READY_FOR_GAME_STATUS:
@@ -138,58 +148,63 @@ export const lobbyReducer = (
 
 export const actionCreators = {
   changeTeamName: (value: string) =>
-    ({
-      type: CHANGE_TEAM_NAME,
-      payload: value,
-    } as const),
+  ({
+    type: CHANGE_TEAM_NAME,
+    payload: value,
+  } as const),
   changeUserName: (value: string) =>
-    ({
-      type: CHANGE_USER_NAME,
-      payload: value,
-    } as const),
+  ({
+    type: CHANGE_USER_NAME,
+    payload: value,
+  } as const),
+  changeUserIcon: (value: string) =>
+  ({
+    type: CHANGE_USER_ICON,
+    payload: value,
+  } as const),
   changeReadyForGameStatus: (value: boolean) =>
-    ({
-      type: CHANGE_READY_FOR_GAME_STATUS,
-      payload: value,
-    } as const),
+  ({
+    type: CHANGE_READY_FOR_GAME_STATUS,
+    payload: value,
+  } as const),
   sessionReceived: (data: TeamSessionT) =>
-    ({
-      type: SESSION_RECEIVED,
-      payload: data,
-    } as const),
+  ({
+    type: SESSION_RECEIVED,
+    payload: data,
+  } as const),
   initSendData: () => ({
     type: INIT_SEND_DATA,
     payload: null,
   }),
   teamNameReceived: (data: string) =>
-    ({
-      type: TEAM_NAME_RECEIVED,
-      payload: data,
-    } as const),
+  ({
+    type: TEAM_NAME_RECEIVED,
+    payload: data,
+  } as const),
   teammatesReceived: (data: TeammateT[]) =>
-    ({
-      type: TEAMMATES_RECEIVED,
-      payload: data,
-    } as const),
+  ({
+    type: TEAMMATES_RECEIVED,
+    payload: data,
+  } as const),
   gameInitTriggerReceived: (data: boolean) =>
-    ({
-      type: GAME_INIT_TRIGGER_RECEIVED,
-      payload: data,
-    } as const),
+  ({
+    type: GAME_INIT_TRIGGER_RECEIVED,
+    payload: data,
+  } as const),
   canStartGameStatusReceived: (data: boolean) => ({
     type: CAN_START_GAME_STATUS_RECEIVED,
     payload: data,
   }),
   setIsUserCreator: (data: boolean) =>
-    ({
-      type: SET_IS_USER_CREATOR,
-      payload: data,
-    } as const),
+  ({
+    type: SET_IS_USER_CREATOR,
+    payload: data,
+  } as const),
   setIsChannelReady: (isChannelReady: boolean) =>
-    ({
-      type: SET_IS_CHANNEL_READY,
-      payload: isChannelReady,
-    } as const),
+  ({
+    type: SET_IS_CHANNEL_READY,
+    payload: isChannelReady,
+  } as const),
   resetInitGame: () => ({
     type: RESET_INIT_GAME,
     payload: null,
@@ -221,6 +236,14 @@ export const changeUserName = (value: string): ThunkActionT => {
     dispatch(actionCreators.changeUserName(value));
   };
 };
+
+export const changeUserIcon = (value: string): ThunkActionT => {
+  return (dispatch) => {
+    // TODO SVG-53 add integration with BE
+    dispatch(actionCreators.changeUserIcon(value));
+  };
+};
+
 
 export const changeReadyForGameStatus = (value: boolean): ThunkActionT => {
   return (dispatch, getState) => {
@@ -410,6 +433,10 @@ export const selectTeamName = (state: RootStateT) => {
 
 export const selectUserName = (state: RootStateT) => {
   return selectLobbyState(state).userName;
+};
+
+export const selectUserIcon = (state: RootStateT) => {
+  return selectLobbyState(state).userIcon;
 };
 
 export const selectIsChannelReady = (state: RootStateT) => {
