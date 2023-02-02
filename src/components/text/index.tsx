@@ -7,6 +7,7 @@ export type Props = {
   size?: 'xs' | 's' | 'm' | 'l';
   tag?: 'p' | 'h2' | 'h3' | 'h4';
   type?: 'warn';
+  isBold?: boolean;
   isInline?: boolean;
   className?: string;
 };
@@ -17,6 +18,7 @@ export const Text: FC<Props> = ({
   tag = 'p',
   type,
   isInline,
+  isBold,
   className,
 }) => {
   const sizeClass = styles[size];
@@ -27,6 +29,7 @@ export const Text: FC<Props> = ({
     {
       [sizeClass]: !isHeading,
       [styles.inline]: isInline,
+      [styles.bold]: isBold,
       [styles.warn]: type === 'warn',
     },
     className

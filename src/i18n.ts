@@ -10,6 +10,7 @@ import { dict as lobbyDict } from './domains/lobby/dict';
 import { dict as ratingDict } from './domains/rating/dict';
 import { dict as scoresDict } from './domains/quiz/components/scores/dict';
 import { dict as teamPresetDict } from './domains/quiz/components/teamPreset/dict';
+import { dict as mainPageDict } from './domains/main/dict';
 
 i18n
   .use(LanguageDetector)
@@ -17,9 +18,9 @@ i18n
   .init({
     debug: false,
     fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false,
-    },
+    // interpolation: {
+    //   escapeValue: false,
+    // },
     resources: {
       en: {
         translation: {
@@ -30,6 +31,7 @@ i18n
           ...ratingDict.en,
           ...scoresDict.en,
           ...teamPresetDict.en,
+          ...mainPageDict.en,
         },
       },
       ru: {
@@ -41,6 +43,7 @@ i18n
           ...ratingDict.ru,
           ...scoresDict.ru,
           ...teamPresetDict.ru,
+          ...mainPageDict.ru,
         },
       },
     },

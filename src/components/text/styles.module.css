@@ -23,6 +23,10 @@
   display: inline;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 .warn {
   color: tomato;
 }
