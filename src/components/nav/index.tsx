@@ -8,8 +8,12 @@ import { Translation } from '../../types';
 const getNavItems = (isTeamsEnabled: boolean, translate: Translation) => {
   const navItems = [
     {
+      link: '/main',
+      title: translate('main'),
+    },
+    {
       link: '/game',
-      title: translate(isTeamsEnabled ? 'solo' : 'quiz'),
+      title: translate(isTeamsEnabled ? 'hotseat' : 'quiz'),
     },
   ];
 
@@ -18,7 +22,7 @@ const getNavItems = (isTeamsEnabled: boolean, translate: Translation) => {
       ...[
         {
           link: '/lobby',
-          title: translate('teamPlay'),
+          title: translate('multiplayer'),
         },
         {
           link: '/rating',

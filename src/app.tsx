@@ -1,16 +1,15 @@
-import './models/init';
 import React, { lazy, Suspense, useEffect } from 'react';
 import { Store } from 'redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import './models/init';
 import './i18n';
 import { Quiz, Lobby, Auth, Main } from './domains';
 import { Nav } from './components';
 import { getUserInfo } from './models/userInfo';
-import { ErrorBoundary, Loader } from './components';
+import { ErrorBoundary, Loader, LanguageSwitcher } from './components';
 import { FeatureToggleProvider } from './plugins';
 import styles from './styles.module.css';
-import { LanguageSwitcher } from './components/languageSwitcher';
 
 const Rating = lazy(() => import('./domains/rating'));
 

@@ -1,4 +1,4 @@
-import { ApiResultCodes } from './constants';
+import { ApiResultCodes, ScrumValues } from './constants';
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 export type TODO_ANY = any;
@@ -33,3 +33,4 @@ export type FunctionWithoutParamsT<R = void> = () => R;
 
 export type Translation = (keyWord: string) => string;
 
+export type ScrumValueT = typeof ScrumValues[number];
