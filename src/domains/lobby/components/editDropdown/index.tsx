@@ -1,8 +1,10 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, RefObject, useEffect, useRef, useState } from 'react';
 import { Avatar, Button, Dropdown, Text } from '../../../../components';
 import { useTranslation } from 'react-i18next';
-import { FunctionWithoutParamsT } from '../../../../types';
+import { FunctionWithMouseEvent, FunctionWithoutParamsT } from '../../../../types';
 import styles from './styles.module.css';
+import { icons } from '../../../../data';
+import { useOnClickOutside } from '../../../../utils/useOnClickOutside';
 
 type Props = {
   initValue: string;
@@ -15,37 +17,43 @@ export const EditDropdown: FC<Props> = ({
   onChangeIcon,
   onStartEditDropdown,
 }) => {
+  const { t } = useTranslation();
   const [isEditMode, setEditMode] = useState(false);
   const [tempValue, setTempValue] = useState(initValue);
-  const { t } = useTranslation();
-
+  const dropdownRef = useRef<HTMLElement>() as RefObject<HTMLDivElement>;
+  
   useEffect(() => {
     setTempValue(initValue);
   }, [initValue]);
-
+  
   useEffect(() => {
     handleSubmitValue();
   }, [tempValue]);
-
+  
   const enableEditMode = () => {
     setEditMode(true);
     onStartEditDropdown();
   };
-
+  
   const disableEditMode = () => {
     setEditMode(false);
   };
-
-  const handleIconChange = (event: React.MouseEvent<HTMLElement>) => {
-    setTempValue((event.target as HTMLElement)?.innerText ?? '');
+  
+  const handleIconChange: FunctionWithMouseEvent = (event) => {
+    const newIcon = (event.target as HTMLElement)?.innerText;
+    
+    if (icons.indexOf(newIcon) < 0) return;
+    setTempValue(newIcon);
   };
-
+  
   const handleSubmitValue = () => {
     disableEditMode();
     if (tempValue) {
       onChangeIcon(tempValue);
     }
   };
+  
+  useOnClickOutside(dropdownRef, disableEditMode);
 
   return (
     <div className={styles['edit-on-place-dropdown']}>
@@ -65,10 +73,7 @@ export const EditDropdown: FC<Props> = ({
       {isEditMode && (
         <>
           <Text className={styles['icon-editing']}>{initValue}</Text>
-          <Dropdown onClick={handleIconChange} />
-          {/* <Button className={styles.button} onClick={handleSubmitValue}>
-            {t('submit')}
-          </Button> */}
+          <Dropdown ref={dropdownRef} onClick={handleIconChange} />
         </>
       )}
     </div>

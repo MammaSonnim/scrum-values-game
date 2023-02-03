@@ -104,7 +104,7 @@ export const LobbyPage: FC<PropsT> = ({
         <div className={styles.field}>
           <Text className={styles['field__name']}>{t('myIcon')}:</Text>
           <EditDropdown
-            initValue={userIcon || ''}
+            initValue={userIcon}
             onChangeIcon={onChangeUserIcon}
             onStartEditDropdown={onStartEditField}
           />
@@ -177,3 +177,5 @@ export const Teammate: FC<TeammatePropsT> = ({ data }) => {
     </tr>
   );
 };
+
+

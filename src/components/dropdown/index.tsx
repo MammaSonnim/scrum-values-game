@@ -1,43 +1,22 @@
-import React, { FC } from 'react';
+import React from 'react';
+import { icons } from '../../data';
+import { FunctionWithMouseEvent } from '../../types';
 import styles from './styles.module.css';
 
 type Props = {
-  onClick: (e: React.MouseEvent<HTMLElement>) => void;
+  onClick: FunctionWithMouseEvent;
 };
 
-export const Dropdown: FC<Props> = ({ onClick }) => {
-  return (
-    <div className={styles.container} onClick={onClick}>
-      <div className={styles.column}>
-        <span className={styles.item}>🦄</span>
-        <span className={styles.item}>🐰</span>
-        <span className={styles.item}>👤</span>
-        <span className={styles.item}>🦔</span>
+export const Dropdown = React.forwardRef<HTMLDivElement, Props>(
+  (props, ref) => {
+    return (
+      <div className={styles.container} onClick={props.onClick} ref={ref}>
+        {icons.map((icon) => (
+          <span key={icon} className={styles.item}>
+            {icon}
+          </span>
+        ))}
       </div>
-      <div className={styles.column}>
-        <span className={styles.item}>👽</span>
-        <span className={styles.item}>🐨</span>
-        <span className={styles.item}>🐭</span>
-        <span className={styles.item}>🐼</span>
-      </div>
-      <div className={styles.column}>
-        <span className={styles.item}>🦁</span>
-        <span className={styles.item}>🐣</span>
-        <span className={styles.item}>⛄</span>
-        <span className={styles.item}>🐧</span>
-      </div>
-      <div className={styles.column}>
-        <span className={styles.item}>🥷</span>
-        <span className={styles.item}>🦉</span>
-        <span className={styles.item}>🎃</span>
-        <span className={styles.item}>🦩</span>
-      </div>
-      <div className={styles.column}>
-        <span className={styles.item}>🦊</span>
-        <span className={styles.item}>🐸</span>
-        <span className={styles.item}>👻</span>
-        <span className={styles.item}>🦖</span>
-      </div>
-    </div>
-  );
-};
+    );
+  }
+);

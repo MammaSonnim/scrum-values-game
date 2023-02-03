@@ -33,3 +33,5 @@ export type FunctionWithoutParamsT<R = void> = () => R;
 
 export type Translation = (keyWord: string) => string;
 
+export type FunctionWithMouseEvent = (event: React.MouseEvent<HTMLElement>) => void;
+
