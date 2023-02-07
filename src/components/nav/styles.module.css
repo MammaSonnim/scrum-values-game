@@ -13,7 +13,7 @@
 
 .nav__item {
   display: block;
-  color: #209cee;
+  color: var(--color-primary);
   text-decoration: none;
 }
 
