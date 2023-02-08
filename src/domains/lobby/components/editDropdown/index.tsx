@@ -1,7 +1,10 @@
 import React, { FC, RefObject, useEffect, useRef, useState } from 'react';
 import { Avatar, Button, Dropdown, Text } from '../../../../components';
 import { useTranslation } from 'react-i18next';
-import { FunctionWithMouseEvent, FunctionWithoutParamsT } from '../../../../types';
+import {
+  FunctionWithMouseEvent,
+  FunctionWithoutParamsT,
+} from '../../../../types';
 import styles from './styles.module.css';
 import { icons } from '../../../../data';
 import { useOnClickOutside } from '../../../../utils/useOnClickOutside';
@@ -21,38 +24,38 @@ export const EditDropdown: FC<Props> = ({
   const [isEditMode, setEditMode] = useState(false);
   const [tempValue, setTempValue] = useState(initValue);
   const dropdownRef = useRef<HTMLElement>() as RefObject<HTMLDivElement>;
-  
+
   useEffect(() => {
     setTempValue(initValue);
   }, [initValue]);
-  
+
   useEffect(() => {
     handleSubmitValue();
   }, [tempValue]);
-  
+
   const enableEditMode = () => {
     setEditMode(true);
     onStartEditDropdown();
   };
-  
+
   const disableEditMode = () => {
     setEditMode(false);
   };
-  
+
   const handleIconChange: FunctionWithMouseEvent = (event) => {
     const newIcon = (event.target as HTMLElement)?.innerText;
-    
+
     if (icons.indexOf(newIcon) < 0) return;
     setTempValue(newIcon);
   };
-  
+
   const handleSubmitValue = () => {
     disableEditMode();
     if (tempValue) {
       onChangeIcon(tempValue);
     }
   };
-  
+
   useOnClickOutside(dropdownRef, disableEditMode);
 
   return (
@@ -65,7 +68,7 @@ export const EditDropdown: FC<Props> = ({
             isIcon={true}
             onClick={enableEditMode}
           >
-            {t('edit')}
+            ✏️
           </Button>
         </>
       )}
