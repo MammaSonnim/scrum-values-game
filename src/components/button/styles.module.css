@@ -1,18 +1,33 @@
 .button {
+  cursor: pointer;
+  box-sizing: border-box;
   outline: none;
-  border: 1px solid black;
+  border: 1px solid var(--color-primary);
   padding: 6px 12px;
   background-color: transparent;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-family: var(--font-primary);
+  transition: 0.1s ease-in-out;
 }
 
 .primary {
-  cursor: pointer;
-  border-color: black;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+}
+
+.primary:hover {
+  filter: brightness(108%);
 }
 
 .disabled {
-  border-color: grey;
+  cursor: default;
+  color: var(--color-gray);
+  border-color: var(--color-gray);
+  background-color: var(--color-white);
+}
+
+.primary.disabled:hover {
+  filter: none;
 }
 
 .as-link {

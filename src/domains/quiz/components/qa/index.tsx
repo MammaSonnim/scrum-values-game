@@ -40,15 +40,15 @@ export const QA: FC<Props> = ({
   const { t } = useTranslation();
 
   return (
-    <div>
-      <div className={styles.row}>
+    <>
+      <div className={cn(styles.row, styles.header)}>
         <Progress
           total={quizDataLength}
           currentCount={Number(currentQuestionId)}
         />
         <Question data={question} />
       </div>
-      <div className={styles.row}>
+      <div className={cn(styles.row, styles.answers)}>
         <Answers
           data={answers}
           currentAnswerId={currentAnswerId}
@@ -68,6 +68,6 @@ export const QA: FC<Props> = ({
           <Text type='warn'>{error}</Text>
         </span>
       </div>
-    </div>
+    </>
   );
 };

@@ -3,7 +3,8 @@
 }
 
 .answer_with-visible-scores {
-  opacity: 0.4;
+  opacity: 0.5;
+  margin-bottom: 25px;
 }
 
 .answer_with-visible-scores.answer_selected {
@@ -16,7 +17,7 @@
 }
 
 .answer__scores {
-  margin-top: 4px;
+  margin-top: 10px;
 }
 
 @keyframes blinker {

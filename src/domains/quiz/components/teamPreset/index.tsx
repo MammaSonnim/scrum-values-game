@@ -17,12 +17,12 @@ export const TeamPreset: FC<Props> = ({ teamPreset, onChangeGameStep }) => {
   };
 
   return (
-    <div>
-      <Text size='l'>{teamPreset.title}</Text>
+    <>
+      <Text size='l' tag='h3'>{`"${teamPreset.title}"`}</Text>
       <Text className={styles.description}>{teamPreset.description}</Text>
       <Button onClick={handleClickButton} className={styles.button}>
         {t('nextPresetBtn')}
       </Button>
-    </div>
+    </>
   );
 };

@@ -55,7 +55,7 @@ export const EditOnPlaceField: FC<Props> = ({
             isIcon={true}
             onClick={enableEditMode}
           >
-            {t('edit')}
+            ✏️
           </Button>
         </Fragment>
       )}
@@ -73,7 +73,7 @@ export const EditOnPlaceField: FC<Props> = ({
             onFocus={(e) => e.currentTarget.select()}
           />
           <Button className={styles['button']} onClick={handleSubmitValue}>
-            {t('submit')}
+          ✅
           </Button>
         </Fragment>
       )}
