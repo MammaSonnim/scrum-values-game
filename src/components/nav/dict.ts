@@ -8,7 +8,7 @@ export const dict = {
   ru: {
     solo: 'Одиночная',
     quiz: 'Игра',
-    teamPlay: 'Командная игра',
+    teamPlay: 'Командная',
     rating: 'Рейтинг',
   },
 };
