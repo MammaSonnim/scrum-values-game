@@ -5,7 +5,7 @@ export const dict = {
       '<0>Scrum Values Game</0> – online version of <3>the board game</3> by <7>Agile Verse</7>.',
     mainText2:
       'The goal of the game is to understand how Scrum Values affect the life of the team.',
-    mainText3: `During the game, you'll live some real-life cases together: decide what you can do in that situation and see the result, how your actions will affect the Scrum Team!`,
+    mainText3: `During the game, you'll deal with some real-life cases together: decide what you can do in that situation and see the result, how your actions will affect the Scrum Team!`,
     mainText5: 'How it works?',
     mainText10: `<1>1-1.5 hours of time</1>
       <1>5-7 people (up to 12)</1>
@@ -19,24 +19,25 @@ export const dict = {
     mainText17:
       'HOTSEAT: get everyone together and have one of the participants <1>run the quiz</1>.',
     mainText18:
-      'MULTIPLAYER: one of the participants <2>enteres the lobby</2> and sends the link to the others, and when everyone is ready, starts the game.',
+      'MULTIPLAYER: one of the participants <2>enters the lobby</2> and sends the link to the others, and when everyone is ready, starts the game.',
     mainText19:
       'get everyone together (preferably in the same room) and have one of the participants <1>run the quiz</1>.',
     mainText20: `
       <1>you'll get one of 5 presets of the team history and initial Scrum Values — discuss its strengths and weaknesses.</1>
       <1>move on to the cases – discuss each one and choose the best answer.</1>
       <1>after you confirm your choice, discuss where it lead to.</1>`,
-    mainText25: '<0>Fail:</0> if any of the values is less than or equal to 0.',
-    mainText30: '<0>Win:</0> if questions are over.',
+    mainText25:
+      '<0>Fail:</0> when any of the values is less than or equal to 0.',
+    mainText30: '<0>Win:</0> when questions are over.',
     mainText35: 'Scrum Values:',
     scrumValueDesc_courage:
       'members of the Scrum Team have the courage to do the right thing and work on challenging problems.',
     scrumValueDesc_focus:
-      'everyone focuses on the work of the Sprint and the goals of the Scrum Team.',
+      'everyone is focused on the work of the Sprint and the goals of the Scrum Team.',
     scrumValueDesc_commitment:
       'people personally commit to achieving the goals of the Scrum Team.',
     scrumValueDesc_respect:
-      'members of the Scrum Team respect each other to be capable, independent people.',
+      'members of the Scrum Team respect each other as capable, independent people.',
     scrumValueDesc_opennes:
       'the Scrum Team and its stakeholders agree to be open about all the work and the challenges with performing the work.',
   },
@@ -61,7 +62,7 @@ export const dict = {
     mainText17:
       'HOTSEAT: соберитесь все вместе и пусть один из участников <1>начнет игру</1>.',
     mainText18:
-      'MULTIPLAYER: один из участников заходит в <2>мультиплеер</2> и отправляет ссылку остальным, и когда все готовы, начинает игру.',
+      'MULTIPLAYER: один из участников заходит в <2>мультиплеер</2> и отправляет ссылку остальным. Ждёт готовности всех игроков и начинает игру.',
     mainText19:
       'соберитесь все вместе (лучше всего в одной комнате) и пусть один из участников <1>запустит игру</1>.',
     mainText20: `
