@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.values {
+  list-style: none;
+  padding-left: 0;
+}
+
+.values img {
+  margin-right: 4px;
+  margin-bottom: -2px;
+}

@@ -1,14 +1,16 @@
 export const dict = {
   en: {
-    solo: 'Solo',
+    main: 'Rules',
+    hotseat: 'Hotseat',
     quiz: 'Quiz',
-    teamPlay: 'Team play',
+    multiplayer: 'Multiplayer',
     rating: 'Rating',
   },
   ru: {
-    solo: 'Одиночная',
+    main: 'Правила',
+    hotseat: 'Hotseat',
     quiz: 'Игра',
-    teamPlay: 'Командная',
+    teamPlay: 'Мультиплеер',
     rating: 'Рейтинг',
   },
 };

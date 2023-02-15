@@ -23,6 +23,10 @@
   display: inline;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 .warn {
   color: var(--color-error);
   margin-left: 28px;

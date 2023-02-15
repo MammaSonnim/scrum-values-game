@@ -19,6 +19,14 @@ fieldset {
   padding: 0;
 }
 
+ul {
+  margin: 0;
+}
+
+li {
+  line-height: 1.5;
+}
+
 .app {
   max-width: 1200px;
   min-width: 400px;
@@ -32,3 +40,4 @@ fieldset {
   max-width: 900px;
   margin: auto;
 }
+
