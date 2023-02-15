@@ -2,7 +2,6 @@
   "name": "scrum-values-game",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mammasonnim.github.io/scrum-values-game/",
   "dependencies": {
     "@babel/core": "^7.19.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
