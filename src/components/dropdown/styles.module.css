@@ -1,0 +1,28 @@
+.container {
+  z-index: 5;
+  background: #efefef;
+  position: absolute;
+  width: 130px;
+  height: 90px;
+  padding: 2px;
+  top: 30px;
+  left: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #5a92de;
+  border-radius: 5px;
+}
+
+.item {
+  cursor: pointer;
+  text-align: center;
+  width: 25px;
+  height: 20px;
+  border-radius: 5px;
+}
+
+.item:hover {
+  background-color: #5a92de;
+}

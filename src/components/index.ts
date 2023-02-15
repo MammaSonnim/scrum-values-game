@@ -10,3 +10,4 @@ export { Page } from './page';
 export { Section } from './section';
 export { Text } from './text';
 export { ValueIcon } from './valueIcon';
+export { Dropdown } from './dropdown';

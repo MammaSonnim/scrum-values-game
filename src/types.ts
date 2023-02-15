@@ -34,3 +34,6 @@ export type FunctionWithoutParamsT<R = void> = () => R;
 export type Translation = (keyWord: string) => string;
 
 export type ScrumValueT = typeof ScrumValues[number];
+
+export type FunctionWithMouseEvent = (event: React.MouseEvent<HTMLElement>) => void;
+
