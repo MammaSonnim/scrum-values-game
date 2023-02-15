@@ -10,6 +10,7 @@ import { getUserInfo } from './models/userInfo';
 import { ErrorBoundary, Loader, LanguageSwitcher } from './components';
 import { FeatureToggleProvider } from './plugins';
 import styles from './styles.module.css';
+import './variables.css';
 
 const Rating = lazy(() => import('./domains/rating'));
 

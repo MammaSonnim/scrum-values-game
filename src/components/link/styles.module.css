@@ -1,3 +1,3 @@
 .link {
-  color: #209cee;
+  color: var(--color-primary);
 }

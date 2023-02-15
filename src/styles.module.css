@@ -1,5 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  font-family: var(--font-primary);
 }
 
 th,
@@ -32,4 +37,7 @@ li {
   display: flex;
   justify-content: space-between;
   padding: 12px 24px;
+  max-width: 900px;
+  margin: auto;
 }
+

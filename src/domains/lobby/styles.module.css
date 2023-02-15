@@ -28,6 +28,6 @@
 
 @keyframes blinker {
   50% {
-    color: #209cee;
+    color: var(--color-primary);
   }
 }

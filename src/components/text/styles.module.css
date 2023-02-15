@@ -28,5 +28,7 @@
 }
 
 .warn {
-  color: tomato;
+  color: var(--color-error);
+  margin-left: 28px;
+  font-size: 14px;
 }

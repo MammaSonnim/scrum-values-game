@@ -17,7 +17,7 @@ export const Answers: FC<Props> = ({
   onAnswerClick,
 }) => {
   return (
-    <div className={styles.answers}>
+    <>
       {data.map((answer) => {
         return (
           <div key={answer.id} className={styles['answers__item']}>
@@ -30,6 +30,6 @@ export const Answers: FC<Props> = ({
           </div>
         );
       })}
-    </div>
+    </>
   );
 };

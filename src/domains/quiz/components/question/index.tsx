@@ -9,5 +9,5 @@ type Props = {
 export const Question: FC<Props> = ({ data }) => {
   const { text } = data;
 
-  return <Text size='l'>{text}</Text>;
+  return <Text size='l' tag='h3'>{text}</Text>;
 };
