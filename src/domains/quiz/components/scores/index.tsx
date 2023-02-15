@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { ScoresT } from '../../models/types';
 import styles from './styles.module.css';
 import { useTranslation } from 'react-i18next';
+import { ValueIcon } from '../../../../components';
 
 type Props = {
   scores: ScoresT | null;
@@ -26,10 +27,9 @@ export const Scores: FC<Props> = ({ scores }) => {
             key={key}
             title={t(key.toString()) || ''}
           >
-            <img
-              className={styles.icon}
-              src={require(`./assets/${key}.png`)}
-              alt={key}
+            <ValueIcon
+              type={key as keyof ScoresT}
+              className={styles['score__icon']}
             />
             <span
               className={cn(styles['score__value'], {

@@ -10,3 +10,11 @@ export const ApiResultCodes = {
 } as const;
 
 export const fakeDate = 1487076708000;
+
+export const ScrumValues = [
+  'courage',
+  'focus',
+  'commitment',
+  'respect',
+  'opennes',
+] as const;

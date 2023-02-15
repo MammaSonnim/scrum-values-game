@@ -61,7 +61,7 @@ export const LobbyPage: FC<PropsT> = ({
     changeReadyForGameStatus(true);
   };
 
-  const onStartEditField = () => {
+  const handleEditField = () => {
     changeReadyForGameStatus(false);
   };
 
@@ -90,7 +90,7 @@ export const LobbyPage: FC<PropsT> = ({
           isUserCreator={isUserCreator}
           teamName={teamName}
           onChangeTeamName={onChangeTeamName}
-          onStartEditField={onStartEditField}
+          onStartEditField={handleEditField}
         />
         <div className={styles.field}>
           <Text className={styles['field__name']}>{t('myName')}:</Text>
@@ -98,7 +98,7 @@ export const LobbyPage: FC<PropsT> = ({
             initValue={userName || login || 'User'}
             placeholder={t('myName')}
             onChangeValue={onChangeUserName}
-            onStartEditField={onStartEditField}
+            onStartEditField={handleEditField}
           />
         </div>
         <div className={styles.field}>
