@@ -63,7 +63,7 @@ export const EditDropdown: FC<Props> = ({
           <Avatar userIcon={initValue} />
           <Button
             className={styles.button}
-            isIcon={true}
+            asIcon={true}
             onClick={enableEditMode}
           >
             ✏️

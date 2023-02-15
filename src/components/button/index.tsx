@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 type Props = {
   children: ReactNode;
   type?: 'button' | 'submit' | 'reset';
-  isIcon?: boolean;
+  asIcon?: boolean;
   disabled?: boolean;
   asLink?: boolean;
   className?: string;
@@ -18,6 +18,7 @@ export const Button: FC<Props> = ({
   children,
   onClick,
   asLink,
+  asIcon,
   className,
 }) => {
   const classes = cn(
@@ -26,6 +27,7 @@ export const Button: FC<Props> = ({
     {
       [styles.disabled]: disabled,
       [styles['as-link']]: asLink,
+      [styles['as-icon']]: asIcon,
     },
     className
   );

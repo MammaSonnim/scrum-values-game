@@ -19,9 +19,11 @@ export const App = ({ store }: { store: Store }) => {
     getUserInfo();
   }, []);
 
+  console.log('🐸 :', process.env.PUBLIC_URL);
+
   return (
     <div className={styles.app}>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Provider store={store}>
           <ErrorBoundary>
             <FeatureToggleProvider>
