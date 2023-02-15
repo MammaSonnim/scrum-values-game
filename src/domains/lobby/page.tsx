@@ -106,7 +106,7 @@ export const LobbyPage: FC<PropsT> = ({
           <EditDropdown
             initValue={userIcon}
             onChangeIcon={onChangeUserIcon}
-            onStartEditDropdown={onStartEditField}
+            onStartEditDropdown={handleEditField}
           />
         </div>
       </Section>
@@ -177,5 +177,3 @@ export const Teammate: FC<TeammatePropsT> = ({ data }) => {
     </tr>
   );
 };
-
-

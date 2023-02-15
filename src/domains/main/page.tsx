@@ -14,23 +14,21 @@ export const MainPage: FC<Props> = ({ isTeamsFeatureEnabled }) => {
 
   return (
     <Page className={styles.container}>
-      <Section className={styles.description}>
-        <Text>
-          <Trans i18nKey='mainText'>
-            <b>Scrum Values Game</b> – online version of{' '}
-            <Link href='https://www.agileverse.ru/scrumvaluesgame/ru' isBlank>
-              board game
-            </Link>{' '}
-            by{' '}
-            <Link href='https://www.agileverse.ru/' isBlank>
-              Agile Verse.
-            </Link>
-          </Trans>
-        </Text>
-        <Section>
-          <Text>{t('mainText2')}</Text>
-          <Text>{t('mainText3')}</Text>
-        </Section>
+      <Text>
+        <Trans i18nKey='mainText'>
+          <Text tag='h2'>Scrum Values Game</Text> – online version of{' '}
+          <Link href='https://www.agileverse.ru/scrumvaluesgame/ru' isBlank>
+            board game
+          </Link>{' '}
+          by{' '}
+          <Link href='https://www.agileverse.ru/' isBlank>
+            Agile Verse.
+          </Link>
+        </Trans>
+      </Text>
+      <Section>
+        <Text>{t('mainText2')}</Text>
+        <Text>{t('mainText3')}</Text>
       </Section>
       <Section>
         <Text tag='h3'>
