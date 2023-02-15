@@ -29,6 +29,7 @@ describe('teamReducer', () => {
       expect(newState).toEqual({
         teamName: 'piu',
         userName: '',
+        userIcon: '',
         teammates: [],
         teamSessionId: null,
         isChannelReady: false,

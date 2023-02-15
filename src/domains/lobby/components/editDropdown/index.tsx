@@ -1,6 +1,5 @@
 import React, { FC, RefObject, useEffect, useRef, useState } from 'react';
 import { Avatar, Button, Dropdown, Text } from '../../../../components';
-import { useTranslation } from 'react-i18next';
 import {
   FunctionWithMouseEvent,
   FunctionWithoutParamsT,
@@ -20,7 +19,6 @@ export const EditDropdown: FC<Props> = ({
   onChangeIcon,
   onStartEditDropdown,
 }) => {
-  const { t } = useTranslation();
   const [isEditMode, setEditMode] = useState(false);
   const [tempValue, setTempValue] = useState(initValue);
   const dropdownRef = useRef<HTMLElement>() as RefObject<HTMLDivElement>;
