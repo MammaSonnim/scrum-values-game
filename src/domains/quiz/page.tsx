@@ -105,7 +105,7 @@ export const QuizPage: FC<Props> = ({
             />
           )}
           {gameStep === 'gameOver' && (
-            <GameOver onRestart={handleClickRestart} />
+            <GameOver scores={scores} onRestart={handleClickRestart} />
           )}
         </div>
       </div>
