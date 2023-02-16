@@ -8,7 +8,7 @@ import { Translation } from '../../types';
 const getNavItems = (isTeamsEnabled: boolean, translate: Translation) => {
   const navItems = [
     {
-      link: '/main',
+      link: '/',
       title: translate('main'),
     },
     {
