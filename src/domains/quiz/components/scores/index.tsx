@@ -4,13 +4,17 @@ import { ScoresT } from '../../models/types';
 import styles from './styles.module.css';
 import { useTranslation } from 'react-i18next';
 import { ValueIcon } from '../../../../components';
+import { useStore } from 'effector-react';
+import { $gameStep } from '../../models';
 
 type Props = {
+  isGameOver?: boolean;
   scores: ScoresT | null;
 };
 
-export const Scores: FC<Props> = ({ scores }) => {
+export const Scores: FC<Props> = ({ scores, isGameOver }) => {
   const { t } = useTranslation();
+  const gameStep = useStore($gameStep);
 
   if (!scores) {
     return null;
@@ -23,9 +27,13 @@ export const Scores: FC<Props> = ({ scores }) => {
 
         return (
           <li
-            className={cn(styles.score, {
-              [styles['score__value_zeroOrNegative']]: value <= 0,
-            })}
+            className={
+              gameStep === 'gameOver'
+                ? cn(styles.score, {
+                    [styles['score__value_zeroOrNegative']]: value <= 0,
+                  })
+                : styles.score
+            }
             key={key}
             title={t(key.toString()) || ''}
           >
