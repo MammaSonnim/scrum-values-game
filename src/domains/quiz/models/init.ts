@@ -30,7 +30,7 @@ import { ratingApi } from '../../rating/api';
 import { teamPresetData } from './teamPresetData';
 import { AnswerT, GameStepT } from './types';
 import {
-  calcIsNeedToGameOver,
+  calcIsGameLost,
   calcSumOfScores,
   calcTotalScores,
   getTeamPreset,
@@ -134,13 +134,24 @@ $gameStep
 sample({
   clock: goToNextQuestion,
   source: {
+    scores: $scores,
+  },
+  target: $isGameLost,
+  fn: ({ scores }) => {
+    return calcIsGameLost(scores);
+  }
+});
+
+sample({
+  clock: goToNextQuestion,
+  source: {
     data: $quizData,
     currentQuestionId: $currentQuestionId,
     scores: $scores,
   },
   target: showGameOver,
   fn: ({ data, currentQuestionId, scores }) => {
-    return data.length === currentQuestionId || calcIsNeedToGameOver(scores);
+    return data.length === currentQuestionId || calcIsGameLost(scores);
   },
 });
 

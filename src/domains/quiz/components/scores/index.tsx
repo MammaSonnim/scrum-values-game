@@ -8,11 +8,10 @@ import { useStore } from 'effector-react';
 import { $gameStep } from '../../models';
 
 type Props = {
-  isGameOver?: boolean;
   scores: ScoresT | null;
 };
 
-export const Scores: FC<Props> = ({ scores, isGameOver }) => {
+export const Scores: FC<Props> = ({ scores }) => {
   const { t } = useTranslation();
   const gameStep = useStore($gameStep);
 
