@@ -12,6 +12,7 @@ import {
   $isAnyAnswerSelected,
   $isButtonDisabled,
   $scores,
+  $isGameLost,
   goToNextQuestion,
   initQuiz,
   initQuizFx,

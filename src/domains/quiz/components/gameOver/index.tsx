@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Button } from '../../../../components';
+import { Trans, useTranslation } from 'react-i18next';
+import { Button, Text } from '../../../../components';
 import { ScoresT } from '../../models/types';
 import styles from './styles.module.css';
 
@@ -12,19 +12,29 @@ type Props = {
 export const GameOver: FC<Props> = ({ scores, onRestart }) => {
   const { t } = useTranslation();
   const [winResult, setWinResult] = useState(false);
-  const negotiveScore = Object.entries(scores).filter((item) => item[1] <= 0);
+  const negativeScore = Object.entries(scores).filter((item) => item[1] <= 0);
 
   useEffect(() => {
-    if (!negotiveScore.length) {
+    if (!negativeScore.length) {
       setWinResult(true);
     }
-  }, [negotiveScore]);
+  }, [negativeScore]);
 
   return (
     <>
       <div className={styles.content}>
-        <h1>{winResult ? t('goWin') : t('goLost')}</h1>
-        <Button onClick={onRestart}>{t('playAgain')}</Button>
+        <Text size='m'>
+          {winResult ? (
+            t('goWin')
+          ) : (
+            <Trans i18nKey='goLost'>
+              Oops, seems like you lost.
+              <br />
+              Try one more time
+            </Trans>
+          )}
+        </Text>
+        <Button onClick={onRestart} className={styles.button}>{t('playAgain')}</Button>
       </div>
     </>
   );
