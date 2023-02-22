@@ -26,13 +26,10 @@ export const Scores: FC<Props> = ({ scores }) => {
 
         return (
           <li
-            className={
-              gameStep === 'gameOver'
-                ? cn(styles.score, {
-                    [styles['score__value_zeroOrNegative']]: value <= 0,
-                  })
-                : styles.score
-            }
+            className={cn(styles.score, {
+              [styles['score__value_zeroOrNegative']]:
+                gameStep === 'gameOver' && value <= 0,
+            })}
             key={key}
             title={t(key.toString()) || ''}
           >
