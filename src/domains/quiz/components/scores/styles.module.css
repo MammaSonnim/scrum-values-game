@@ -25,3 +25,8 @@
 .score__value_negative {
   margin-left: -5px;
 }
+
+.score__value_zeroOrNegative {
+  color: var(--color-red);
+  font-weight: bold;
+}
