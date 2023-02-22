@@ -73,3 +73,4 @@ export const showGameOverFx = Domain.createEffect<number, void, void>(
 );
 export const restartGame = Domain.createEvent('RESTART_GAME');
 export const $isGameLost = Domain.createStore<boolean>(false);
+export const $isQuestionsOver = Domain.createStore<boolean>(false);
