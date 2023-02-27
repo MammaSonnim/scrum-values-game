@@ -25,7 +25,11 @@ export const GameOver: FC<Props> = ({ isGameLost, onRestart }) => {
             t('goWin')
           )}
         </Text>
-        <Button onClick={onRestart} className={styles.button}>
+        <Button
+          testid='playAgain'
+          onClick={onRestart}
+          className={styles.button}
+        >
           {t('playAgain')}
         </Button>
       </div>

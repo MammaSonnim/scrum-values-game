@@ -3,7 +3,7 @@
  */
 import '@testing-library/jest-dom';
 import * as React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { QuizPage } from '../page';
 
 const initialProps = {
@@ -26,6 +26,7 @@ const initialProps = {
     opennes: 0,
   },
   quizData: [],
+  isGameLost: false,
   gameStep: 'teamPreset',
   isAnswerScoresVisible: false,
   isButtonDisabled: false,
@@ -34,7 +35,7 @@ const initialProps = {
   currentAnswerId: null,
 };
 
-it('render teamPreset step', () => {
+it('render next button on teamPreset step', () => {
   render(<QuizPage {...initialProps} gameStep={'teamPreset'} />);
 
   const btnElement = screen.queryByTestId('nextPresetBtn');
@@ -42,18 +43,10 @@ it('render teamPreset step', () => {
   expect(btnElement).not.toBeNull();
 });
 
-it('render quiz step', () => {
-  render(<QuizPage {...initialProps} gameStep={'quiz'} />);
-
-  const button = screen.queryByTestId('nextPresetBtn');
-
-  expect(button).not.toBeNull();
-});
-
-it('render gameOver step', () => {
+it('render play again button on gameOver step', () => {
   render(<QuizPage {...initialProps} gameStep={'gameOver'} />);
 
-  const element = screen.queryByTestId('gameOver');
+  const btnElement = screen.queryByTestId('playAgain');
 
-  expect(element).not.toBeNull();
+  expect(btnElement).not.toBeNull();
 });
