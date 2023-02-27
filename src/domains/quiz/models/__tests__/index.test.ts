@@ -1,6 +1,6 @@
 import { fork, allSettled } from 'effector';
 import { TODO_ANY } from '../../../../types';
-import { Domain, initQuizFx } from '../';
+import { Domain, initQuizFx } from '..';
 
 describe('Quiz', () => {
   it('should init module', async () => {

@@ -94,7 +94,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js",
+    "test": "npx viteshot && node scripts/test.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "browserslist": {
@@ -123,7 +123,6 @@
     ],
     "setupFilesAfterEnv": [],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jsdom",
