@@ -9,7 +9,6 @@ import { Answers } from '../answers';
 import styles from './styles.module.css';
 
 type Props = {
-  buttonType: string;
   isButtonDisabled: boolean;
   isAnyAnswerSelected: boolean;
   quizDataLength: number;

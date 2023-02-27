@@ -1,7 +1,6 @@
 import { sample, forward } from 'effector';
 import { find } from 'lodash/fp';
 import {
-  $buttonType,
   $currentAnswerId,
   $currentQuestionId,
   $quizData,
@@ -74,7 +73,6 @@ $teamPreset
   .on(restartGame, () => getTeamPreset(teamPresetData));
 
 // QUESTIONS / ANSWERS
-$buttonType.on(showAnswerScores, () => 'nextQuestion').reset(goToNextQuestion);
 $currentQuestionId.on(goToNextQuestion, (id) => id + 1).reset(restartGame);
 $isAnswerScoresVisible.on(showAnswerScores, () => true).reset(goToNextQuestion);
 $isButtonDisabled.on(selectAnswer, () => false).reset(goToNextQuestion);
