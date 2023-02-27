@@ -11,6 +11,8 @@ import {
   $isAnyAnswerSelected,
   $isButtonDisabled,
   $scores,
+  $isGameLost,
+  $isQuestionsOver,
   goToNextQuestion,
   initQuiz,
   initQuizFx,
@@ -28,7 +30,7 @@ import { ratingApi } from '../../rating/api';
 import { teamPresetData } from './teamPresetData';
 import { AnswerT, GameStepT } from './types';
 import {
-  calcIsNeedToGameOver,
+  calcIsGameLost,
   calcSumOfScores,
   calcTotalScores,
   getTeamPreset,
@@ -131,32 +133,52 @@ $gameStep
 sample({
   clock: goToNextQuestion,
   source: {
-    data: $quizData,
-    currentQuestionId: $currentQuestionId,
     scores: $scores,
   },
+  target: $isGameLost,
+  fn: ({ scores }) => {
+    return calcIsGameLost(scores);
+  }
+});
+
+sample({
+  clock: goToNextQuestion,
+  source: {
+    data: $quizData,
+    currentQuestionId: $currentQuestionId,
+  },
+  target: $isQuestionsOver,
+  fn: ({ data, currentQuestionId }) => {
+    return data.length === currentQuestionId;
+  }
+});
+
+sample({
+  source: {
+    isGameLost: $isGameLost,
+    isQuestionsOver: $isQuestionsOver,
+  },
   target: showGameOver,
-  fn: ({ data, currentQuestionId, scores }) => {
-    return data.length === currentQuestionId || calcIsNeedToGameOver(scores);
+  fn: ({ isGameLost, isQuestionsOver }) => {
+    return isQuestionsOver || isGameLost;
   },
 });
 
 sample({
   clock: showGameOver,
   source: {
-    data: $quizData,
-    currentQuestionId: $currentQuestionId,
+    isQuestionsOver: $isQuestionsOver,
     scores: $scores,
     gameMode: $gameMode,
   },
   target: showGameOverFx,
-  fn: ({ data, currentQuestionId, scores, gameMode }, isShowGameOver) => {
+  fn: ({ isQuestionsOver, scores, gameMode }, isShowGameOver) => {
     const sumOfScores = calcSumOfScores(scores);
 
     // form result for rating if all conditions are met
     return isShowGameOver &&
       sumOfScores > 0 &&
-      data.length === currentQuestionId &&
+      isQuestionsOver &&
       gameMode !== 'solo'
       ? sumOfScores
       : 0;

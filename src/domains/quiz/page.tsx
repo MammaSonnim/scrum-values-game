@@ -17,6 +17,7 @@ import { TeamPreset } from './components/teamPreset';
 type Props = {
   teamPreset: TeamPresetT;
   scores: ScoresT;
+  isGameLost: boolean;
   quizData: QuizDataT;
   gameStep: GameStepT;
   isAnswerScoresVisible: boolean;
@@ -34,6 +35,7 @@ type Props = {
 export const QuizPage: FC<Props> = ({
   teamPreset,
   scores,
+  isGameLost,
   quizData,
   gameStep,
   isAnswerScoresVisible,
@@ -102,7 +104,7 @@ export const QuizPage: FC<Props> = ({
             />
           )}
           {gameStep === 'gameOver' && (
-            <GameOver onRestart={handleClickRestart} />
+            <GameOver isGameLost={isGameLost} onRestart={handleClickRestart} />
           )}
         </div>
       </div>

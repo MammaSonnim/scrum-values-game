@@ -17,6 +17,7 @@ import {
   showAnswerScores,
   changeGameStep,
   QuizAppGate,
+  $isGameLost,
 } from './models';
 import { QuizPage } from './page';
 
@@ -25,6 +26,7 @@ export const Quiz: FC = () => {
 
   const teamPreset = useStore($teamPreset);
   const scores = useStore($scores);
+  const isGameLost = useStore($isGameLost);
   const quizData = useStore($quizData);
   const gameStep = useStore($gameStep);
   const isAnswerScoresVisible = useStore($isAnswerScoresVisible);
@@ -43,6 +45,7 @@ export const Quiz: FC = () => {
       quizData={quizData}
       teamPreset={teamPreset}
       scores={scores}
+      isGameLost={isGameLost}
       gameStep={gameStep}
       onRestartGame={restartGame}
       onSelectAnswer={selectAnswer}
