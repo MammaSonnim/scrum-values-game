@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent, useCallback } from 'react';
 import cn from 'classnames';
-import { getOr } from 'lodash/fp';
+import { getOr, noop } from 'lodash/fp';
 import { Event } from 'effector';
 import { Page } from '../../components/page';
 import {
@@ -19,17 +19,16 @@ type Props = {
   scores: ScoresT;
   quizData: QuizDataT;
   gameStep: GameStepT;
-  buttonType: string;
   isAnswerScoresVisible: boolean;
   isButtonDisabled: boolean;
   isAnyAnswerSelected: boolean;
   currentQuestionId: number;
   currentAnswerId: number | null;
-  restartGame: Event<void>;
-  selectAnswer: Event<number>;
-  showAnswerScores: Event<void>;
-  goToNextQuestion: Event<void>;
-  changeGameStep: Event<GameStepT>;
+  onRestartGame?: Event<void>;
+  onSelectAnswer?: Event<number>;
+  onShowAnswerScores?: Event<void>;
+  onGoToNextQuestion?: Event<void>;
+  onChangeGameStep?: Event<GameStepT>;
 };
 
 export const QuizPage: FC<Props> = ({
@@ -37,17 +36,16 @@ export const QuizPage: FC<Props> = ({
   scores,
   quizData,
   gameStep,
-  buttonType,
   isAnswerScoresVisible,
   isButtonDisabled,
   isAnyAnswerSelected,
   currentQuestionId,
   currentAnswerId,
-  restartGame,
-  selectAnswer,
-  showAnswerScores,
-  goToNextQuestion,
-  changeGameStep,
+  onRestartGame = noop,
+  onSelectAnswer = noop,
+  onShowAnswerScores = noop,
+  onGoToNextQuestion = noop,
+  onChangeGameStep = noop,
 }) => {
   const quizDataById = quizData[currentQuestionId - 1];
   const question = getOr({} as QuestionT, ['question'], quizDataById);
@@ -57,22 +55,22 @@ export const QuizPage: FC<Props> = ({
     (e: MouseEvent) => {
       const id = Number(getOr('', ['currentTarget', 'value'], e));
 
-      selectAnswer(id);
+      onSelectAnswer(id);
     },
-    [selectAnswer]
+    [onSelectAnswer]
   );
 
   const handleClickShowAnswerScores = useCallback(() => {
-    showAnswerScores();
-  }, [showAnswerScores]);
+    onShowAnswerScores();
+  }, [onShowAnswerScores]);
 
   const handleClickNext = useCallback(() => {
-    goToNextQuestion();
-  }, [goToNextQuestion]);
+    onGoToNextQuestion();
+  }, [onGoToNextQuestion]);
 
   const handleClickRestart = useCallback(() => {
-    restartGame();
-  }, [restartGame]);
+    onRestartGame();
+  }, [onRestartGame]);
 
   return (
     <Page>
@@ -84,12 +82,11 @@ export const QuizPage: FC<Props> = ({
           {gameStep === 'teamPreset' && (
             <TeamPreset
               teamPreset={teamPreset}
-              onChangeGameStep={changeGameStep}
+              onChangeGameStep={onChangeGameStep}
             />
           )}
           {gameStep === 'quiz' && (
             <QA
-              buttonType={buttonType}
               isAnswerScoresVisible={isAnswerScoresVisible}
               isButtonDisabled={isButtonDisabled}
               isAnyAnswerSelected={isAnyAnswerSelected}

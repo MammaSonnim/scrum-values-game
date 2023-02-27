@@ -30,7 +30,6 @@ export const selectAnswer = Domain.createEvent<number>('SELECT_ANSWER');
 export const goToNextQuestion = Domain.createEvent('GO_TO_NEXT_QUESTION');
 export const showAnswerScores = Domain.createEvent('SHOW_ANSWER_SCORES');
 
-export const $buttonType = Domain.createStore<ButtonTypeT>('showAnswerScores');
 export const $isAnswerScoresVisible = Domain.createStore<boolean>(false);
 export const $isButtonDisabled = Domain.createStore<boolean>(true);
 export const $isAnyAnswerSelected = Domain.createStore<boolean>(false);

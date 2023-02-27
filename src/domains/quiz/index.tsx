@@ -6,7 +6,6 @@ import {
   $scores,
   $quizData,
   $gameStep,
-  $buttonType,
   $isAnswerScoresVisible,
   $isButtonDisabled,
   $isAnyAnswerSelected,
@@ -28,7 +27,6 @@ export const Quiz: FC = () => {
   const scores = useStore($scores);
   const quizData = useStore($quizData);
   const gameStep = useStore($gameStep);
-  const buttonType = useStore($buttonType);
   const isAnswerScoresVisible = useStore($isAnswerScoresVisible);
   const isButtonDisabled = useStore($isButtonDisabled);
   const isAnyAnswerSelected = useStore($isAnyAnswerSelected);
@@ -37,7 +35,6 @@ export const Quiz: FC = () => {
 
   return (
     <QuizPage
-      buttonType={buttonType}
       isAnswerScoresVisible={isAnswerScoresVisible}
       isButtonDisabled={isButtonDisabled}
       isAnyAnswerSelected={isAnyAnswerSelected}
@@ -47,11 +44,11 @@ export const Quiz: FC = () => {
       teamPreset={teamPreset}
       scores={scores}
       gameStep={gameStep}
-      restartGame={restartGame}
-      selectAnswer={selectAnswer}
-      showAnswerScores={showAnswerScores}
-      goToNextQuestion={goToNextQuestion}
-      changeGameStep={changeGameStep}
+      onRestartGame={restartGame}
+      onSelectAnswer={selectAnswer}
+      onShowAnswerScores={showAnswerScores}
+      onGoToNextQuestion={goToNextQuestion}
+      onChangeGameStep={changeGameStep}
     />
   );
 };

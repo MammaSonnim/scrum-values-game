@@ -67,6 +67,8 @@
     "workbox-webpack-plugin": "^6.5.4"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/react": "14.0.0",
     "@types/classnames": "^2.3.0",
     "@types/jest": "29.2.1",
     "@types/lodash": "^4.14.187",
@@ -94,7 +96,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "npx viteshot && node scripts/test.js",
+    "test": "node scripts/test.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "browserslist": {
@@ -138,7 +140,8 @@
     "modulePaths": [],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+      ".+\\.(png)$": "<rootDir>/config/fileStub.js"
     },
     "moduleFileExtensions": [
       "web.js",

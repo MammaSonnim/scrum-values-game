@@ -20,7 +20,11 @@ export const TeamPreset: FC<Props> = ({ teamPreset, onChangeGameStep }) => {
     <>
       <Text size='l' tag='h3'>{`"${teamPreset.title}"`}</Text>
       <Text className={styles.description}>{teamPreset.description}</Text>
-      <Button onClick={handleClickButton} className={styles.button}>
+      <Button
+        testid='nextPresetBtn'
+        onClick={handleClickButton}
+        className={styles.button}
+      >
         {t('nextPresetBtn')}
       </Button>
     </>
