@@ -10,6 +10,7 @@ export type Props = {
   isBold?: boolean;
   isInline?: boolean;
   className?: string;
+  test?: any;
 };
 
 export const Text: FC<Props> = ({
