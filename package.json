@@ -87,7 +87,7 @@
     "jest-environment-jsdom": "29.2.2",
     "prettier": "2.7.1",
     "ts-node": "10.9.1",
-    "webpack": "^5.74.0",
+    "webpack": "^5.76.0",
     "webpack-dev-server": "^4.11.1",
     "webpack-manifest-plugin": "^5.0.0"
   },
